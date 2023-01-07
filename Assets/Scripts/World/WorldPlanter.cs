@@ -24,18 +24,20 @@ public class WorldPlanter : MonoBehaviour
         Rect mapBounds = GameManager.Instance.GetMapBounds();
 
         float yPos = mapBounds.yMin - spacingMax;
+        float yHalfRange = (spacingMax - spacingMin) * 0.5f;
         while (yPos < mapBounds.yMax)
         {
-            yPos += Random.Range(spacingMin, spacingMax);
+            yPos += spacingMin + yHalfRange;
 
             float xPos = mapBounds.xMin - spacingMax;
             while (xPos < mapBounds.xMax)
             {
                 xPos += Random.Range(spacingMin, spacingMax);
+                float yTempPos = yPos + Random.Range(-yHalfRange, yHalfRange);
 
-                if (!Physics2D.OverlapCircle(new Vector2(xPos, yPos), overlapCheckRadius, overlapCheckLayerMask))
+                if (!Physics2D.OverlapCircle(new Vector2(xPos, yTempPos), overlapCheckRadius, overlapCheckLayerMask))
                 {
-                    GameObject gobj = GameObject.Instantiate(CornPrefab, new Vector3(xPos, yPos, 0), Quaternion.identity, transform);
+                    GameObject gobj = GameObject.Instantiate(CornPrefab, new Vector3(xPos, yTempPos, 0), Quaternion.identity, transform);
                 }
             }
         }
