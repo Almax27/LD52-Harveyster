@@ -3,15 +3,16 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Plant
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Plants
   - Water
   - UI
-  - 
+  - Damage
   - 
   - 
   - 
@@ -38,6 +39,12 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Ground
+    uniqueID: 1066782649
+    locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Effect
+    uniqueID: 1197033371
     locked: 0
