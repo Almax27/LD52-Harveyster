@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 3586257084645455094}
   - component: {fileID: 5210387894975934340}
   - component: {fileID: 6341776383738472379}
-  - component: {fileID: -3668877303778829616}
   m_Layer: 3
   m_Name: Plant
   m_TagString: Plant
@@ -48,12 +47,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e663ef25d1185440b4b0c47ebe6a0b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ParticleOnRegrow: {fileID: 1018810624423722818, guid: e6191c37cf6510742a495504d0f57597, type: 3}
-  ParticleOnHarvest: {fileID: 1018810624423722818, guid: e6191c37cf6510742a495504d0f57597, type: 3}
-  Varients:
-    weight: 1
+  currentConfig:
+    weight: 0
     sprite: {fileID: 0}
-    color: {r: 1, g: 1, b: 1, a: 1}
+    color: {r: 0, g: 0, b: 0, a: 0}
+    value: 0
+    ParticleOnRegrow: {fileID: 0}
+    ParticleOnHarvest: {fileID: 0}
 --- !u!212 &3586257084645455094
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -144,25 +144,3 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.5, y: 0.875}
   m_EdgeRadius: 0
---- !u!114 &-3668877303778829616
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 415966416362293083}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe64dc8b836eff444bb1f20b67dd70d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Sprites:
-  - weight: 1
-    sprite: {fileID: 21300000, guid: 6b041dddb9f3ddd4b8b7cd9c88739878, type: 3}
-    color: {r: 1, g: 1, b: 1, a: 1}
-  - weight: 0.5
-    sprite: {fileID: 21300000, guid: 6b041dddb9f3ddd4b8b7cd9c88739878, type: 3}
-    color: {r: 0.5943396, g: 0.5943396, b: 0.5943396, a: 1}
-  - weight: 0.03
-    sprite: {fileID: 21300000, guid: 6b041dddb9f3ddd4b8b7cd9c88739878, type: 3}
-    color: {r: 1, g: 0, b: 0, a: 1}

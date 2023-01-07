@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[ExecuteAlways]
 public class WorldPlant : MonoBehaviour
 {
     [SerializeField]
@@ -13,12 +12,14 @@ public class WorldPlant : MonoBehaviour
 
     private void Awake()
     {
-        if (!spriteRenderer) spriteRenderer = GetComponent<SpriteRenderer>();
+        ApplyConfig(currentConfig);
     }
 
     public void ApplyConfig(PlantConfig config)
     {
         currentConfig = config;
+
+        if (!spriteRenderer) spriteRenderer = GetComponent<SpriteRenderer>();
         if (spriteRenderer)
         {
             spriteRenderer.sprite = config.sprite;

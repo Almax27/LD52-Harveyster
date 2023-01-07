@@ -7,7 +7,7 @@ public struct PlantConfig
 {
     public PlantConfig(float weight = 1)
     {
-        this.weight = 1;
+        this.weight = weight;
         this.sprite = null;
         this.color = Color.white;
         this.value = 1;
