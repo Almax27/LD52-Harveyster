@@ -141,9 +141,3 @@ MonoBehaviour:
   - weight: 1
     sprite: {fileID: 21300000, guid: 6b041dddb9f3ddd4b8b7cd9c88739878, type: 3}
     color: {r: 1, g: 1, b: 1, a: 1}
-  - weight: 1
-    sprite: {fileID: 21300000, guid: 6b041dddb9f3ddd4b8b7cd9c88739878, type: 3}
-    color: {r: 0.6886792, g: 0.6886792, b: 0.6886792, a: 1}
-  - weight: 0.1
-    sprite: {fileID: 21300000, guid: 6b041dddb9f3ddd4b8b7cd9c88739878, type: 3}
-    color: {r: 1, g: 0, b: 0, a: 1}

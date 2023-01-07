@@ -38,7 +38,6 @@ public class SpriteRandomiser : MonoBehaviour
                     spriteRenderer.color = config.color;
                     break;
                 }
-                
             }            
         }
     }

@@ -11,7 +11,7 @@ PresetManager:
       m_ManagedTypeFallback: 
     second:
     - m_Preset: {fileID: 2655988077585873504, guid: 66cb65466b47fda49b89ac2b8f51726c, type: 2}
-      m_Filter: glob:"Sprites/*.png"
+      m_Filter: glob:"Sprites/*/*.png"
       m_Disabled: 0
   - first:
       m_NativeTypeID: 114
@@ -19,5 +19,13 @@ PresetManager:
       m_ManagedTypeFallback: 
     second:
     - m_Preset: {fileID: 2655988077585873504, guid: 480b29de6f6fdba4ba72e4fe6d620613, type: 2}
+      m_Filter: 
+      m_Disabled: 0
+  - first:
+      m_NativeTypeID: 2089858483
+      m_ManagedTypePPtr: {fileID: 11500000, guid: b1577cdc41d01fa4dbf68ad51122a765, type: 3}
+      m_ManagedTypeFallback: 
+    second:
+    - m_Preset: {fileID: 2655988077585873504, guid: 313b669651a852345806258b3af13470, type: 2}
       m_Filter: 
       m_Disabled: 0

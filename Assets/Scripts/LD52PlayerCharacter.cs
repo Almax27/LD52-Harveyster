@@ -9,6 +9,7 @@ public class LD52PlayerCharacter : PlayerCharacter
     public SpriteRenderer body;
     public new Rigidbody2D rigidbody2D;
     public Collider2D playerCollider2D;
+    public Animator bodyAnimator;
 
     //Input
     Vector2 inputVector;
@@ -35,6 +36,7 @@ public class LD52PlayerCharacter : PlayerCharacter
     {
         rigidbody2D = GetComponent<Rigidbody2D>();
         playerCollider2D = GetComponent<Collider2D>();
+        if(!bodyAnimator) bodyAnimator = GetComponentInChildren<Animator>();
     }
 
     private void Update()
@@ -50,6 +52,13 @@ public class LD52PlayerCharacter : PlayerCharacter
 
         UpdateFacing();
 
+        //Update anims before physics to capture physic stops (move to func)
+        if (bodyAnimator)
+        {
+            bodyAnimator.SetBool("isMoving", rigidbody2D.velocity.magnitude > 0.1);
+        }
+
+
         var mapBounds = GameManager.Instance.GetMapBounds(0.5f, 0.5f, 0.5f, 0.0f);
         if ((desiredVelocity.x < 0 && transform.position.x < mapBounds.xMin) || (desiredVelocity.x > 0 && transform.position.x > mapBounds.xMax))
         {
@@ -60,6 +69,9 @@ public class LD52PlayerCharacter : PlayerCharacter
             desiredVelocity.y = 0;
         }
         rigidbody2D.velocity = desiredVelocity;
+
+        
+
     }
 
     private void LateUpdate()

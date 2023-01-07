@@ -55,6 +55,11 @@ public static class MathExtension
 
         return Current + DeltaMove;
     }
+
+    public static Vector2 Vector2FromAngle(float radian)
+    {
+        return new Vector2(Mathf.Cos(radian), Mathf.Sin(radian));
+    }
 }
 
 
