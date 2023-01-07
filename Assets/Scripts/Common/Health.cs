@@ -22,7 +22,8 @@ public class Health : MonoBehaviour {
     float lastDamageTime = 0;
     bool isDamageTinted = false;
 
-    public bool GetIsDead() { return isDead; }
+    public bool IsAlive { get { return !isDead; } }
+
     public float GetHealth() { return currentHealth; }
 
     public float TimeSinceLastDamage() { return lastDamageTime > 0 ? Time.time - lastDamageTime : -1; }

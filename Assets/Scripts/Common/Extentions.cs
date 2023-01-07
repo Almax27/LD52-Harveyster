@@ -56,6 +56,29 @@ public static class MathExtension
         return Current + DeltaMove;
     }
 
+    public static Vector2 VInterpTo(Vector2 Current, Vector2 Target, float DeltaTime, float InterpSpeed)
+    {
+        // If no interp speed, jump to target value
+        if (InterpSpeed <= 0.0f)
+        {
+            return Target;
+        }
+
+        // Distance to reach
+        var Dist = Target - Current;
+
+        // If distance is too small, just set the desired location
+        if (Dist.sqrMagnitude < float.Epsilon)
+        {
+            return Target;
+        }
+
+        // Delta Move, Clamp so we do not over shoot.
+        var DeltaMove = Dist * Mathf.Clamp(DeltaTime * InterpSpeed, 0.0f, 1.0f);
+
+        return Current + DeltaMove;
+    }
+
     public static Vector2 Vector2FromAngle(float radian)
     {
         return new Vector2(Mathf.Cos(radian), Mathf.Sin(radian));

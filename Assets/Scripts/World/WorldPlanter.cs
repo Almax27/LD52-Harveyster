@@ -3,16 +3,32 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class PlantConfigConfig
+public struct PlantConfig
 {
-    public float weight = 1;
-    public GameObject prefab = null;
+    public PlantConfig(float weight = 1)
+    {
+        this.weight = 1;
+        this.sprite = null;
+        this.color = Color.white;
+        this.value = 1;
+        this.ParticleOnRegrow = null;
+        this.ParticleOnHarvest = null;
+    }
+
+    public float weight ;
+    public Sprite sprite;
+    public Color color;
+    public int value;
+    public ParticleSystem ParticleOnRegrow;
+    public ParticleSystem ParticleOnHarvest;
 }
+
 
 public class WorldPlanter : MonoBehaviour
 {
     public int randomSeed = 0;
-    public PlantConfigConfig[] plantConfigs;
+    public WorldPlant worldPlantPrefab;
+    public List<PlantConfig> plantConfigs;
     public float spacingMin = 0.4f;
     public float spacingMax = 0.6f;
     public float overlapCheckRadius = 0.5f;
@@ -21,7 +37,7 @@ public class WorldPlanter : MonoBehaviour
     public int NumberOfProcessedPlants;
 
     [EasyButtons.Button]
-    void Regenerate()
+    public void Regenerate()
     {
         Random.InitState(randomSeed);
 
@@ -47,11 +63,33 @@ public class WorldPlanter : MonoBehaviour
 
                 if (!Physics2D.OverlapCircle(new Vector2(xPos, yTempPos), overlapCheckRadius, overlapCheckLayerMask))
                 {
-                    var plantConfig = plantConfigs[Random.Range(0, plantConfigs.Length - 1)];
-                    GameObject gobj = GameObject.Instantiate(plantConfig.prefab, new Vector3(xPos, yTempPos, 0), Quaternion.identity, transform);
+                    GameObject gobj = GameObject.Instantiate(worldPlantPrefab.gameObject, new Vector3(xPos, yTempPos, 0), Quaternion.identity, transform);
+                    gobj.GetComponent<WorldPlant>()?.ApplyConfig(GetRandomPlantConfig());
                 }
             }
         }
+    }
+
+    PlantConfig GetRandomPlantConfig()
+    {
+        float totalWeight = 0;
+        foreach (var config in plantConfigs)
+        {
+            totalWeight += config.weight;
+        }
+
+        float val = Random.value;
+        float accWeight = 0;
+        foreach (var config in plantConfigs)
+        {
+            accWeight += config.weight;
+            if (totalWeight <= 0 || val < accWeight / totalWeight)
+            {
+                return config;
+            }
+        }
+
+        return new PlantConfig(1);
     }
 
     private void LateUpdate()

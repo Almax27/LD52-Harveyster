@@ -6,14 +6,37 @@ public class EnemyBehaviour : MonoBehaviour
 {
     public SpriteRenderer body;
     public Rigidbody2D rigidbody2d;
+    public Animator animator;
+    public Health health;
 
+    protected Vector2 desiredVelocity;
     protected Vector2 lookDirection;
     bool isLookingRight;
+    float stunnedUntilTime;
 
-    protected virtual void Start()
+    protected virtual void Awake()
     {
         if (!body) body = GetComponentInChildren<SpriteRenderer>();
         if (!rigidbody2d) rigidbody2d = GetComponentInChildren<Rigidbody2D>();
+        if (!animator) animator = GetComponentInChildren<Animator>();
+        if (!health) health = GetComponentInChildren<Health>();
+    }
+
+    protected virtual void Start()
+    {
+
+    }
+
+    protected virtual void Update()
+    {
+        rigidbody2d.velocity = MathExtension.VInterpTo(rigidbody2d.velocity, desiredVelocity, Time.deltaTime, GetVelocityInterpSpeed());
+
+        UpdateFacing();
+    }
+
+    protected float GetVelocityInterpSpeed()
+    {
+        return IsStunned() ? 15.0f : 20.0f;
     }
 
     protected void UpdateFacing()
@@ -32,5 +55,30 @@ public class EnemyBehaviour : MonoBehaviour
         }
     }
 
+    protected virtual void OnDamage(Damage damage)
+    {
+        if (rigidbody2d)
+        {
+            rigidbody2d.velocity = damage.knockbackVelocity;
+        }
+
+        StunFor(damage.stunSeconds);
+    }
+
+    protected virtual void OnDeath()
+    {
+        //enabled = false;
+        animator?.SetTrigger("OnDeath");
+    }
+
+    public bool IsStunned()
+    {
+        return Time.time < stunnedUntilTime;
+    }
+
+    public void StunFor(float duration)
+    {
+        stunnedUntilTime = Time.time + duration;
+    }
 
 }

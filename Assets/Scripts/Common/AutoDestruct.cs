@@ -4,7 +4,8 @@ using System.Collections;
 public enum AutoDestructMode
 {
     Destroy,
-    Deactivate
+    Deactivate,
+    Pool
 }
 
 public class AutoDestruct : MonoBehaviour {
@@ -14,6 +15,7 @@ public class AutoDestruct : MonoBehaviour {
     public bool waitForParticles = true;
     public bool waitForAudio = true;
     private float tick;
+    private GameObject prefab;
 
     private void OnEnable()
     {
@@ -70,6 +72,9 @@ public class AutoDestruct : MonoBehaviour {
                     case AutoDestructMode.Deactivate:
                         gameObject.SetActive(false);
                         break;
+                    case AutoDestructMode.Pool:
+                        GameObjectPool.Instance.Pool(new GameObjectPool.PooledGameObject(prefab, this.gameObject));
+                        break;
                 }
             }
         }
@@ -78,4 +83,13 @@ public class AutoDestruct : MonoBehaviour {
             tick += Time.deltaTime;
         }
 	}
+
+    public void PoolWhenFinished(GameObject prefab)
+    {
+        if (prefab)
+        {
+            mode = AutoDestructMode.Pool;
+            this.prefab = prefab;
+        }
+    }
 }

@@ -138,7 +138,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6426614322335794398}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.6, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -217,17 +217,17 @@ MonoBehaviour:
   m_SelfShadows: 0
   m_ApplyToSortingLayers: b9cf953f000000009b475947
   m_ShapePath:
-  - {x: -0.10585193, y: -0.39467782, z: 0}
-  - {x: -0.09999998, y: -0.23252904, z: 0}
-  - {x: 0.100000024, y: -0.23252904, z: 0}
-  - {x: 0.098845616, y: -0.39776808, z: 0}
-  - {x: 0.049103916, y: -0.38899013, z: 0}
-  - {x: 0.046177924, y: -0.65525454, z: 0}
-  - {x: -0.053305447, y: -0.65232855, z: 0}
-  - {x: -0.05215107, y: -0.3997993, z: 0}
-  m_ShapePathHash: -943148277
+  - {x: -0.115643814, y: 0.25733995, z: 0}
+  - {x: -0.11648114, y: 0.4328673, z: 0}
+  - {x: 0.11792086, y: 0.43191168, z: 0}
+  - {x: 0.11581084, y: 0.25902778, z: 0}
+  - {x: 0.055557422, y: 0.25824958, z: 0}
+  - {x: 0.055498272, y: 0.0072749183, z: 0}
+  - {x: -0.053514183, y: 0.0047780573, z: 0}
+  - {x: -0.054298043, y: 0.25795215, z: 0}
+  m_ShapePathHash: -2005604907
   m_Mesh: {fileID: 0}
-  m_InstanceId: 2813758
+  m_InstanceId: 3059786
 --- !u!95 &5373595831498202077
 Animator:
   serializedVersion: 5

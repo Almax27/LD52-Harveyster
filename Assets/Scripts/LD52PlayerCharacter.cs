@@ -55,7 +55,8 @@ public class LD52PlayerCharacter : PlayerCharacter
         //Update anims before physics to capture physic stops (move to func)
         if (bodyAnimator)
         {
-            bodyAnimator.SetBool("isMoving", rigidbody2D.velocity.magnitude > 0.1);
+            bodyAnimator.SetBool("isMoving", CanMove() && rigidbody2D.velocity.magnitude > 0.1);
+            bodyAnimator.SetFloat("moveSpeed", rigidbody2D.velocity.magnitude / MaxSpeed);
         }
 
 
@@ -174,7 +175,7 @@ public class LD52PlayerCharacter : PlayerCharacter
             //TODO: do attack
 
             GameObject gobj = GameObject.Instantiate(ProjectilePrefab.gameObject);
-            gobj.GetComponent<Projectile>().Launch(transform.position + new Vector3(0, 0.5f, 0), attackVector);
+            gobj.GetComponent<Projectile>().Launch(this.gameObject, transform.position + new Vector3(0, 0.5f, 0), attackVector);
             Physics2D.IgnoreCollision(playerCollider2D, gobj.GetComponent<Collider2D>(), true);
         }
     }

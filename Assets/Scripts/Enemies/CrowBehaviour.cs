@@ -8,12 +8,24 @@ public class CrowBehaviour : EnemyBehaviour
 
     bool hasMoveTarget = false;
     Vector2 moveTargetLocation;
+    Coroutine logicCoroutine;
 
     protected override void Start()
     {
         base.Start();
 
-        StartCoroutine(RunCrowLogic());
+        logicCoroutine = StartCoroutine(RunCrowLogic());
+    }
+
+    protected override void Update()
+    {
+        base.Update();
+    }
+
+    protected override void OnDeath()
+    {
+        base.OnDeath();
+        StopCoroutine(logicCoroutine);
     }
 
     IEnumerator RunCrowLogic()
@@ -67,29 +79,32 @@ public class CrowBehaviour : EnemyBehaviour
         }
     }
 
+    bool CanMove()
+    {
+        return !IsStunned();
+    }
 
     IEnumerator RunMove(Vector2 targetPosition)
     {
-        while(true)
+        while(CanMove())
         {
             Vector2 targetVector = targetPosition - (Vector2)transform.position;
             float distSq = targetVector.sqrMagnitude;
             if (distSq < 0.1f)
             {
+                desiredVelocity = Vector2.zero;
                 break;
             }
 
             if (rigidbody2d)
             {
                 lookDirection = targetVector.normalized;
-                rigidbody2d.velocity = lookDirection * flySpeed;
+                desiredVelocity = lookDirection * flySpeed;
             }
-            UpdateFacing();
 
             Debug.DrawLine(transform.position, targetPosition, Color.white, 0, false);
 
             yield return null;
         }
-        rigidbody2d.velocity = Vector2.zero;
     }
 }

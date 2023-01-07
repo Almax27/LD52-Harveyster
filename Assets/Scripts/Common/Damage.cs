@@ -3,19 +3,21 @@ using System.Collections.Generic;
 
 public class Damage {
 
-    public Damage(float damage, GameObject sender, FAFAudioSFXSetup hitSFXSetup = null, Vector2 knockbackVector = new Vector2())
+    public Damage(float damage, GameObject sender, FAFAudioSFXSetup hitSFXSetup = null, Vector2 knockbackVelocity = new Vector2(), float stunSeconds = 0)
     {
         value = damage;
         owner = sender;
         hitSFX = hitSFXSetup;
-        knockback = knockbackVector;
+        this.knockbackVelocity = knockbackVelocity;
+        this.stunSeconds = stunSeconds;
 
         hitObjects = new List<GameObject>();
     }
     public float value;
     public GameObject owner;
     public FAFAudioSFXSetup hitSFX;
-    public Vector2 knockback;
+    public Vector2 knockbackVelocity;
+    public float stunSeconds;
     public bool consumed;
 
     public List<GameObject> hitObjects { get; private set; }
