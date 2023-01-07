@@ -6,7 +6,6 @@ public class Projectile : MonoBehaviour
 {
     public float launchSpeed = 10f;
 
-
     private void Start()
     {
         //TODO: recycle

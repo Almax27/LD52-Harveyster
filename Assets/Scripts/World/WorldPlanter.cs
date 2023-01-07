@@ -2,9 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
+public class PlantConfigConfig
+{
+    public float weight = 1;
+    public GameObject prefab = null;
+}
+
 public class WorldPlanter : MonoBehaviour
 {
-    public GameObject CornPrefab;
+    public int randomSeed = 0;
+    public PlantConfigConfig[] plantConfigs;
     public float spacingMin = 0.4f;
     public float spacingMax = 0.6f;
     public float overlapCheckRadius = 0.5f;
@@ -15,6 +23,8 @@ public class WorldPlanter : MonoBehaviour
     [EasyButtons.Button]
     void Regenerate()
     {
+        Random.InitState(randomSeed);
+
         for (int i = this.transform.childCount; i > 0; --i)
         {
             //Note: Destroying an objects invalidates Unity's internal child array
@@ -24,18 +34,21 @@ public class WorldPlanter : MonoBehaviour
         Rect mapBounds = GameManager.Instance.GetMapBounds();
 
         float yPos = mapBounds.yMin - spacingMax;
+        float yHalfRange = (spacingMax - spacingMin) * 0.5f;
         while (yPos < mapBounds.yMax)
         {
-            yPos += Random.Range(spacingMin, spacingMax);
+            yPos += spacingMin + yHalfRange;
 
             float xPos = mapBounds.xMin - spacingMax;
             while (xPos < mapBounds.xMax)
             {
                 xPos += Random.Range(spacingMin, spacingMax);
+                float yTempPos = yPos + Random.Range(-yHalfRange, yHalfRange);
 
-                if (!Physics2D.OverlapCircle(new Vector2(xPos, yPos), overlapCheckRadius, overlapCheckLayerMask))
+                if (!Physics2D.OverlapCircle(new Vector2(xPos, yTempPos), overlapCheckRadius, overlapCheckLayerMask))
                 {
-                    GameObject gobj = GameObject.Instantiate(CornPrefab, new Vector3(xPos, yPos, 0), Quaternion.identity, transform);
+                    var plantConfig = plantConfigs[Random.Range(0, plantConfigs.Length - 1)];
+                    GameObject gobj = GameObject.Instantiate(plantConfig.prefab, new Vector3(xPos, yTempPos, 0), Quaternion.identity, transform);
                 }
             }
         }
