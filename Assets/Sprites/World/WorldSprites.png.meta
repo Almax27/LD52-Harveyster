@@ -70,7 +70,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -117,139 +117,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Shrine_Attack
+      name: WorldSprites_0
       rect:
         serializedVersion: 2
-        x: 51
-        y: 305
-        width: 32
-        height: 50
-      alignment: 9
-      pivot: {x: 0.50534153, y: 0.161557}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 18b771ce7e32ab44a92c8498b83fac00
-      internalID: 2073490835
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Ground_Tile_Concept_1
-      rect:
-        serializedVersion: 2
-        x: 91
-        y: 305
-        width: 32
-        height: 50
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: ccaa7d982141ca645ac99bbc2607366a
-      internalID: -1517347115
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Ground_Tile_Concept_2
-      rect:
-        serializedVersion: 2
-        x: 131
-        y: 305
-        width: 32
-        height: 51
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 0cca493ba0ac70e4e8ffa584f4fe81b9
-      internalID: 1202826259
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Ground_Tile_Concept_3
-      rect:
-        serializedVersion: 2
-        x: 51
-        y: 233
-        width: 32
-        height: 58
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: e4c5dd84eb5d22b41976b7e3c6004fe8
-      internalID: -2033211639
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Ground_Tile_Concept_4
-      rect:
-        serializedVersion: 2
-        x: 89
-        y: 236
-        width: 37
-        height: 55
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 79f4c67dcecea3743ac5629f38e3eb4f
-      internalID: -1760595621
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Ground_Tile_Concept_5
-      rect:
-        serializedVersion: 2
-        x: 131
-        y: 241
-        width: 32
-        height: 51
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: ad5cc8b1c6f5bdc4c8aacacd55e3d300
-      internalID: -1585846857
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Ground_Tile_Concept_6
-      rect:
-        serializedVersion: 2
-        x: 227
-        y: 225
+        x: 0
+        y: 368
         width: 16
-        height: 30
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -257,102 +131,18 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2def298634dccd144916fff19d4abc28
-      internalID: -1658352236
+      spriteID: 4dbb0968425426543bc7c4dc80df2bfb
+      internalID: 107659583
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Ground_Tile_Concept_7
+      name: WorldSprites_1
       rect:
         serializedVersion: 2
-        x: 3
-        y: 179
-        width: 30
-        height: 31
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: b131d261622c41640adc5c112e41f9ed
-      internalID: 798908323
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Ground_Tile_Concept_8
-      rect:
-        serializedVersion: 2
-        x: 35
-        y: 172
-        width: 32
-        height: 41
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 3bd6430fd7ed0604382d09d14f02dbd8
-      internalID: -1906110823
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Bell
-      rect:
-        serializedVersion: 2
-        x: 83
-        y: 177
-        width: 48
-        height: 49
-      alignment: 9
-      pivot: {x: 0.5000002, y: 0.15431587}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 05c2c184130b71d4a929df3309862d8d
-      internalID: -1391232933
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Ground_Tile_Concept_10
-      rect:
-        serializedVersion: 2
-        x: 147
-        y: 172
-        width: 32
-        height: 62
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 582e8745ae3787440902a81cc6c1af6f
-      internalID: 2053942367
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Ground_Tile_Concept_11
-      rect:
-        serializedVersion: 2
-        x: 180
-        y: 209
+        x: 113
+        y: 352
         width: 47
         height: 29
       alignment: 0
@@ -362,18 +152,39 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 63e9db30d1b36bb489c04b0d0028505a
-      internalID: 1291700051
+      spriteID: ac32d3c5faba7a64a89015ad70ff1edf
+      internalID: 382226592
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Ground_Tile_Concept_12
+      name: WorldSprites_2
       rect:
         serializedVersion: 2
-        x: 243
-        y: 209
+        x: 162
+        y: 352
+        width: 16
+        height: 30
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fb0ff60b0814c9b4fa9110ea64b7e6ee
+      internalID: -1599158626
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WorldSprites_3
+      rect:
+        serializedVersion: 2
+        x: 180
+        y: 352
         width: 32
         height: 27
       alignment: 0
@@ -383,20 +194,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e3fca7bb07ca1344a982d25aad2627be
-      internalID: 1531260206
+      spriteID: fc56d0121e00c92458f6ed015b49e7d5
+      internalID: -864107834
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Ground_Tile_Concept_13
+      name: WorldSprites_4
       rect:
         serializedVersion: 2
-        x: 209
-        y: 192
-        width: 8
-        height: 14
+        x: 214
+        y: 352
+        width: 16
+        height: 13
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -404,123 +215,18 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 64325712ca16e6c4f96fdae2b062a701
-      internalID: 928212842
+      spriteID: e3a6e83c566974a4db62f38ef1d2bcc0
+      internalID: 1006901645
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Ground_Tile_Concept_14
+      name: WorldSprites_5
       rect:
         serializedVersion: 2
-        x: 218
-        y: 192
-        width: 25
-        height: 17
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 8b2b0674521acfe4698d789d412047cb
-      internalID: -1818925161
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Ground_Tile_Concept_16
-      rect:
-        serializedVersion: 2
-        x: 43
-        y: 100
-        width: 41
-        height: 28
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 0780dcd5d74d83c4f887bf730cd31fe0
-      internalID: 1116591598
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Ground_Tile_Concept_17
-      rect:
-        serializedVersion: 2
-        x: 90
-        y: 82
-        width: 65
-        height: 85
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 427bec6a2e3faf745a82e2ee74ba65a4
-      internalID: -286152040
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Ground_Tile_Concept_18
-      rect:
-        serializedVersion: 2
-        x: 165
-        y: 96
-        width: 89
-        height: 71
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 8cc9d5f37ceb2c947bfbce1db5add9f1
-      internalID: 971232863
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Ground_Tile_Concept_19
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 64
-        width: 48
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: f924a2d92c7e01848986137392d376ce
-      internalID: 1395038952
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Ground_Tile_Concept_20
-      rect:
-        serializedVersion: 2
-        x: 64
-        y: 64
+        x: 240
+        y: 352
         width: 32
         height: 16
       alignment: 0
@@ -530,19 +236,187 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ce923029fa731ef4da8f6e705a91eedc
-      internalID: -873446153
+      spriteID: 4207decd50be59645a0fbfb0142d584c
+      internalID: 818102041
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Ground_Tile_Concept_21
+      name: WorldSprites_6
       rect:
         serializedVersion: 2
-        x: 144
-        y: 64
-        width: 176
+        x: 275
+        y: 352
+        width: 8
+        height: 13
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 695cf3781cd5b4448a969424ffa56ec8
+      internalID: 1691292096
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WorldSprites_7
+      rect:
+        serializedVersion: 2
+        x: 285
+        y: 352
+        width: 9
+        height: 15
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 14b01ef4a785bc84e85ab2cd33175953
+      internalID: 1969946418
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WorldSprites_8
+      rect:
+        serializedVersion: 2
+        x: 295
+        y: 352
+        width: 9
+        height: 12
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ea8ef171b0d89264fade4892f27ec744
+      internalID: 704482865
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WorldSprites_9
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 283
+        width: 32
+        height: 50
+      alignment: 9
+      pivot: {x: 0.5, y: 0.17451783}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6bb7363cd60bb7c4aafaeca79358b08b
+      internalID: 986078144
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WorldSprites_10
+      rect:
+        serializedVersion: 2
+        x: 40
+        y: 283
+        width: 32
+        height: 50
+      alignment: 9
+      pivot: {x: 0.49379802, y: 0.17451783}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 320a1ba8a4acba244ba563b0985d40cb
+      internalID: 625365232
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Shrine_Stamina_0
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 283
+        width: 32
+        height: 51
+      alignment: 9
+      pivot: {x: 0.49379802, y: 0.16922535}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fc9fa7ba90deaf942be87aaadf5bd7f2
+      internalID: 101691277
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WorldSprites_12
+      rect:
+        serializedVersion: 2
+        x: 115
+        y: 283
+        width: 32
+        height: 62
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 11bf1afcad6ae724784a96bdde616a81
+      internalID: -498097215
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WorldSprites_13
+      rect:
+        serializedVersion: 2
+        x: 216
+        y: 283
+        width: 48
+        height: 49
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: be6e41cbf1e43dd40909ae9062237305
+      internalID: -871846778
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WorldSprites_14
+      rect:
+        serializedVersion: 2
+        x: 275
+        y: 331
+        width: 8
         height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -551,8 +425,701 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d20614332fee4f442b0fcbae5dc1642f
-      internalID: -1095609540
+      spriteID: 538178b2760fd1645aa1d43e567900ed
+      internalID: 1925994842
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WorldSprites_15
+      rect:
+        serializedVersion: 2
+        x: 285
+        y: 331
+        width: 9
+        height: 19
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ce2f8f71c880b3046a40a7292e39d918
+      internalID: -768137732
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WorldSprites_16
+      rect:
+        serializedVersion: 2
+        x: 295
+        y: 331
+        width: 9
+        height: 14
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 95151d0d265765c40b2b554d4f08d0df
+      internalID: -463843077
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WorldSprites_17
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 368
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e1fcd0d7fd97d1c42b3705fd3f9dac80
+      internalID: -631361224
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WorldSprites_18
+      rect:
+        serializedVersion: 2
+        x: 149
+        y: 283
+        width: 64
+        height: 41
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0a7c12e8aa14e30459f069f7f0a76baf
+      internalID: -347810012
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WorldSprites_19
+      rect:
+        serializedVersion: 2
+        x: 275
+        y: 318
+        width: 8
+        height: 11
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ee323f0ef51e9c6418059ef3fdeab731
+      internalID: 1424206843
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WorldSprites_20
+      rect:
+        serializedVersion: 2
+        x: 285
+        y: 318
+        width: 9
+        height: 11
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 163bcfa3156510047a8481af0156012a
+      internalID: -1445386177
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WorldSprites_21
+      rect:
+        serializedVersion: 2
+        x: 295
+        y: 318
+        width: 9
+        height: 9
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ba3ccff87df17bb48bb07e4d77f31ed9
+      internalID: -1954838825
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WorldSprites_22
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 368
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 97bef4a3e6ef3eb47a341013f920e8b8
+      internalID: 1325185239
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WorldSprites_23
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 230
+        width: 32
+        height: 50
+      alignment: 9
+      pivot: {x: 0.50000006, y: 0.15486817}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2c35e79ef8aea3841bef9238dcc972c6
+      internalID: -20840915
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WorldSprites_24
+      rect:
+        serializedVersion: 2
+        x: 40
+        y: 225
+        width: 32
+        height: 55
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 08ff5c1ff2d19aa4a8a86a4c7ee0b68b
+      internalID: -575852366
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WorldSprites_25
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 230
+        width: 32
+        height: 51
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 46dc33ed707a91e498183ff95150af5a
+      internalID: -1096044557
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WorldSprites_26
+      rect:
+        serializedVersion: 2
+        x: 114
+        y: 249
+        width: 41
+        height: 28
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1afc1d897f5717841b4e9fe55e2ccfac
+      internalID: 1892812962
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WorldSprites_27
+      rect:
+        serializedVersion: 2
+        x: 158
+        y: 196
+        width: 65
+        height: 85
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b4232e7f0e3a626438b461ab3158d9be
+      internalID: -1194096781
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WorldSprites_28
+      rect:
+        serializedVersion: 2
+        x: 228
+        y: 209
+        width: 89
+        height: 71
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b376488d48652054d9153b76359f02fd
+      internalID: 1963165289
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WorldSprites_29
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 173
+        width: 32
+        height: 50
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1bec551ba60bfe74ea51d3eb9499c158
+      internalID: -1226668920
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WorldSprites_30
+      rect:
+        serializedVersion: 2
+        x: 37
+        y: 168
+        width: 35
+        height: 55
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7d398af0f8b877444be785a9f1bb71dc
+      internalID: 1116944575
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WorldSprites_31
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 173
+        width: 32
+        height: 51
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9193b861ead0b6141bbfc3e843f2126e
+      internalID: 2084722418
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WorldSprites_32
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 116
+        width: 32
+        height: 50
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ebb94a98907f16e4c839404fa7e50b2d
+      internalID: -600741159
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WorldSprites_33
+      rect:
+        serializedVersion: 2
+        x: 37
+        y: 111
+        width: 37
+        height: 55
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6af4a83f13571f64b8cc3f1f9e5dee12
+      internalID: -829493487
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WorldSprites_34
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 116
+        width: 32
+        height: 51
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e8aa88ee0ce07b04abbc803c63756208
+      internalID: -300315966
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WorldSprites_35
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 352
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d9565b20dee22b143b2ed0b36d2d03a2
+      internalID: -1807100771
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WorldSprites_36
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 368
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3952ea4ff78043847826846efce2f57d
+      internalID: -1224202516
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WorldSprites_37
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 368
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5967e6a5a5113834da3d5ea0d875a53d
+      internalID: 267991799
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WorldSprites_38
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 352
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4ac8eb3103446a148a5e2ce87cd64d88
+      internalID: 1878243915
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WorldSprites_39
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 368
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0e5b5f07178239b45b25b7b6cd2715ed
+      internalID: 1861845268
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WorldSprites_40
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 368
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5849cce094428554fa10ed13845525eb
+      internalID: 355407571
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WorldSprites_41
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 352
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 19a32425342a9424b989b559068f064e
+      internalID: 426472473
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WorldSprites_42
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 352
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 63014bc75d398a24dbe5de61ca25094a
+      internalID: 1303256198
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WorldSprites_43
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 352
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f7f1f180c315bd64eb1c14f0acf1b3ba
+      internalID: 2069071059
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WorldSprites_44
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 336
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a8ba20a08c3138a4e8f50af06e857ff0
+      internalID: 960822458
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WorldSprites_45
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 336
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e27f179d967aa2b4c86382fd403fbdb8
+      internalID: -1694595401
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WorldSprites_46
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 336
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 978d5d3e4bc1ce54f8c29016bbb00ae9
+      internalID: 5826833
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WorldSprites_47
+      rect:
+        serializedVersion: 2
+        x: 306
+        y: 352
+        width: 1
+        height: 3
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f01418c5b9d8f3d4ea362f2d55593259
+      internalID: -1467461621
       vertices: []
       indices: 
       edges: []
@@ -568,28 +1135,54 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Ground_Tile_Concept_6: -1658352236
-      Ground_Tile_Concept_17: -286152040
-      Ground_Tile_Concept_3: -2033211639
-      Ground_Tile_Concept_18: 971232863
-      Ground_Tile_Concept_12: 1531260206
-      Ground_Tile_Concept_4: -1760595621
-      Ground_Tile_Concept_16: 1116591598
-      Ground_Tile_Concept_8: -1906110823
-      Ground_Tile_Concept_5: -1585846857
-      Ground_Tile_Concept_7: 798908323
-      Shrine_Attack: 2073490835
-      Ground_Tile_Concept_13: 928212842
-      Ground_Tile_Concept_1: -1517347115
-      Ground_Tile_Concept_2: 1202826259
-      Ground_Tile_Concept_11: 1291700051
-      Ground_Tile_Concept_10: 2053942367
-      Bell: -1391232933
-      Ground_Tile_Concept_21: -1095609540
-      Ground_Tile_Concept_20: -873446153
-      Ground_Tile_Concept_15: -565043796
-      Ground_Tile_Concept_14: -1818925161
-      Ground_Tile_Concept_19: 1395038952
+      WorldSprites_3: -864107834
+      WorldSprites_18: -347810012
+      WorldSprites_16: -463843077
+      WorldSprites_47: -1467461621
+      WorldSprites_41: 426472473
+      WorldSprites_24: -575852366
+      WorldSprites_7: 1969946418
+      WorldSprites_1: 382226592
+      WorldSprites_33: -829493487
+      WorldSprites_35: -1807100771
+      WorldSprites_43: 2069071059
+      WorldSprites_20: -1445386177
+      Shrine_Stamina_0: 101691277
+      WorldSprites_8: 704482865
+      WorldSprites_10: 625365232
+      WorldSprites_30: 1116944575
+      WorldSprites_14: 1925994842
+      WorldSprites_36: -1224202516
+      WorldSprites_28: 1963165289
+      WorldSprites_27: -1194096781
+      WorldSprites_22: 1325185239
+      WorldSprites_15: -768137732
+      WorldSprites_23: -20840915
+      WorldSprites_44: 960822458
+      WorldSprites_0: 107659583
+      WorldSprites_31: 2084722418
+      WorldSprites_32: -600741159
+      WorldSprites_45: -1694595401
+      WorldSprites_21: -1954838825
+      WorldSprites_5: 818102041
+      WorldSprites_19: 1424206843
+      WorldSprites_25: -1096044557
+      WorldSprites_4: 1006901645
+      WorldSprites_38: 1878243915
+      WorldSprites_39: 1861845268
+      WorldSprites_34: -300315966
+      WorldSprites_42: 1303256198
+      WorldSprites_40: 355407571
+      WorldSprites_9: 986078144
+      WorldSprites_12: -498097215
+      WorldSprites_37: 267991799
+      WorldSprites_13: -871846778
+      WorldSprites_2: -1599158626
+      WorldSprites_46: 5826833
+      WorldSprites_29: -1226668920
+      WorldSprites_6: 1691292096
+      WorldSprites_17: -631361224
+      WorldSprites_26: 1892812962
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
