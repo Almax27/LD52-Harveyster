@@ -302,9 +302,13 @@ MonoBehaviour:
   rigidbody2D: {fileID: -4079729962656457315}
   playerCollider2D: {fileID: 0}
   bodyAnimator: {fileID: 5373595831498202077}
-  MaxSpeed: 5
+  MaxSpeed: 4
   MoveAccelerationTime: 0
   MoveStopTime: 0
+  EvadeDistance: 4
+  EvadeDuration: 0.3
+  EvadeMaxTurnSpeed: 360
+  EvadeCooldown: 1.2
   ProjectilePrefab: {fileID: 7150974672112424093, guid: 7d09768623f76d146bf6f3ec4e9828f5, type: 3}
 --- !u!50 &-4079729962656457315
 Rigidbody2D:
