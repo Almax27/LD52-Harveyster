@@ -113,6 +113,8 @@ public class LD52GameManager : GameManager<LD52GameManager>
     public void Initialise()
     {
         blackoutImage.color = Color.black;
+        blackoutImage.enabled = true;
+
         objectiveText.text = "ObjectiveText";
 
         Stamina.Max = currentStaminaLevel < staminaLevels.Length ? staminaLevels[currentStaminaLevel] : 1;
@@ -130,26 +132,26 @@ public class LD52GameManager : GameManager<LD52GameManager>
     {
         while(true)
         {
-            yield return FadeBlackout(0, 2.0f);
+            yield return FadeBlackout(new Color(0, 0, 0, 0), 3.0f);
 
             yield return null;
         }
     }
 
-    IEnumerator FadeBlackout(float opacity, float duration)
+    IEnumerator FadeBlackout(Color target, float duration)
     {
         if(blackoutImage != null)
         {
+            blackoutImage.enabled = true;
             float tick = 0;
             Color startingColor = blackoutImage.color;
             while (tick < duration)
             {
                 tick += Time.unscaledDeltaTime;
-                Color color = blackoutImage.color;
-                color.a = Mathf.Lerp(startingColor.a, opacity, Mathf.Clamp01(tick / duration));
-                blackoutImage.color = color;
+                blackoutImage.color = Color.Lerp(startingColor, target, Mathf.Clamp01(tick / duration));
                 yield return null;
             }
+            blackoutImage.enabled = target.a > 0;
         }
         yield break;
     }

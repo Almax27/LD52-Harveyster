@@ -265,7 +265,7 @@ public class LD52PlayerCharacter : PlayerCharacter
             acceleration = Vector2.zero;
 
             evadeTimeRemaining -= Time.deltaTime;
-            if (evadeTimeRemaining <= 0)
+            if (evadeTimeRemaining <= 0.1f) //0.1s pause at the end of an evade
             {
                 isEvading = false;
             }
@@ -283,8 +283,8 @@ public class LD52PlayerCharacter : PlayerCharacter
 
     void UpdateAttacking()
     {
-        bool wantsAttack = attackInputTime > 0 && Time.time - attackInputTime < 0.3f;
-        if (isAttacking || (wantsAttack && CanAttack()))
+        bool wantsAttack = waitingOnAttackRelease && attackInputTime > 0 && Time.time - attackInputTime < 0.3f;
+        if ((isAttacking && !isEvading)|| (wantsAttack && CanAttack()))
         {
             bool canMove = false;
             bool canAim = false;
@@ -311,6 +311,8 @@ public class LD52PlayerCharacter : PlayerCharacter
 
             if (waitingOnAttackRelease)
             {
+                LD52GameManager.Instance.StopStaminaRegen();
+
                 canAim = true;
                 if (attackIndex == 0 && Time.time - attackInputTime > 0.4f)
                 {
@@ -321,6 +323,8 @@ public class LD52PlayerCharacter : PlayerCharacter
                 {
                     attackAnimator.SetTrigger("powerUpAttack");
                     attackIndex++;
+
+                    LD52GameManager.Instance.Stamina.Current--;
                 }
                 else if (attackIndex == 2) //spin attack
                 {
@@ -332,51 +336,46 @@ public class LD52PlayerCharacter : PlayerCharacter
 
                     spinAttackArea.Attack(this.gameObject, 1, 0.2f);
 
-                    if(attackSpinTick == 0)
-                    {
-                        LD52GameManager.Instance.Stamina.Current--;
-                    }
-
                     attackSpinTick += Time.deltaTime;
                     if (attackSpinTick > AttackSpinStaminaPerSecond)
                     {
+                        if (LD52GameManager.Instance.Stamina.Current == 0)
+                        {
+                            waitingOnAttackRelease = false;
+                        }
+
                         attackSpinTick -= AttackSpinStaminaPerSecond;
                         LD52GameManager.Instance.Stamina.Current--;
-                    }
-                    LD52GameManager.Instance.StopStaminaRegen(AttackStamiaRegenDelay);
-
-                    if(LD52GameManager.Instance.Stamina.Current == 0)
-                    {
-                        waitingOnAttackRelease = false;
                     }
                 }
             }
             else
             {
-                if (attackIndex == 0) //do light attack
+                if (attackIndex >= 0)
                 {
-                    attackAnimator.SetTrigger("execAttack");
-                    desiredVelocity = attackVector * 5.0f;
-                    meleeAttackArea.Attack(this.gameObject, 1, 0.2f);
-
-                    LD52GameManager.Instance.Stamina.Current--;
                     LD52GameManager.Instance.StopStaminaRegen(AttackStamiaRegenDelay);
-                }
-                else if (attackIndex == 1) //do heavy attack
-                {
-                    attackAnimator.SetTrigger("execAttack");
-                    desiredVelocity = attackVector * 30.0f;
-                    meleeAttackArea.Attack(this.gameObject, 2, 0.2f);
 
-                    LD52GameManager.Instance.Stamina.Current--;
-                    LD52GameManager.Instance.StopStaminaRegen(AttackStamiaRegenDelay);
-                }
-                else if (attackIndex == 2)//end spin attack
-                {
-                    attackAnimator.SetTrigger("finishAttack");
-                }
+                    if (attackIndex == 0) //do light attack
+                    {
+                        attackAnimator.SetTrigger("execAttack");
+                        desiredVelocity = attackVector * 5.0f;
+                        meleeAttackArea.Attack(this.gameObject, 1, 0.2f);
+                        LD52GameManager.Instance.Stamina.Current--;
+                    }
+                    else if (attackIndex == 1) //do heavy attack
+                    {
+                        attackAnimator.SetTrigger("execAttack");
+                        desiredVelocity = attackVector * 30.0f;
+                        meleeAttackArea.Attack(this.gameObject, 3, 0.2f);
+                        LD52GameManager.Instance.Stamina.Current -= 2;
+                    }
+                    else if (attackIndex == 2)//end spin attack
+                    {
+                        attackAnimator.SetTrigger("finishAttack");
+                    }
 
-                attackIndex = -1;
+                    attackIndex = -1;
+                }
 
                 if (attackAnimator.GetCurrentAnimatorStateInfo(0).IsName("NONE"))
                 {
