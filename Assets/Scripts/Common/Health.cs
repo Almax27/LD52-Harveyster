@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Events;
 using System.Collections;
 
 public class Health : MonoBehaviour {
@@ -17,16 +18,26 @@ public class Health : MonoBehaviour {
 
     public float destroyOnDeath = -1;
 
+    [Header("Events")]
+    public UnityEvent DeathEvent = new UnityEvent();
+
     bool isDead = false;
 
     float lastDamageTime = 0;
     bool isDamageTinted = false;
+
+    float ignoreDamageTime = 0;
 
     public bool IsAlive { get { return !isDead; } }
 
     public float GetHealth() { return currentHealth; }
 
     public float TimeSinceLastDamage() { return lastDamageTime > 0 ? Time.time - lastDamageTime : -1; }
+
+    public void IgnoreDamageFor(float duration)
+    {
+        ignoreDamageTime = Time.time + duration;
+    }
 
     void Start()
     {
@@ -48,6 +59,8 @@ public class Health : MonoBehaviour {
     public void OnDamage(Damage damage, bool isSilent)
     {
         if (damage.consumed) return;
+
+        if (Time.time < ignoreDamageTime) return;
 
         currentHealth -= damage.value;
 
@@ -82,6 +95,8 @@ public class Health : MonoBehaviour {
         {
             Destroy(gameObject, destroyOnDeath);
         }
+
+        DeathEvent.Invoke();
     }
 
     private void OnDestroy()

@@ -120,6 +120,14 @@ public class LD52PlayerCharacter : PlayerCharacter
         
     }
 
+    void OnDeath()
+    {
+        enabled = false;
+        bodyAnimator.SetTrigger("onDeath");
+        attack.enabled = false;
+        rigidbody2D.velocity = Vector2.zero;
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if(isAttacking && attackIndex == 2)
@@ -253,6 +261,7 @@ public class LD52PlayerCharacter : PlayerCharacter
                 lastEvadeTime = Time.time;
                 evadeVector = facingVector;
                 evadeTimeRemaining = EvadeDuration;
+                Health?.IgnoreDamageFor(EvadeDuration);
 
                 LD52GameManager.Instance.Stamina.Current--;
                 LD52GameManager.Instance.StopStaminaRegen(1.0f);

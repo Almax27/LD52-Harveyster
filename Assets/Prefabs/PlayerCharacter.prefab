@@ -501,6 +501,7 @@ GameObject:
   - component: {fileID: 38051305428258046}
   - component: {fileID: 4074154136091638415}
   - component: {fileID: -7233829719937462667}
+  - component: {fileID: -8285730193066357719}
   m_Layer: 0
   m_Name: PlayerCharacter
   m_TagString: Player
@@ -619,3 +620,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Radius: 1
+--- !u!114 &-8285730193066357719
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6567278238878506234}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d258ad6574bace8408ff908a97f17a42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 1
+  startingHealth: 1
+  spawnOnDamage: []
+  damageSFX: {fileID: 0}
+  spawnOnDeath: []
+  spawnOnDestroy: []
+  damageTintColor: {r: 1, g: 0, b: 0, a: 1}
+  damageTintDuration: 0.2
+  destroyOnDeath: -1
+  DeathEvent:
+    m_PersistentCalls:
+      m_Calls: []
