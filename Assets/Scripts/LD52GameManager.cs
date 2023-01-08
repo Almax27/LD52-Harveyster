@@ -71,6 +71,8 @@ public class LD52GameManager : GameManager<LD52GameManager>
     public Image blackoutImage;
     public TextMeshProUGUI objectiveText;
     public StaminaUI staminaUI;
+    public WorldPlanter planter;
+    public WorldPrompt worldPrompt;
 
     [Header("Player Stats")]
     public PlayerStat Lives = new PlayerStat(3);
@@ -107,9 +109,12 @@ public class LD52GameManager : GameManager<LD52GameManager>
             {
                 _state = value;
                 Debug.Log("GameState = " + _state);
+                StateChangedEvent.Invoke(_state);
             }
         }
     }
+
+    public UnityEvent<GameState> StateChangedEvent;
 
     public override Vector2 GetMapSize()
     {
