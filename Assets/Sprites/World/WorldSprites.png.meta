@@ -243,7 +243,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WorldSprites_6
+      name: PlantShrub_0
       rect:
         serializedVersion: 2
         x: 275
@@ -264,7 +264,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WorldSprites_7
+      name: PlantShrub_1
       rect:
         serializedVersion: 2
         x: 285
@@ -285,7 +285,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WorldSprites_8
+      name: PlantShrub_2
       rect:
         serializedVersion: 2
         x: 295
@@ -411,7 +411,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WorldSprites_14
+      name: PlantRipe_0
       rect:
         serializedVersion: 2
         x: 275
@@ -432,7 +432,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WorldSprites_15
+      name: PlantRipe_1
       rect:
         serializedVersion: 2
         x: 285
@@ -453,7 +453,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WorldSprites_16
+      name: PlantRipe_2
       rect:
         serializedVersion: 2
         x: 295
@@ -516,7 +516,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WorldSprites_19
+      name: PlantDead_0
       rect:
         serializedVersion: 2
         x: 275
@@ -537,7 +537,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WorldSprites_20
+      name: PlantDead_1
       rect:
         serializedVersion: 2
         x: 285
@@ -558,7 +558,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WorldSprites_21
+      name: PlantDead_2
       rect:
         serializedVersion: 2
         x: 295
@@ -1104,7 +1104,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WorldSprites_47
+      name: PlantCut_0
       rect:
         serializedVersion: 2
         x: 306
@@ -1137,41 +1137,41 @@ TextureImporter:
     nameFileIdTable:
       WorldSprites_3: -864107834
       WorldSprites_18: -347810012
-      WorldSprites_16: -463843077
-      WorldSprites_47: -1467461621
       WorldSprites_41: 426472473
       WorldSprites_24: -575852366
-      WorldSprites_7: 1969946418
+      PlantRipe_1: -768137732
       WorldSprites_1: 382226592
       WorldSprites_33: -829493487
       WorldSprites_35: -1807100771
       WorldSprites_43: 2069071059
-      WorldSprites_20: -1445386177
       Shrine_Stamina_0: 101691277
-      WorldSprites_8: 704482865
-      WorldSprites_10: 625365232
       WorldSprites_30: 1116944575
-      WorldSprites_14: 1925994842
+      WorldSprites_10: 625365232
       WorldSprites_36: -1224202516
+      PlantShrub_2: 704482865
       WorldSprites_28: 1963165289
       WorldSprites_27: -1194096781
       WorldSprites_22: 1325185239
-      WorldSprites_15: -768137732
       WorldSprites_23: -20840915
       WorldSprites_44: 960822458
       WorldSprites_0: 107659583
       WorldSprites_31: 2084722418
       WorldSprites_32: -600741159
+      PlantRipe_2: -463843077
       WorldSprites_45: -1694595401
-      WorldSprites_21: -1954838825
+      PlantShrub_1: 1969946418
+      PlantDead_2: -1954838825
       WorldSprites_5: 818102041
-      WorldSprites_19: 1424206843
+      PlantDead_0: 1424206843
       WorldSprites_25: -1096044557
       WorldSprites_4: 1006901645
       WorldSprites_38: 1878243915
       WorldSprites_39: 1861845268
+      PlantCut_0: -1467461621
       WorldSprites_34: -300315966
+      PlantDead_1: -1445386177
       WorldSprites_42: 1303256198
+      PlantShrub_0: 1691292096
       WorldSprites_40: 355407571
       WorldSprites_9: 986078144
       WorldSprites_12: -498097215
@@ -1180,7 +1180,7 @@ TextureImporter:
       WorldSprites_2: -1599158626
       WorldSprites_46: 5826833
       WorldSprites_29: -1226668920
-      WorldSprites_6: 1691292096
+      PlantRipe_0: 1925994842
       WorldSprites_17: -631361224
       WorldSprites_26: 1892812962
   spritePackingTag: 
