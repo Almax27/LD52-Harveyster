@@ -2,28 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
-public struct PlantConfig
-{
-    public PlantConfig(float weight = 1)
-    {
-        this.weight = weight;
-        this.sprite = null;
-        this.color = Color.white;
-        this.value = 1;
-        this.ParticleOnRegrow = null;
-        this.ParticleOnHarvest = null;
-    }
-
-    public float weight ;
-    public Sprite sprite;
-    public Color color;
-    public int value;
-    public ParticleSystem ParticleOnRegrow;
-    public ParticleSystem ParticleOnHarvest;
-}
-
-
 public class WorldPlanter : MonoBehaviour
 {
     public int randomSeed = 0;

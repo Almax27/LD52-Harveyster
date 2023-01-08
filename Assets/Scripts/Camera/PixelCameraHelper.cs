@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+[ExecuteAlways]
 public class PixelCameraHelper : MonoBehaviour
 {
     public float pixelsPerUnit = 16;

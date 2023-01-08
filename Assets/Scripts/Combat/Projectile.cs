@@ -19,7 +19,7 @@ public class Projectile : MonoBehaviour
     {        
         if(collision.gameObject.CompareTag("Plant"))
         {
-            collision.GetComponent<WorldPlant>()?.TryHarvest();
+            collision.GetComponent<WorldPlant>()?.Harvest();
         }
     }
 

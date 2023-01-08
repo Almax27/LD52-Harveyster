@@ -61,7 +61,7 @@ public class AttackDamageArea : MonoBehaviour
 
         if (collision.gameObject.CompareTag("Plant"))
         {
-            collision.GetComponent<WorldPlant>()?.TryHarvest();
+            collision.GetComponent<WorldPlant>()?.Harvest();
             return;
         }
 

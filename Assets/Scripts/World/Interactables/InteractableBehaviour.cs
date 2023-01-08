@@ -57,9 +57,9 @@ abstract public class InteractableBehaviour : MonoBehaviour
     {
         if (!isShowingPrompt)
         {
-            isShowingPrompt = true;
-
-            Debug.Log("Show prompt: " + message);
+            isShowingPrompt = GameManager.Instance.worldPrompt.Show(transform.position, message);
+            if(isShowingPrompt) Debug.Log("Showed prompt: " + message);
+            else Debug.Log("Failed to show prompt: " + message);
         }
     }
 
@@ -68,6 +68,7 @@ abstract public class InteractableBehaviour : MonoBehaviour
         if (isShowingPrompt)
         {
             isShowingPrompt = false;
+            GameManager.Instance.worldPrompt.Hide();
 
             Debug.Log("Hide prompt");
         }
