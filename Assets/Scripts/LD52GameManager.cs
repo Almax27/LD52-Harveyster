@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 [System.Serializable]
 public class PlayerStat
@@ -49,6 +50,16 @@ public class PlayerStat
 
 public class LD52GameManager : GameManager<LD52GameManager>
 {
+    public enum GameState
+    { 
+        Intro,
+        Passive,
+        Defend,
+        Harvest,
+        GameOver
+    }
+
+
     public Vector2 MapSize = Vector2.one;
     public Image blackoutImage;
     public TextMeshProUGUI objectiveText;
@@ -71,6 +82,8 @@ public class LD52GameManager : GameManager<LD52GameManager>
     public int MaxStamina { get { return currentStaminaLevel < staminaLevels.Length ? staminaLevels[currentStaminaLevel] : 1; } }
 
     Coroutine gameLogicCoroutine;
+    Coroutine spawnPlayerCoroutine;
+    GameState gameState = GameState.Intro;
 
     public override Vector2 GetMapSize()
     {
@@ -87,17 +100,14 @@ public class LD52GameManager : GameManager<LD52GameManager>
         {
             gameLogicCoroutine = StartCoroutine(RunGameLogic());
         }
+
     }
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.KeypadPlus))
-        {
-            Stamina.Current++;
-        }
         if (Input.GetKeyDown(KeyCode.KeypadMinus))
         {
-            Stamina.Current--;
+            CurrentPlayer.SendMessage("OnDamage", new Damage(100, gameObject));
         }
 
         staminaRegenTick += Time.deltaTime;
@@ -125,7 +135,6 @@ public class LD52GameManager : GameManager<LD52GameManager>
     void RebuildStaminaPips()
     {
         int numPips = MaxStamina;
-        
     }
 
     IEnumerator RunGameLogic()
@@ -133,6 +142,39 @@ public class LD52GameManager : GameManager<LD52GameManager>
         while(true)
         {
             yield return FadeBlackout(new Color(0, 0, 0, 0), 3.0f);
+
+            //Spawn player at shine?
+            if (CurrentPlayer && !CurrentPlayer.Health.IsAlive && gameState != GameState.GameOver)
+            {
+                if (Lives.Current > 0)
+                {
+                    Lives.Current--;
+                    Stamina.Current = Stamina.Max;
+                    yield return RunSpawnPlayer();
+                }
+                else
+                {
+                    gameState = GameState.GameOver;
+                }
+            }
+
+            switch (gameState)
+            {
+                case GameState.Intro:
+                    break;
+                case GameState.Passive:
+                    break;
+                case GameState.Defend:
+                    break;
+                case GameState.Harvest:
+                    break;
+                case GameState.GameOver:
+                    yield return new WaitForSeconds(1.0f);
+                    yield return FadeBlackout(new Color(0, 0, 0, 1), 2.0f);
+                    SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+                    break;
+            }
+            
 
             yield return null;
         }

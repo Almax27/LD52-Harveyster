@@ -21,13 +21,11 @@ abstract public class GameManager<T> : SingletonBehaviour<T> where T : MonoBehav
         //Cursor.lockState = CursorLockMode.Locked;
         //Cursor.visible = false;
 
-        var playerGO = GameObject.Instantiate(playerPrefabToSpawn, GetPlayerSpawnLocation(), Quaternion.identity);
-        CurrentPlayer = playerGO.GetComponent<PlayerCharacter>();
+        StartCoroutine(RunSpawnPlayer());
 
         var followCamera = GetComponentInChildren<FollowCamera>();
-        if (followCamera)
+        if (CurrentPlayer && followCamera)
         {
-            followCamera.target = playerGO.transform;
             followCamera.SnapToTarget();
         }
 
@@ -35,6 +33,25 @@ abstract public class GameManager<T> : SingletonBehaviour<T> where T : MonoBehav
         {
             FAFAudio.Instance.TryPlayMusic(gameMusic);
         }
+    }
+
+    protected virtual IEnumerator RunSpawnPlayer()
+    {
+        if(CurrentPlayer)
+        {
+            Destroy(CurrentPlayer.gameObject);
+        }
+
+        var playerGO = GameObject.Instantiate(playerPrefabToSpawn, GetPlayerSpawnLocation(), Quaternion.identity);
+        CurrentPlayer = playerGO.GetComponent<PlayerCharacter>();
+
+        var followCamera = GetComponentInChildren<FollowCamera>();
+        if (followCamera)
+        {
+            followCamera.target = CurrentPlayer.transform;
+        }
+
+        yield break;
     }
 
     virtual public Vector2 GetMapSize()
@@ -59,7 +76,7 @@ abstract public class GameManager<T> : SingletonBehaviour<T> where T : MonoBehav
         return GetMapBounds(inset.x, inset.x, inset.y, inset.y);
     }
 
-    Vector3 GetPlayerSpawnLocation()
+    protected virtual Vector3 GetPlayerSpawnLocation()
     {
         Vector2 loc = Vector2.zero;
         if (playerSpawnPoint)
