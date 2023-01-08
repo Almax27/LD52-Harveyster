@@ -13,6 +13,7 @@ public class LD52PlayerCharacter : PlayerCharacter
 
     //Input
     Vector2 inputVector;
+    Vector2 facingVector;
     float attackInputTime = 0;
     float evadeInputTime = 0;
     Vector2 attackVector;
@@ -20,13 +21,18 @@ public class LD52PlayerCharacter : PlayerCharacter
     bool waitingOnAttackRelease = false;
 
     [Header("Movement")]
-    public float MaxSpeed = 1;
+    public float MaxSpeed = 5;
     public float MoveAccelerationTime = 0.1f;
     public float MoveStopTime = 0.05f;
+    public float EvadeDistance = 5;
+    public float EvadeDuration = 0.3f;
+    public float EvadeMaxTurnSpeed = 180;
+    public float EvadeCooldown = 1.2f;
     Vector2 lastPosition;
     Vector2 desiredVelocity;
     Vector2 acceleration;
     float evadeTimeRemaining = 0;
+    float lastEvadeTime = 0;
 
     [Header("Attack")]
     public Projectile ProjectilePrefab;
@@ -53,6 +59,7 @@ public class LD52PlayerCharacter : PlayerCharacter
 
         UpdateInput();
         UpdateMovement();
+        UpdateEvading();
         UpdateAttacking();
 
         UpdateFacing();
@@ -62,6 +69,8 @@ public class LD52PlayerCharacter : PlayerCharacter
         {
             bodyAnimator.SetBool("isMoving", CanMove() && rigidbody2D.velocity.magnitude > 0.1);
             bodyAnimator.SetFloat("moveSpeed", rigidbody2D.velocity.magnitude / MaxSpeed);
+
+            bodyAnimator.SetBool("isEvading", isEvading);
         }
 
 
@@ -94,7 +103,8 @@ public class LD52PlayerCharacter : PlayerCharacter
             float deadZone = 0.3f;
             if (magnitude > deadZone)
             {
-                inputVector = inputVector.normalized * Mathf.Min(inputVector.magnitude, 1);
+                facingVector = inputVector.normalized;
+                inputVector = facingVector * Mathf.Min(inputVector.magnitude, 1);
             }
             else
             {
@@ -105,6 +115,7 @@ public class LD52PlayerCharacter : PlayerCharacter
         if(Input.GetButtonDown("Evade"))
         {
             evadeInputTime = Time.time;
+            attackInputTime = 0; //cancel any pending attacks
         }
         
         if (Input.GetButtonDown("Attack") || Input.GetAxis("Attack") > 0.0f)
@@ -114,9 +125,9 @@ public class LD52PlayerCharacter : PlayerCharacter
                 attackInputTime = Time.time;
                 waitingOnAttackRelease = true;
 
-                if (inputVector != Vector2.zero)
+                if (facingVector != Vector2.zero)
                 {
-                    attackVector = inputVector;
+                    attackVector = facingVector;
                 }
 
                 Vector2 aimVector = new Vector2(Input.GetAxisRaw("AimX"), Input.GetAxisRaw("AimY"));
@@ -175,17 +186,42 @@ public class LD52PlayerCharacter : PlayerCharacter
 
     bool CanEvade()
     {
-        return true;
+        return Time.time - lastEvadeTime > EvadeCooldown;
     }
 
     void UpdateEvading()
     {
+        bool wantsEvade = evadeInputTime > 0 && Time.time - evadeInputTime < 0.3f;
+        if (isEvading || (wantsEvade && CanEvade()))
+        {
+            if(!isEvading)
+            {
+                isEvading = true;
+                lastEvadeTime = Time.time;
+                evadeVector = facingVector;
+                evadeTimeRemaining = EvadeDuration;
+            }
 
+            evadeVector = Vector3.RotateTowards(evadeVector, facingVector, EvadeMaxTurnSpeed * Mathf.Deg2Rad * Time.deltaTime, 0.5f);
+
+            float evadeSpeed = EvadeDistance / EvadeDuration;
+            desiredVelocity = Vector2.SmoothDamp(desiredVelocity, evadeVector * evadeSpeed, ref acceleration, 0.05f, float.MaxValue, Time.deltaTime);
+
+            evadeTimeRemaining -= Time.deltaTime;
+            if (evadeTimeRemaining <= 0)
+            {
+                isEvading = false;
+            }
+        }
+        else
+        {
+            isEvading = false;
+        }
     }
 
     bool CanAttack()
     {
-        return !isEvading;
+        return !waitingOnAttackRelease && !isEvading;
     }
 
     void UpdateAttacking()
