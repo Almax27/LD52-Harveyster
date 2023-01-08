@@ -14,7 +14,9 @@ public class LD52PlayerCharacter : PlayerCharacter
     //Input
     Vector2 inputVector;
     float attackInputTime = 0;
+    float evadeInputTime = 0;
     Vector2 attackVector;
+    Vector2 evadeVector;
     bool waitingOnAttackRelease = false;
 
     [Header("Movement")]
@@ -24,6 +26,7 @@ public class LD52PlayerCharacter : PlayerCharacter
     Vector2 lastPosition;
     Vector2 desiredVelocity;
     Vector2 acceleration;
+    float evadeTimeRemaining = 0;
 
     [Header("Attack")]
     public Projectile ProjectilePrefab;
@@ -31,6 +34,8 @@ public class LD52PlayerCharacter : PlayerCharacter
     [Header("State")]
     bool isMovingRight;
     bool isLookingRight;
+    bool isEvading;
+    bool isAttacking;
 
     private void Start()
     {
@@ -97,11 +102,18 @@ public class LD52PlayerCharacter : PlayerCharacter
             }
         }
 
+        if(Input.GetButtonDown("Evade"))
+        {
+            evadeInputTime = Time.time;
+        }
+        
         if (Input.GetButtonDown("Attack") || Input.GetAxis("Attack") > 0.0f)
         {
             if (!waitingOnAttackRelease)
             {
                 attackInputTime = Time.time;
+                waitingOnAttackRelease = true;
+
                 if (inputVector != Vector2.zero)
                 {
                     attackVector = inputVector;
@@ -117,6 +129,7 @@ public class LD52PlayerCharacter : PlayerCharacter
         else if (Input.GetMouseButtonDown(0))
         {
             attackInputTime = Time.time;
+            waitingOnAttackRelease = true;
 
             Vector3 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             attackVector = (worldPosition - transform.position).normalized;
@@ -135,7 +148,7 @@ public class LD52PlayerCharacter : PlayerCharacter
 
     bool CanMove()
     {
-        return true;
+        return !isEvading && !isAttacking;
     }
 
     void UpdateMovement()
@@ -160,24 +173,49 @@ public class LD52PlayerCharacter : PlayerCharacter
         }
     }
 
-    bool CanAttack()
+    bool CanEvade()
     {
         return true;
+    }
+
+    void UpdateEvading()
+    {
+
+    }
+
+    bool CanAttack()
+    {
+        return !isEvading;
     }
 
     void UpdateAttacking()
     {
         bool wantsAttack = attackInputTime > 0 && Time.time - attackInputTime < 0.3f;
-        if (CanAttack() && wantsAttack)
+        if (CanAttack() && (isAttacking || wantsAttack))
         {
-            attackInputTime = 0;
-            waitingOnAttackRelease = true;
+            isAttacking = true;
+
+            if(waitingOnAttackRelease)
+            {
+                //checker time for extra attack stuff
+            }
+            else
+            {
+                isAttacking = false;
+                attackInputTime = 0;
+            }
+            
             //TODO: do attack
 
             GameObject gobj = GameObject.Instantiate(ProjectilePrefab.gameObject);
             gobj.GetComponent<Projectile>().Launch(this.gameObject, transform.position + new Vector3(0, 0.5f, 0), attackVector);
             Physics2D.IgnoreCollision(playerCollider2D, gobj.GetComponent<Collider2D>(), true);
         }
+        else
+        {
+            isAttacking = false;
+        }
+
     }
 
     bool CanLook()

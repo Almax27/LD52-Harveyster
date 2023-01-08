@@ -20,11 +20,24 @@ public class CrowBehaviour : EnemyBehaviour
     protected override void Update()
     {
         base.Update();
+
+        bool isMoving = rigidbody2d.velocity.magnitude > 0.1f;
+
+        Vector3 currentBodyPos = body.transform.localPosition;
+        float targetBodyOffsetY = hasMoveTarget ? 1.0f : 0.0f;
+        currentBodyPos.y = MathExtension.FInterpTo(currentBodyPos.y, targetBodyOffsetY, Time.deltaTime, 2.0f);
+        body.transform.localPosition = currentBodyPos;
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        //hasMoveTarget = false;
     }
 
     protected override void OnDeath()
     {
         base.OnDeath();
+        hasMoveTarget = false;
         StopCoroutine(logicCoroutine);
     }
 
@@ -39,7 +52,7 @@ public class CrowBehaviour : EnemyBehaviour
                 yield return RunMove(moveTargetLocation);
             }
 
-            yield return new WaitForSeconds(1.0f);
+            yield return new WaitForSeconds(Random.Range(3.0f, 5.0f));
         }
     }
 
@@ -81,12 +94,16 @@ public class CrowBehaviour : EnemyBehaviour
 
     bool CanMove()
     {
-        return !IsStunned();
+        return hasMoveTarget && !IsStunned();
     }
 
     IEnumerator RunMove(Vector2 targetPosition)
     {
-        while(CanMove())
+        yield return new WaitForSeconds(1.0f);
+
+        float startTime = Time.time;
+
+        while(CanMove() && Time.time - startTime < 5.0f)
         {
             Vector2 targetVector = targetPosition - (Vector2)transform.position;
             float distSq = targetVector.sqrMagnitude;
@@ -106,5 +123,7 @@ public class CrowBehaviour : EnemyBehaviour
 
             yield return null;
         }
+
+        yield return new WaitForSeconds(1.0f);
     }
 }

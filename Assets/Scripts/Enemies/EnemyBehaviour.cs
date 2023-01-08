@@ -9,6 +9,8 @@ public class EnemyBehaviour : MonoBehaviour
     public Animator animator;
     public Health health;
 
+    public float animMaxSpeed = 10;
+
     protected Vector2 desiredVelocity;
     protected Vector2 lookDirection;
     bool isLookingRight;
@@ -29,6 +31,13 @@ public class EnemyBehaviour : MonoBehaviour
 
     protected virtual void Update()
     {
+        if(animator)
+        {
+            float speed = rigidbody2d.velocity.magnitude;
+            animator.SetBool("isMoving", speed > 0.1f);
+            animator.SetFloat("moveSpeed", speed / animMaxSpeed);
+        }
+
         rigidbody2d.velocity = MathExtension.VInterpTo(rigidbody2d.velocity, desiredVelocity, Time.deltaTime, GetVelocityInterpSpeed());
 
         UpdateFacing();
@@ -59,7 +68,7 @@ public class EnemyBehaviour : MonoBehaviour
     {
         if (rigidbody2d)
         {
-            rigidbody2d.velocity = damage.knockbackVelocity;
+            desiredVelocity = rigidbody2d.velocity = damage.knockbackVelocity;
         }
 
         StunFor(damage.stunSeconds);

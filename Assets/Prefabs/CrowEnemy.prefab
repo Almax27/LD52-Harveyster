@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2694472912464683022}
   - component: {fileID: 767426517910014086}
+  - component: {fileID: 674163915592065353}
+  - component: {fileID: 715240502601821759}
   m_Layer: 0
   m_Name: Body
   m_TagString: Untagged
@@ -72,18 +74,54 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 2b06d4d7941750b4891b12887e43d239, type: 3}
+  m_SortingOrder: -2043
+  m_Sprite: {fileID: 43452093704719123, guid: b9ce6fd2a6d4a2c43af7124452a72d4c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 2, y: 2.1875}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &674163915592065353
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 401221601261505837}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: f99b5518fa171cb4db55caea02c5c9b8, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+--- !u!58 &715240502601821759
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 401221601261505837}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0.5}
+  serializedVersion: 2
+  m_Radius: 0.5
 --- !u!1 &6290372606119553882
 GameObject:
   m_ObjectHideFlags: 0
@@ -95,8 +133,8 @@ GameObject:
   - component: {fileID: 124599375655553742}
   - component: {fileID: 5719335151422974318}
   - component: {fileID: 4355600541233663312}
-  - component: {fileID: 4210279417973620054}
   - component: {fileID: 7255080816173091474}
+  - component: {fileID: 991033238}
   m_Layer: 0
   m_Name: CrowEnemy
   m_TagString: Untagged
@@ -133,7 +171,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   body: {fileID: 767426517910014086}
-  rigidbody2d: {fileID: 0}
+  rigidbody2d: {fileID: 4355600541233663312}
+  animator: {fileID: 0}
+  health: {fileID: 0}
+  animMaxSpeed: 10
   flySpeed: 2
 --- !u!50 &4355600541233663312
 Rigidbody2D:
@@ -143,35 +184,19 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6290372606119553882}
-  m_BodyType: 1
+  m_BodyType: 0
   m_Simulated: 1
-  m_UseFullKinematicContacts: 0
+  m_UseFullKinematicContacts: 1
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!58 &4210279417973620054
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6290372606119553882}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.5}
-  serializedVersion: 2
-  m_Radius: 0.5
 --- !u!114 &7255080816173091474
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -193,4 +218,16 @@ MonoBehaviour:
   - {fileID: 2482163521430039614, guid: 7e6c726dd46bc2c49a092024886eaeac, type: 3}
   damageTintColor: {r: 1, g: 0, b: 0, a: 1}
   damageTintDuration: 0.2
-  destroyOnDeath: -1
+  destroyOnDeath: 1
+--- !u!114 &991033238
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6290372606119553882}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e182bd36810eec144ab4b475db8b4208, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
