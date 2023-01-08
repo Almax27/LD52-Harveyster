@@ -38,6 +38,9 @@ public class EnemyBehaviour : MonoBehaviour
             animator.SetFloat("moveSpeed", speed / animMaxSpeed);
         }
 
+        var mapBounds = GameManager.Instance.GetMapBounds(0.5f, 0.5f, 0.5f, 0.0f);
+        transform.position = mapBounds.Clamp(transform.position);
+
         rigidbody2d.velocity = MathExtension.VInterpTo(rigidbody2d.velocity, desiredVelocity, Time.deltaTime, GetVelocityInterpSpeed());
 
         UpdateFacing();

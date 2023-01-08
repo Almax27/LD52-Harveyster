@@ -48,6 +48,14 @@ public class PlayerStat
     }
 }
 
+[System.Serializable]
+public class RoundConfig
+{
+    public int NumEnemies = 1;
+    public List<EnemyBehaviour> EnemyTypes = new List<EnemyBehaviour>();
+}
+
+
 public class LD52GameManager : GameManager<LD52GameManager>
 {
     public enum GameState
@@ -59,7 +67,6 @@ public class LD52GameManager : GameManager<LD52GameManager>
         GameOver
     }
 
-
     public Vector2 MapSize = Vector2.one;
     public Image blackoutImage;
     public TextMeshProUGUI objectiveText;
@@ -70,6 +77,12 @@ public class LD52GameManager : GameManager<LD52GameManager>
     public PlayerStat Stamina = new PlayerStat(3);
     public int[] staminaLevels = { 3, 4, 5 };
     public float staminaRegenPerSecond = 0.5f;
+
+    [Header("Enemies")]
+    public List<RoundConfig> Rounds = new List<RoundConfig>();
+    int roundIndex = 0;
+    List<EnemyBehaviour> activeEnemies = new List<EnemyBehaviour>();
+    List<Transform> enemySpawnLocations = new List<Transform>();
 
     int currentStaminaLevel = 0;
     float staminaRegenTick = 0;
@@ -83,7 +96,20 @@ public class LD52GameManager : GameManager<LD52GameManager>
 
     Coroutine gameLogicCoroutine;
     Coroutine spawnPlayerCoroutine;
-    GameState gameState = GameState.Intro;
+    GameState _state = GameState.Intro;
+
+    public GameState State 
+    { 
+        get { return _state; } 
+        private set
+        {
+            if(_state != value)
+            {
+                _state = value;
+                Debug.Log("GameState = " + _state);
+            }
+        }
+    }
 
     public override Vector2 GetMapSize()
     {
@@ -130,6 +156,11 @@ public class LD52GameManager : GameManager<LD52GameManager>
         Stamina.Max = currentStaminaLevel < staminaLevels.Length ? staminaLevels[currentStaminaLevel] : 1;
 
         if (!staminaUI) staminaUI = GetComponentInChildren<StaminaUI>();
+
+        foreach(var spawn in FindObjectsOfType<EnemySpawn>())
+        {
+            enemySpawnLocations.Add(spawn.transform);
+        }        
     }
 
     void RebuildStaminaPips()
@@ -137,14 +168,82 @@ public class LD52GameManager : GameManager<LD52GameManager>
         int numPips = MaxStamina;
     }
 
+    public void OnBellRung()
+    {
+        if(State <= GameState.Passive)
+        {
+            State = GameState.Defend;
+        }
+    }
+
+    IEnumerator RunSpawnEnemiesForRound(RoundConfig round)
+    {
+        if (round.EnemyTypes.Count > 0)
+        {
+            int spawned = 0;
+            Vector3 location = Vector3.zero;
+
+            while (spawned < round.NumEnemies)
+            {
+                var enemyPrefab = round.EnemyTypes[Random.Range(0, round.EnemyTypes.Count)];
+                if(FindEnemySpawnLocation(ref location))
+                {
+                    SpawnEnemy(enemyPrefab, location);
+                    spawned++;
+                }
+                yield return new WaitForSeconds(Random.Range(1.0f, 2.0f));
+            }
+        }
+    }
+
+    bool FindEnemySpawnLocation(ref Vector3 location)
+    {
+        if (enemySpawnLocations.Count > 0)
+        {
+            enemySpawnLocations.Shuffle();
+
+            ContactFilter2D filter2D = new ContactFilter2D();
+            filter2D.useTriggers = false;
+            filter2D.SetLayerMask(LayerMask.GetMask("Default"));
+            List<Collider2D> results = new List<Collider2D>();
+
+            for (int i = 0;  i < enemySpawnLocations.Count; i++)
+            {
+                location = enemySpawnLocations[i].position;
+                results.Clear();
+                if (Physics2D.OverlapCircle(location, 1, filter2D, results) == 0)
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    EnemyBehaviour SpawnEnemy(EnemyBehaviour prefab, Vector2 location)
+    {
+        if(prefab)
+        {
+            GameObject gobj = GameObject.Instantiate(prefab.gameObject, location, Quaternion.identity);
+            EnemyBehaviour enemy = gobj.GetComponent<EnemyBehaviour>();
+            activeEnemies.Add(enemy);
+            enemy.health.DeathEvent.AddListener(() => { OnEnemyDeath(enemy); });
+            return enemy;
+        }
+        return null;
+    }
+
+    void OnEnemyDeath(EnemyBehaviour enemy)
+    {
+        activeEnemies.Remove(enemy);
+    }
+
     IEnumerator RunGameLogic()
     {
         while(true)
         {
-            yield return FadeBlackout(new Color(0, 0, 0, 0), 3.0f);
-
             //Spawn player at shine?
-            if (CurrentPlayer && !CurrentPlayer.Health.IsAlive && gameState != GameState.GameOver)
+            if (CurrentPlayer && !CurrentPlayer.Health.IsAlive && State != GameState.GameOver)
             {
                 if (Lives.Current > 0)
                 {
@@ -154,17 +253,27 @@ public class LD52GameManager : GameManager<LD52GameManager>
                 }
                 else
                 {
-                    gameState = GameState.GameOver;
+                    State = GameState.GameOver;
                 }
             }
 
-            switch (gameState)
+            RoundConfig roundConfig = roundIndex < Rounds.Count ? Rounds[roundIndex] : null;
+
+            switch (State)
             {
                 case GameState.Intro:
+                    yield return FadeBlackout(new Color(0, 0, 0, 0), 3.0f);
                     break;
                 case GameState.Passive:
+                    //Wait for player to ring the bell
                     break;
                 case GameState.Defend:
+                    yield return StartCoroutine(RunSpawnEnemiesForRound(roundConfig));
+                    while(activeEnemies.Count > 0)
+                    {
+                        yield return null;
+                    }
+                    State = GameState.Harvest;
                     break;
                 case GameState.Harvest:
                     break;
