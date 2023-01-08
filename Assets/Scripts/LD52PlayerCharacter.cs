@@ -42,6 +42,9 @@ public class LD52PlayerCharacter : PlayerCharacter
 
     [Header("Attack")]
     public Projectile ProjectilePrefab;
+    public float AttackSpinStaminaPerSecond = 1.0f;
+    public float AttackStamiaRegenDelay = 1.0f;
+    float attackSpinTick = 0;
 
     [Header("State")]
     bool isMovingRight;
@@ -236,7 +239,7 @@ public class LD52PlayerCharacter : PlayerCharacter
         {
             return false;
         }
-        return Time.time - lastEvadeTime > EvadeCooldown;
+        return Time.time - lastEvadeTime > (EvadeDuration + 0.1f) && LD52GameManager.Instance.Stamina.Current > 0;
     }
 
     void UpdateEvading()
@@ -250,6 +253,9 @@ public class LD52PlayerCharacter : PlayerCharacter
                 lastEvadeTime = Time.time;
                 evadeVector = facingVector;
                 evadeTimeRemaining = EvadeDuration;
+
+                LD52GameManager.Instance.Stamina.Current--;
+                LD52GameManager.Instance.StopStaminaRegen(1.0f);
             }
 
             evadeVector = Vector3.RotateTowards(evadeVector, facingVector, EvadeMaxTurnSpeed * Mathf.Deg2Rad * Time.deltaTime, 0.5f);
@@ -272,7 +278,7 @@ public class LD52PlayerCharacter : PlayerCharacter
 
     bool CanAttack()
     {
-        return !isEvading && Time.time - lastAttackTime > 0.3f;
+        return !isEvading && Time.time - lastAttackTime > 0.3f && LD52GameManager.Instance.Stamina.Current > 0;
     }
 
     void UpdateAttacking()
@@ -289,6 +295,7 @@ public class LD52PlayerCharacter : PlayerCharacter
                 attackCount++;
                 attackIndex = 0;
                 isAttacking = true;
+                attackSpinTick = 0;
                 attackAnimator.ResetTrigger("powerUpAttack");
                 attackAnimator.ResetTrigger("finishAttack");
                 attackAnimator.ResetTrigger("execAttack");
@@ -319,7 +326,29 @@ public class LD52PlayerCharacter : PlayerCharacter
                 {
                     canMove = true;
                     canAim = false;
+
+                    attack.flipY = false;
+                    attackAnimator.transform.rotation = Quaternion.identity;
+
                     spinAttackArea.Attack(this.gameObject, 1, 0.2f);
+
+                    if(attackSpinTick == 0)
+                    {
+                        LD52GameManager.Instance.Stamina.Current--;
+                    }
+
+                    attackSpinTick += Time.deltaTime;
+                    if (attackSpinTick > AttackSpinStaminaPerSecond)
+                    {
+                        attackSpinTick -= AttackSpinStaminaPerSecond;
+                        LD52GameManager.Instance.Stamina.Current--;
+                    }
+                    LD52GameManager.Instance.StopStaminaRegen(AttackStamiaRegenDelay);
+
+                    if(LD52GameManager.Instance.Stamina.Current == 0)
+                    {
+                        waitingOnAttackRelease = false;
+                    }
                 }
             }
             else
@@ -329,12 +358,18 @@ public class LD52PlayerCharacter : PlayerCharacter
                     attackAnimator.SetTrigger("execAttack");
                     desiredVelocity = attackVector * 5.0f;
                     meleeAttackArea.Attack(this.gameObject, 1, 0.2f);
+
+                    LD52GameManager.Instance.Stamina.Current--;
+                    LD52GameManager.Instance.StopStaminaRegen(AttackStamiaRegenDelay);
                 }
                 else if (attackIndex == 1) //do heavy attack
                 {
                     attackAnimator.SetTrigger("execAttack");
                     desiredVelocity = attackVector * 30.0f;
                     meleeAttackArea.Attack(this.gameObject, 2, 0.2f);
+
+                    LD52GameManager.Instance.Stamina.Current--;
+                    LD52GameManager.Instance.StopStaminaRegen(AttackStamiaRegenDelay);
                 }
                 else if (attackIndex == 2)//end spin attack
                 {

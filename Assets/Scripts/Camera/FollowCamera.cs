@@ -77,7 +77,7 @@ public class FollowCamera : MonoBehaviour {
         transform.position = new Vector3(newPos.x, newPos.y, transform.position.z);
 	}
 
-    void OnDrawGizmos()
+    void OnDrawGizmosSelected()
     {
         if(!cam) cam = GetComponent<Camera>();
 

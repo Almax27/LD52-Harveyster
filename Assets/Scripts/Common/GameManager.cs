@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-abstract public class GameManager : SingletonBehaviour<GameManager>
+abstract public class GameManager<T> : SingletonBehaviour<T> where T : MonoBehaviour
 {
     public bool isPaused = false;
 
     public Transform playerSpawnPoint;
 
-    public PlayerCharacter playerPrefabToSpawn;
+    public GameObject playerPrefabToSpawn;
 
     public MusicSetup gameMusic;
 

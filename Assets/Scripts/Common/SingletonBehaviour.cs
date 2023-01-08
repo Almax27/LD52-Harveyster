@@ -12,7 +12,7 @@ public class SingletonBehaviour<T> : MonoBehaviour where T : MonoBehaviour
 		{
 			if (s_instance == null)
 			{
-				s_instance = (T)FindObjectOfType(typeof(T));
+				s_instance = (T)FindObjectOfType(typeof(T), true);
 				if (s_instance == null)
 				{
 					GameObject gobj = new GameObject(typeof(T).ToString());

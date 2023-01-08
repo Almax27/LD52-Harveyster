@@ -553,8 +553,10 @@ MonoBehaviour:
   EvadeDistance: 2
   EvadeDuration: 0.3
   EvadeMaxTurnSpeed: 360
-  EvadeCooldown: 0.6
+  EvadeCooldown: 0.3
   ProjectilePrefab: {fileID: 7150974672112424093, guid: 7d09768623f76d146bf6f3ec4e9828f5, type: 3}
+  AttackSpinStaminaPerSecond: 1
+  AttackStamiaRegenDelay: 1
 --- !u!50 &-4079729962656457315
 Rigidbody2D:
   serializedVersion: 4
