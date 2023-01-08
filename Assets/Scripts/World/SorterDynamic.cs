@@ -10,9 +10,9 @@ public class SorterDynamic : MonoBehaviour
     private void Start()
     {
         renderers = GetComponentsInChildren<SpriteRenderer>();
-        foreach (var renderer in renderers)
+        for (int i = 0; i < renderers.Length; i++)
         {
-            renderer.sortingOrder = (int)(-transform.position.y * 1000);
+            renderers[i].sortingOrder = (int)(-transform.position.y * 1000);
         }
     }
 
@@ -21,10 +21,9 @@ public class SorterDynamic : MonoBehaviour
 #if UNITY_EDITOR
         if (!Application.isPlaying) return;
 #endif
-
-        foreach(var renderer in renderers)
+        for(int i = 0; i < renderers.Length; i++)
         {
-            renderer.sortingOrder = (int)(-transform.position.y * 1000);
+            renderers[i].sortingOrder = (int)(-transform.position.y * 1000) + i;
         }
     }
 }

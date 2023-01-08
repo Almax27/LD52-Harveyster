@@ -7,9 +7,14 @@ public class LD52PlayerCharacter : PlayerCharacter
     //Components
     [Header("Components")]
     public SpriteRenderer body;
+    public SpriteRenderer attack;
     public new Rigidbody2D rigidbody2D;
     public Collider2D playerCollider2D;
     public Animator bodyAnimator;
+    public Animator attackAnimator;
+    public AttackDamageArea meleeAttackArea;
+    public AttackDamageArea spinAttackArea;
+    public WorldPlantPusher plantPusher;
 
     //Input
     Vector2 inputVector;
@@ -33,6 +38,7 @@ public class LD52PlayerCharacter : PlayerCharacter
     Vector2 acceleration;
     float evadeTimeRemaining = 0;
     float lastEvadeTime = 0;
+    float lastAttackTime = 0;
 
     [Header("Attack")]
     public Projectile ProjectilePrefab;
@@ -42,12 +48,17 @@ public class LD52PlayerCharacter : PlayerCharacter
     bool isLookingRight;
     bool isEvading;
     bool isAttacking;
+    int attackIndex;
+    int attackCount;
 
     private void Start()
     {
         rigidbody2D = GetComponent<Rigidbody2D>();
         playerCollider2D = GetComponent<Collider2D>();
         if(!bodyAnimator) bodyAnimator = GetComponentInChildren<Animator>();
+        //if (!attackAnimator) attackAnimator = GetComponentInChildren<Animator>();
+        if (!meleeAttackArea) meleeAttackArea = GetComponentInChildren<AttackDamageArea>();
+        if (!plantPusher) plantPusher = GetComponentInChildren<WorldPlantPusher>();
     }
 
     private void Update()
@@ -85,7 +96,17 @@ public class LD52PlayerCharacter : PlayerCharacter
         }
         rigidbody2D.velocity = desiredVelocity;
 
-        
+        if(plantPusher)
+        {
+            if(isAttacking && attackIndex == 2)
+            {
+                plantPusher.Radius = 3.0f;
+            }
+            else
+            {
+                plantPusher.Radius = 1.0f;
+            }
+        }
 
     }
 
@@ -112,23 +133,23 @@ public class LD52PlayerCharacter : PlayerCharacter
             }
         }
 
+        if(Input.GetMouseButton(0) || Input.GetMouseButton(1))
+        {
+            Vector2 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            facingVector = (worldPosition - (Vector2)transform.position).normalized;
+        }
+
         if(Input.GetButtonDown("Evade"))
         {
             evadeInputTime = Time.time;
-            attackInputTime = 0; //cancel any pending attacks
         }
-        
-        if (Input.GetButtonDown("Attack") || Input.GetAxis("Attack") > 0.0f)
+
+        if (Input.GetButton("Attack") || Input.GetAxis("Attack") > 0.0f)
         {
-            if (!waitingOnAttackRelease)
+            if (!isAttacking && !waitingOnAttackRelease)
             {
                 attackInputTime = Time.time;
                 waitingOnAttackRelease = true;
-
-                if (facingVector != Vector2.zero)
-                {
-                    attackVector = facingVector;
-                }
 
                 Vector2 aimVector = new Vector2(Input.GetAxisRaw("AimX"), Input.GetAxisRaw("AimY"));
                 if (aimVector.sqrMagnitude > 0.2f)
@@ -137,13 +158,13 @@ public class LD52PlayerCharacter : PlayerCharacter
                 }
             }
         }
-        else if (Input.GetMouseButtonDown(0))
+        else if (Input.GetMouseButton(0))
         {
-            attackInputTime = Time.time;
-            waitingOnAttackRelease = true;
-
-            Vector3 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            attackVector = (worldPosition - transform.position).normalized;
+            if (!isAttacking && !waitingOnAttackRelease)
+            {
+                attackInputTime = Time.time;
+                waitingOnAttackRelease = true;
+            }
         }
         else
         {
@@ -159,7 +180,7 @@ public class LD52PlayerCharacter : PlayerCharacter
 
     bool CanMove()
     {
-        return !isEvading && !isAttacking;
+        return !isEvading && (!isAttacking || attackIndex == 2);
     }
 
     void UpdateMovement()
@@ -186,6 +207,10 @@ public class LD52PlayerCharacter : PlayerCharacter
 
     bool CanEvade()
     {
+        if(isAttacking && waitingOnAttackRelease)
+        {
+            return false;
+        }
         return Time.time - lastEvadeTime > EvadeCooldown;
     }
 
@@ -205,7 +230,8 @@ public class LD52PlayerCharacter : PlayerCharacter
             evadeVector = Vector3.RotateTowards(evadeVector, facingVector, EvadeMaxTurnSpeed * Mathf.Deg2Rad * Time.deltaTime, 0.5f);
 
             float evadeSpeed = EvadeDistance / EvadeDuration;
-            desiredVelocity = Vector2.SmoothDamp(desiredVelocity, evadeVector * evadeSpeed, ref acceleration, 0.05f, float.MaxValue, Time.deltaTime);
+            desiredVelocity = evadeVector * evadeSpeed;
+            acceleration = Vector2.zero;
 
             evadeTimeRemaining -= Time.deltaTime;
             if (evadeTimeRemaining <= 0)
@@ -221,36 +247,109 @@ public class LD52PlayerCharacter : PlayerCharacter
 
     bool CanAttack()
     {
-        return !waitingOnAttackRelease && !isEvading;
+        return !isEvading && Time.time - lastAttackTime > 0.3f;
     }
 
     void UpdateAttacking()
     {
         bool wantsAttack = attackInputTime > 0 && Time.time - attackInputTime < 0.3f;
-        if (CanAttack() && (isAttacking || wantsAttack))
+        if (isAttacking || (wantsAttack && CanAttack()))
         {
-            isAttacking = true;
+            bool canMove = false;
+            bool canAim = false;
 
-            if(waitingOnAttackRelease)
+            if (!isAttacking)
             {
-                //checker time for extra attack stuff
+                lastAttackTime = Time.time;
+                attackCount++;
+                attackIndex = 0;
+                isAttacking = true;
+                attackAnimator.ResetTrigger("powerUpAttack");
+                attackAnimator.ResetTrigger("finishAttack");
+                attackAnimator.ResetTrigger("execAttack");
+                attackAnimator.SetTrigger("startAttack");
+
+                attackVector = facingVector;
+
+                if (attack)
+                {
+                    attack.flipY = !attack.flipY;// attackCount % 2 == 0;//attackVector.x < 0;
+                }
+            }
+
+            if (waitingOnAttackRelease)
+            {
+                canAim = true;
+                if (attackIndex == 0 && Time.time - attackInputTime > 0.4f)
+                {
+                    attackAnimator.SetTrigger("powerUpAttack");
+                    attackIndex++;
+                }
+                else if (attackIndex == 1 && Time.time - attackInputTime > 1.0f)
+                {
+                    attackAnimator.SetTrigger("powerUpAttack");
+                    attackIndex++;
+                }
+                else if (attackIndex == 2) //spin attack
+                {
+                    canMove = true;
+                    canAim = false;
+                    spinAttackArea.Attack(this.gameObject, 1, 0.2f);
+                }
             }
             else
             {
-                isAttacking = false;
-                attackInputTime = 0;
-            }
-            
-            //TODO: do attack
+                if (attackIndex == 0) //do light attack
+                {
+                    attackAnimator.SetTrigger("execAttack");
+                    desiredVelocity = attackVector * 5.0f;
+                    meleeAttackArea.Attack(this.gameObject, 1, 0.2f);
+                }
+                else if (attackIndex == 1) //do heavy attack
+                {
+                    attackAnimator.SetTrigger("execAttack");
+                    desiredVelocity = attackVector * 30.0f;
+                    meleeAttackArea.Attack(this.gameObject, 2, 0.2f);
+                }
+                else if (attackIndex == 2)//end spin attack
+                {
+                    attackAnimator.SetTrigger("finishAttack");
+                }
 
-            GameObject gobj = GameObject.Instantiate(ProjectilePrefab.gameObject);
-            gobj.GetComponent<Projectile>().Launch(this.gameObject, transform.position + new Vector3(0, 0.5f, 0), attackVector);
-            Physics2D.IgnoreCollision(playerCollider2D, gobj.GetComponent<Collider2D>(), true);
+                attackIndex = -1;
+
+                if (attackAnimator.GetCurrentAnimatorStateInfo(0).IsName("NONE"))
+                {
+                    isAttacking = false;
+                    attackInputTime = 0;
+                }
+            }
+
+            if (canAim)
+            {
+                attackVector = Vector3.RotateTowards(attackVector, facingVector, 720 * Mathf.Deg2Rad * Time.deltaTime, 0.5f);
+                attackAnimator.transform.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.right, attackVector));                
+            }
+
+            if (!canMove)
+            {
+                desiredVelocity = MathExtension.VInterpTo(desiredVelocity, Vector2.zero, Time.deltaTime, 10.0f);
+            }
+
+            bodyAnimator.SetBool("isSpinning", isAttacking && attackIndex == 2 && waitingOnAttackRelease);
+
+            //GameObject gobj = GameObject.Instantiate(ProjectilePrefab.gameObject);
+            // gobj.GetComponent<Projectile>().Launch(this.gameObject, transform.position + new Vector3(0, 0.5f, 0), attackVector);
+            //Physics2D.IgnoreCollision(playerCollider2D, gobj.GetComponent<Collider2D>(), true);
         }
-        else
+        else if (isAttacking)
         {
+            attackAnimator.SetTrigger("finishAttack");
             isAttacking = false;
         }
+
+        //Hide sprite when not in use
+        if(attack) attack.enabled = isAttacking;
 
     }
 
@@ -265,9 +364,9 @@ public class LD52PlayerCharacter : PlayerCharacter
         {
             isMovingRight = inputVector.x > 0;
         }
-        if (CanLook() && Mathf.Abs(inputVector.x) > 0.0001f)
+        if (CanLook() && Mathf.Abs(facingVector.x) > 0.0001f)
         {
-            isLookingRight = inputVector.x > 0;
+            isLookingRight = facingVector.x > 0;
         }
         if (body)
         {
@@ -277,5 +376,10 @@ public class LD52PlayerCharacter : PlayerCharacter
             p.x = Mathf.Abs(p.x) * (isLookingRight ? 1 : -1);
             body.transform.localPosition = p;
         }
+    }
+
+    void DealMeleeDamage()
+    {
+
     }
 }
