@@ -88,11 +88,13 @@ public class LD52PlayerCharacter : PlayerCharacter
         var mapBounds = GameManager.Instance.GetMapBounds(0.5f, 0.5f, 0.5f, 0.0f);
         if ((desiredVelocity.x < 0 && transform.position.x < mapBounds.xMin) || (desiredVelocity.x > 0 && transform.position.x > mapBounds.xMax))
         {
-            desiredVelocity.x = 0;
+            if (isAttacking && attackIndex == 2) desiredVelocity.x = -desiredVelocity.x;
+            else desiredVelocity.x = 0;
         }
         if ((desiredVelocity.y < 0 && transform.position.y < mapBounds.yMin) || (desiredVelocity.y > 0 && transform.position.y > mapBounds.yMax))
         {
-            desiredVelocity.y = 0;
+            if (isAttacking && attackIndex == 2) desiredVelocity.y = -desiredVelocity.y;
+            else desiredVelocity.y = 0;
         }
         rigidbody2D.velocity = desiredVelocity;
 
@@ -113,6 +115,22 @@ public class LD52PlayerCharacter : PlayerCharacter
     private void LateUpdate()
     {
         
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(isAttacking && attackIndex == 2)
+        {
+            rigidbody2D.velocity = Vector2.Reflect(rigidbody2D.velocity, collision.GetContact(0).normal);
+        }
+    }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (isAttacking && attackIndex == 2)
+        {
+            rigidbody2D.velocity += collision.GetContact(0).normal * 5;
+        }
     }
 
     void UpdateInput()
@@ -188,14 +206,21 @@ public class LD52PlayerCharacter : PlayerCharacter
         if (CanMove())
         {
             float desiredSpeed = MaxSpeed;
+            Vector2 moveVector = inputVector;
 
-            if (inputVector != Vector2.zero) //Accelerate with input
+            if(isAttacking && attackIndex == 2) //spin attack
             {
-                desiredVelocity = Vector2.SmoothDamp(desiredVelocity, inputVector * desiredSpeed, ref acceleration, MoveAccelerationTime, float.MaxValue, Time.deltaTime);
+                desiredSpeed *= 2.0f;
+                moveVector = Vector3.RotateTowards(desiredVelocity.normalized, facingVector, 90 * Mathf.Deg2Rad * Time.deltaTime, 0.5f);
+                desiredVelocity = Vector2.SmoothDamp(desiredVelocity, moveVector * desiredSpeed, ref acceleration, MoveAccelerationTime, float.MaxValue, Time.deltaTime);
+            }
+            else if (inputVector != Vector2.zero) //Accelerate with input
+            {
+                desiredVelocity = Vector2.SmoothDamp(desiredVelocity, moveVector * desiredSpeed, ref acceleration, MoveAccelerationTime, float.MaxValue, Time.deltaTime);
             }
             else //Decelerate to rest
             {
-                desiredVelocity = Vector2.SmoothDamp(desiredVelocity, inputVector * desiredSpeed, ref acceleration, 0.05f, float.MaxValue, Time.deltaTime);
+                desiredVelocity = Vector2.SmoothDamp(desiredVelocity, moveVector * desiredSpeed, ref acceleration, 0.05f, float.MaxValue, Time.deltaTime);
             }
         }
         else //Decelerate to reset (soft)
