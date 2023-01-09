@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 767426517910014086}
   - component: {fileID: 674163915592065353}
   - component: {fileID: 715240502601821759}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 4355600541233663312}
   - component: {fileID: 7255080816173091474}
   - component: {fileID: 991033238}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: CrowEnemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -184,7 +184,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6290372606119553882}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 1
   m_UseAutoMass: 0
@@ -213,12 +213,15 @@ MonoBehaviour:
   startingHealth: 3
   spawnOnDamage: []
   damageSFX: {fileID: 0}
-  spawnOnDeath: []
-  spawnOnDestroy:
+  spawnOnDeath:
   - {fileID: 2482163521430039614, guid: 7e6c726dd46bc2c49a092024886eaeac, type: 3}
+  spawnOnDestroy: []
   damageTintColor: {r: 1, g: 0, b: 0, a: 1}
   damageTintDuration: 0.2
-  destroyOnDeath: 1
+  destroyOnDeath: 0.5
+  DeathEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &991033238
 MonoBehaviour:
   m_ObjectHideFlags: 0

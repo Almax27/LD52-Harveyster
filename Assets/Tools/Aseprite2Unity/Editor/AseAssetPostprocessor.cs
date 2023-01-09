@@ -28,8 +28,10 @@ namespace Aseprite2Unity.Editor
                     }
                 }
             }
-
-            AssetDatabase.ForceReserializeAssets(assetsToSerialize, ForceReserializeAssetsOptions.ReserializeAssets);
+            if (!Application.isPlaying)
+            {
+                AssetDatabase.ForceReserializeAssets(assetsToSerialize, ForceReserializeAssetsOptions.ReserializeAssets);
+            }
         }
 
         private static bool IsAsepriteAsset(string path)

@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1483570067249362759}
   - component: {fileID: 2448124891062863062}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Light 2D
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -192,7 +192,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5444767067689569549}
   - component: {fileID: 7585815337934018669}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SpinAudio
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -383,7 +383,7 @@ GameObject:
   - component: {fileID: 4581803906052722936}
   - component: {fileID: 2549159362679032519}
   - component: {fileID: 5373595831498202077}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -487,7 +487,7 @@ MonoBehaviour:
   - {x: -0.054298043, y: 0.25795215, z: 0}
   m_ShapePathHash: -2005604907
   m_Mesh: {fileID: 0}
-  m_InstanceId: 2696210
+  m_InstanceId: 1895906
 --- !u!95 &5373595831498202077
 Animator:
   serializedVersion: 5
@@ -519,7 +519,7 @@ GameObject:
   - component: {fileID: 4330699361697860296}
   - component: {fileID: 517337249981770062}
   - component: {fileID: 5881419141647008854}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Attack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -630,7 +630,7 @@ GameObject:
   - component: {fileID: 4074154136091638415}
   - component: {fileID: -7233829719937462667}
   - component: {fileID: -8285730193066357719}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: PlayerCharacter
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -688,6 +688,7 @@ MonoBehaviour:
   AttackSpinStaminaPerSecond: 0.5
   AttackStamiaRegenDelay: 0.6
   footstepSFX: {fileID: 11400000, guid: 2ee8d4333ec397748b8a63aa2d6659cb, type: 2}
+  footstepDistance: 0.5
   lightAttackSFX: {fileID: 11400000, guid: ddcdf0a018c550d4abc00544f4e8397c, type: 2}
   heavyAttackSFX: {fileID: 11400000, guid: a53802057bf906944b4a7853d2e19c23, type: 2}
   noStaminaSFX: {fileID: 11400000, guid: f5c230374be6390449b76124cb176522, type: 2}

@@ -336,7 +336,7 @@ public class LD52GameManager : GameManager<LD52GameManager>
 
                     while(activeEnemies.Count > 0)
                     {
-                        objectiveText.text = "Defend the Harvest! (" + activeEnemies.Count + "/" + roundConfig.NumEnemies;
+                        objectiveText.text = "Defend the Harvest! " + activeEnemies.Count + "/" + roundConfig.NumEnemies;
                         yield return null;
                     }
                     State = GameState.Harvest;
@@ -367,6 +367,8 @@ public class LD52GameManager : GameManager<LD52GameManager>
 
                     roundIndex = Mathf.Clamp(roundIndex + 1, 0, Rounds.Count - 1);
 
+                    /*
+                    //Reward player for uncut plants
                     int scoreAward = 0;
                     var allPlants = planter.AllPlants;
                     for (int i = 0; i < allPlants.Length; i++)
@@ -377,6 +379,7 @@ public class LD52GameManager : GameManager<LD52GameManager>
                         }
                     }
                     Score.Current += scoreAward;
+                    */
 
                     break;
                 case GameState.GameOver:

@@ -24,9 +24,15 @@ public class CrowBehaviour : EnemyBehaviour
         bool isMoving = rigidbody2d.velocity.magnitude > 0.1f;
 
         Vector3 currentBodyPos = body.transform.localPosition;
-        float targetBodyOffsetY = hasMoveTarget ? 1.0f : 0.0f;
+        float targetBodyOffsetY = isMoving || hasMoveTarget ? 1.0f : 0.0f;
         currentBodyPos.y = MathExtension.FInterpTo(currentBodyPos.y, targetBodyOffsetY, Time.deltaTime, 2.0f);
         body.transform.localPosition = currentBodyPos;
+
+        bool isFlying = currentBodyPos.y > 0.1f;
+        if(animator)
+        {
+            animator.SetBool("isFlying", isFlying);
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -64,30 +70,61 @@ public class CrowBehaviour : EnemyBehaviour
         var player = GameManager.Instance.CurrentPlayer;
         if (player)
         {
-            moveTargetLocation = player.transform.position;
+            Vector2 playerPos = player.transform.position;
+            Vector2 aiPos = transform.position;
+            float distanceFromPlayer = Random.Range(4,5);
+            float minTravelDistanceSq = 2.0f * 2.0f;
 
-            float distanceFromPlayer = 5;
+            List<Vector2> validLocations = new List<Vector2>();
 
-            for(int i = 0; i < 16; i++)
+            int angles = 32;
+
+            RaycastHit2D[] hits = new RaycastHit2D[1];
+            for (int i = 0; i < angles; i++)
             {
-                float angle = i * (360.0f / 16);
-                Vector2 pointOnCircle = MathExtension.Vector2FromAngle(Mathf.Deg2Rad * angle);
-                pointOnCircle = moveTargetLocation + pointOnCircle * distanceFromPlayer;
+                float angle = i * (360.0f / angles);
+                Vector2 pointOnCircle = playerPos + MathExtension.Vector2FromAngle(Mathf.Deg2Rad * angle) * distanceFromPlayer;
 
-                Debug.DrawLine(pointOnCircle, moveTargetLocation, Color.blue, 1);
-
-                if (!Physics2D.Raycast(pointOnCircle, (moveTargetLocation - pointOnCircle).normalized, distanceFromPlayer, LayerMask.GetMask("Default")))
+                //Skip points that are too close
+                if ((aiPos - pointOnCircle).sqrMagnitude < minTravelDistanceSq)
                 {
-                    hasMoveTarget = true;
-                    Debug.DrawLine(pointOnCircle, moveTargetLocation, Color.blue, 1);
-                    break;
+                    DebugExtension.DebugPoint(hits[0].point, Color.grey, 0.1f, 1, false);
+                    continue;
+                }
+
+                ContactFilter2D filter = new ContactFilter2D();
+                filter.useTriggers = false;
+                filter.SetLayerMask(LayerMask.GetMask("Default"));
+
+                if (Physics2D.Raycast(pointOnCircle, (playerPos - pointOnCircle).normalized, filter, hits, distanceFromPlayer) == 0 ||
+                    (hits[0].rigidbody && hits[0].rigidbody.gameObject == player.gameObject))
+                {
+                    validLocations.Add(pointOnCircle);
+                    Debug.DrawLine(pointOnCircle, playerPos, Color.blue, 1);
                 }
                 else
                 {
-                    Debug.DrawLine(pointOnCircle, moveTargetLocation, Color.red, 1);
+                    Debug.DrawLine(pointOnCircle, playerPos, Color.red, 1);
+                    DebugExtension.DebugPoint(hits[0].point, Color.white, 0.1f, 1, false);
+
                 }
 
                 yield return null;
+            }
+
+            if(validLocations.Count > 0)
+            {
+                Vector2 pos = transform.position;
+
+                //sort by distance to us
+                validLocations.Sort((a, b) => { return (a - pos).sqrMagnitude < (b - pos).sqrMagnitude ? -1 : 1; });
+                int maxIndex = Mathf.FloorToInt(validLocations.Count * 0.5f);
+
+                hasMoveTarget = true;
+                moveTargetLocation = validLocations[Random.Range(0, maxIndex)];
+
+                DebugExtension.DebugPoint(moveTargetLocation, Color.white, 0.1f, 1, false);
+                Debug.DrawLine(pos, playerPos, Color.green, 1);
             }
         }
     }
@@ -99,7 +136,7 @@ public class CrowBehaviour : EnemyBehaviour
 
     IEnumerator RunMove(Vector2 targetPosition)
     {
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSeconds(0.5f);
 
         float startTime = Time.time;
 
@@ -124,6 +161,8 @@ public class CrowBehaviour : EnemyBehaviour
             yield return null;
         }
 
-        yield return new WaitForSeconds(1.0f);
+        hasMoveTarget = false;
+
+        yield return new WaitForSeconds(0.5f);
     }
 }
