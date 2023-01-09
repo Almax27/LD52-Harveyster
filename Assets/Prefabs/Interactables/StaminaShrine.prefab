@@ -59,6 +59,8 @@ MonoBehaviour:
   - cost: 1000
     sprite: {fileID: -300315966, guid: ed05dedf2d2838143bd45e7ea0d68b58, type: 3}
   spriteRenderer: {fileID: 2599335557985184187}
+  purchaseSFX: {fileID: 11400000, guid: 74ca9ff89f8133c428ec95aec0fc9c78, type: 2}
+  noMoneySFX: {fileID: 11400000, guid: f5c230374be6390449b76124cb176522, type: 2}
 --- !u!212 &2599335557985184187
 SpriteRenderer:
   m_ObjectHideFlags: 0

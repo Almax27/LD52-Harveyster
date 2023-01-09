@@ -23,6 +23,9 @@ public class ShrineBehaviour : InteractableBehaviour
     public List<ShrineLevels> levels = new List<ShrineLevels>();
     public SpriteRenderer spriteRenderer;
 
+    public FAFAudioSFXSetup purchaseSFX;
+    public FAFAudioSFXSetup noMoneySFX;
+
     protected override void Start()
     {
         base.Start();
@@ -76,6 +79,11 @@ public class ShrineBehaviour : InteractableBehaviour
             {
                 GameManager.Instance.Money.Current -= cost;
                 GetPlayerStat().Current++;
+                purchaseSFX?.Play(transform.position);
+            }
+            else
+            {
+                noMoneySFX?.Play(transform.position);
             }
         }
     }
