@@ -180,7 +180,7 @@ public class LD52GameManager : GameManager<LD52GameManager>
     {
         if (Input.GetKeyDown(KeyCode.KeypadMinus))
         {
-            CurrentPlayer.SendMessage("OnDamage", new Damage(100, gameObject));
+            CurrentPlayer?.SendMessage("OnDamage", new Damage(100, gameObject));
         }
 
         staminaRegenTick += Time.deltaTime;

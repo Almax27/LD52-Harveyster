@@ -216,7 +216,7 @@ MonoBehaviour:
   maxHealth: 3
   startingHealth: 3
   spawnOnDamage: []
-  damageSFX: {fileID: 0}
+  damageSFX: {fileID: 11400000, guid: 0bb01ce7c48bc2b48ba290b89698f5fa, type: 2}
   spawnOnDeath:
   - {fileID: 2482163521430039614, guid: 7e6c726dd46bc2c49a092024886eaeac, type: 3}
   spawnOnDestroy: []
