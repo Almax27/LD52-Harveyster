@@ -592,7 +592,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 519420031, guid: 86ba28bb06462044ab88eca6b5ad085d, type: 3}
       propertyPath: orthographic size
-      value: 4.1625
+      value: 6.23125
       objectReference: {fileID: 0}
     - target: {fileID: 414223525896698014, guid: 86ba28bb06462044ab88eca6b5ad085d, type: 3}
       propertyPath: m_AnchorMax.y
