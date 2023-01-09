@@ -117,7 +117,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: WorldSprites_0
+      name: E
       rect:
         serializedVersion: 2
         x: 0
@@ -138,15 +138,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WorldSprites_1
+      name: Rock_0
       rect:
         serializedVersion: 2
         x: 113
         y: 352
         width: 47
         height: 29
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.49743685, y: 0.23829283}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -159,15 +159,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WorldSprites_2
+      name: Rock_1
       rect:
         serializedVersion: 2
         x: 162
         y: 352
         width: 16
         height: 30
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5150595, y: 0.20284526}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -180,15 +180,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WorldSprites_3
+      name: Rock_2
       rect:
         serializedVersion: 2
         x: 180
         y: 352
         width: 32
         height: 27
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5000005, y: 0.2189071}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -201,15 +201,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WorldSprites_4
+      name: Rock_3
       rect:
         serializedVersion: 2
         x: 214
         y: 352
         width: 16
         height: 13
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.50000095, y: 0.2868136}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -222,15 +222,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WorldSprites_5
+      name: Fence_0
       rect:
         serializedVersion: 2
         x: 240
         y: 352
-        width: 32
+        width: 16
         height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -243,15 +243,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WorldSprites_6
+      name: PlantShrub_0
       rect:
         serializedVersion: 2
         x: 275
         y: 352
         width: 8
         height: 13
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -264,7 +264,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WorldSprites_7
+      name: PlantShrub_1
       rect:
         serializedVersion: 2
         x: 285
@@ -285,7 +285,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WorldSprites_8
+      name: PlantShrub_2
       rect:
         serializedVersion: 2
         x: 295
@@ -306,7 +306,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WorldSprites_9
+      name: Shrine_Attack_0
       rect:
         serializedVersion: 2
         x: 0
@@ -314,7 +314,7 @@ TextureImporter:
         width: 32
         height: 50
       alignment: 9
-      pivot: {x: 0.5, y: 0.17451783}
+      pivot: {x: 0.5, y: 0.17}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -327,15 +327,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WorldSprites_10
+      name: Shrine_Heart_0
       rect:
         serializedVersion: 2
-        x: 40
+        x: 37
         y: 283
-        width: 32
-        height: 50
+        width: 37
+        height: 53
       alignment: 9
-      pivot: {x: 0.49379802, y: 0.17451783}
+      pivot: {x: 0.513, y: 0.24}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -356,7 +356,7 @@ TextureImporter:
         width: 32
         height: 51
       alignment: 9
-      pivot: {x: 0.49379802, y: 0.16922535}
+      pivot: {x: 0.5, y: 0.17}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -369,15 +369,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WorldSprites_12
+      name: Pillar_0
       rect:
         serializedVersion: 2
         x: 115
         y: 283
         width: 32
         height: 62
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.50810146, y: 0.2135881}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -390,15 +390,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WorldSprites_13
+      name: Bell
       rect:
         serializedVersion: 2
         x: 216
         y: 283
         width: 48
         height: 49
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.49730015, y: 0.17241435}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -411,15 +411,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WorldSprites_14
+      name: PlantRipe_0
       rect:
         serializedVersion: 2
         x: 275
         y: 331
         width: 8
         height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -432,7 +432,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WorldSprites_15
+      name: PlantRipe_1
       rect:
         serializedVersion: 2
         x: 285
@@ -453,7 +453,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WorldSprites_16
+      name: PlantRipe_2
       rect:
         serializedVersion: 2
         x: 295
@@ -495,15 +495,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WorldSprites_18
+      name: Pillar_1
       rect:
         serializedVersion: 2
         x: 149
         y: 283
         width: 64
         height: 41
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.47771025, y: 0.3869547}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -516,15 +516,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WorldSprites_19
+      name: PlantDead_0
       rect:
         serializedVersion: 2
         x: 275
         y: 318
         width: 8
         height: 11
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -537,7 +537,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WorldSprites_20
+      name: PlantDead_1
       rect:
         serializedVersion: 2
         x: 285
@@ -558,7 +558,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WorldSprites_21
+      name: PlantDead_2
       rect:
         serializedVersion: 2
         x: 295
@@ -600,7 +600,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WorldSprites_23
+      name: Shrine_Attack_1
       rect:
         serializedVersion: 2
         x: 0
@@ -608,7 +608,7 @@ TextureImporter:
         width: 32
         height: 50
       alignment: 9
-      pivot: {x: 0.50000006, y: 0.15486817}
+      pivot: {x: 0.5, y: 0.17}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -621,15 +621,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WorldSprites_24
+      name: Shrine_Heart_1
       rect:
         serializedVersion: 2
-        x: 40
+        x: 37
         y: 225
-        width: 32
+        width: 37
         height: 55
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.513, y: 0.24}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -642,15 +642,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WorldSprites_25
+      name: Shrine_Stamina_1
       rect:
         serializedVersion: 2
         x: 80
         y: 230
         width: 32
         height: 51
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.17}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -663,15 +663,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WorldSprites_26
+      name: Tree_Stump
       rect:
         serializedVersion: 2
         x: 114
         y: 249
         width: 41
         height: 28
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5114448, y: 0.5088218}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -684,15 +684,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WorldSprites_27
+      name: Tree_0
       rect:
         serializedVersion: 2
         x: 158
         y: 196
         width: 65
         height: 85
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5563948, y: 0.15230139}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -705,15 +705,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WorldSprites_28
+      name: Tree_1
       rect:
         serializedVersion: 2
         x: 228
         y: 209
         width: 89
         height: 71
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.45394793, y: 0.1373536}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -726,15 +726,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WorldSprites_29
+      name: Shrine_Attack_2
       rect:
         serializedVersion: 2
         x: 0
         y: 173
         width: 32
         height: 50
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.17}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -747,15 +747,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WorldSprites_30
+      name: Shrine_Heart_2
       rect:
         serializedVersion: 2
         x: 37
         y: 168
-        width: 35
+        width: 37
         height: 55
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.513, y: 0.24}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -768,15 +768,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WorldSprites_31
+      name: Shrine_Stamina_2
       rect:
         serializedVersion: 2
         x: 80
         y: 173
         width: 32
         height: 51
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.17}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -789,15 +789,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WorldSprites_32
+      name: Shrine_Attack_3
       rect:
         serializedVersion: 2
         x: 0
         y: 116
         width: 32
         height: 50
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.17}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -810,15 +810,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WorldSprites_33
+      name: Shrine_Heart_3
       rect:
         serializedVersion: 2
         x: 37
         y: 111
         width: 37
         height: 55
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.513, y: 0.24}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -831,15 +831,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WorldSprites_34
+      name: Shrine_Stamina_3
       rect:
         serializedVersion: 2
         x: 80
         y: 116
         width: 32
         height: 51
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.5, y: 0.17}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1104,15 +1104,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WorldSprites_47
+      name: PlantCut_0
       rect:
         serializedVersion: 2
         x: 306
         y: 352
         width: 1
         height: 3
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1120,6 +1120,48 @@ TextureImporter:
       bones: []
       spriteID: f01418c5b9d8f3d4ea362f2d55593259
       internalID: -1467461621
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fence_1
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 352
+        width: 16
+        height: 16
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6c48ae6836cb9fa41b37ef8e1fa80099
+      internalID: 1555338921
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Lamp
+      rect:
+        serializedVersion: 2
+        x: 266
+        y: 283
+        width: 17
+        height: 26
+      alignment: 9
+      pivot: {x: 0.50450224, y: 0.30189514}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c349486bee2184946b71f4dc364c1a7e
+      internalID: -1634979265
       vertices: []
       indices: 
       edges: []
@@ -1135,54 +1177,56 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      WorldSprites_3: -864107834
-      WorldSprites_18: -347810012
-      WorldSprites_16: -463843077
-      WorldSprites_47: -1467461621
       WorldSprites_41: 426472473
-      WorldSprites_24: -575852366
-      WorldSprites_7: 1969946418
-      WorldSprites_1: 382226592
-      WorldSprites_33: -829493487
+      PlantRipe_1: -768137732
+      Shrine_Attack_3: -600741159
+      Fence_1: 1555338921
+      Tree_0: -1194096781
+      Shrine_Attack_2: -1226668920
       WorldSprites_35: -1807100771
+      Shrine_Heart_2: 1116944575
       WorldSprites_43: 2069071059
-      WorldSprites_20: -1445386177
       Shrine_Stamina_0: 101691277
-      WorldSprites_8: 704482865
-      WorldSprites_10: 625365232
-      WorldSprites_30: 1116944575
-      WorldSprites_14: 1925994842
+      Rock_2: -864107834
       WorldSprites_36: -1224202516
-      WorldSprites_28: 1963165289
-      WorldSprites_27: -1194096781
+      Shrine_Attack_1: -20840915
+      PlantShrub_2: 704482865
+      Rock_0: 382226592
       WorldSprites_22: 1325185239
-      WorldSprites_15: -768137732
-      WorldSprites_23: -20840915
       WorldSprites_44: 960822458
-      WorldSprites_0: 107659583
-      WorldSprites_31: 2084722418
-      WorldSprites_32: -600741159
+      Shrine_Stamina_3: -300315966
+      Rock_3: 1006901645
+      Shrine_Heart_1: -575852366
+      PlantRipe_2: -463843077
       WorldSprites_45: -1694595401
-      WorldSprites_21: -1954838825
-      WorldSprites_5: 818102041
-      WorldSprites_19: 1424206843
-      WorldSprites_25: -1096044557
-      WorldSprites_4: 1006901645
+      PlantShrub_1: 1969946418
+      PlantDead_2: -1954838825
+      Lamp: -1634979265
+      PlantDead_0: 1424206843
+      Pillar_1: -347810012
       WorldSprites_38: 1878243915
       WorldSprites_39: 1861845268
-      WorldSprites_34: -300315966
+      PlantCut_0: -1467461621
+      Tree_Stump: 1892812962
+      PlantDead_1: -1445386177
       WorldSprites_42: 1303256198
+      PlantShrub_0: 1691292096
+      E: 107659583
       WorldSprites_40: 355407571
-      WorldSprites_9: 986078144
-      WorldSprites_12: -498097215
+      Bell: -871846778
+      Tree_1: 1963165289
+      Shrine_Stamina_2: 2084722418
       WorldSprites_37: 267991799
-      WorldSprites_13: -871846778
-      WorldSprites_2: -1599158626
+      Shrine_Heart_3: -829493487
+      Shrine_Heart_0: 625365232
+      Fence_0: 818102041
+      Pillar_0: -498097215
       WorldSprites_46: 5826833
-      WorldSprites_29: -1226668920
-      WorldSprites_6: 1691292096
+      PlantRipe_0: 1925994842
       WorldSprites_17: -631361224
-      WorldSprites_26: 1892812962
+      Shrine_Attack_0: 986078144
+      Rock_1: -1599158626
+      Shrine_Stamina_1: -1096044557
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
