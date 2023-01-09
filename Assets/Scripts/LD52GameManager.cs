@@ -81,6 +81,7 @@ public class LD52GameManager : GameManager<LD52GameManager>
     public Vector2 MapSize = Vector2.one;
     public Image blackoutImage;
     public TextMeshProUGUI objectiveText;
+    public TextMeshProUGUI gameOverText;
     public StaminaUI staminaUI;
     public WorldPlanter planter;
     public WorldPrompt worldPrompt;
@@ -208,6 +209,8 @@ public class LD52GameManager : GameManager<LD52GameManager>
     {
         blackoutImage.color = Color.black;
         blackoutImage.enabled = true;
+
+        gameOverText.alpha = 0;
 
         objectiveText.text = "ObjectiveText";
 
@@ -383,10 +386,18 @@ public class LD52GameManager : GameManager<LD52GameManager>
 
                     break;
                 case GameState.GameOver:
-                    objectiveText.text = "Game over :(";
+                    objectiveText.text = "You ran out of lives :(";
+                    gameOverText.CrossFadeAlpha(0, 1.0f, true);
                     yield return new WaitForSeconds(1.0f);
-                    yield return FadeBlackout(new Color(0, 0, 0, 1), 2.0f);
-                    SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+                    while (true)
+                    {
+                        if (Input.anyKeyDown)
+                        {
+                            yield return FadeBlackout(new Color(0, 0, 0, 1), 2.0f);
+                            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+                        }
+                        yield return null;
+                    }
                     break;
             }
             

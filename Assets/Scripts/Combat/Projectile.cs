@@ -7,6 +7,7 @@ public class Projectile : MonoBehaviour
     public float launchSpeed = 10f;
     public float maxDistance = 10;
     public FAFAudioSFXSetup hitSFX;
+    public LayerMask mask;
 
     GameObject owningGameObject = null;
     GameObjectPool.PooledGameObject poolEntry;
@@ -50,18 +51,13 @@ public class Projectile : MonoBehaviour
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
-    {        
-        if(collision.gameObject.CompareTag("Plant"))
-        {
-            collision.GetComponent<WorldPlant>()?.Harvest();
-        }
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
     {
         //ignore owner
-        if (collision.gameObject == owningGameObject)
+        if (collision.attachedRigidbody && collision.attachedRigidbody.gameObject == owningGameObject
+            || collision.gameObject == owningGameObject)
             return;
+
+        //if(mask. collision.gameObject.layer)
 
         if (collision.gameObject)
         {
@@ -73,7 +69,25 @@ public class Projectile : MonoBehaviour
             }
             Damage damage = new Damage(1, owningGameObject, hitSFX, knockbackVelocity, 0.2f);
             collision.gameObject.SendMessageUpwards("OnDamage", damage, SendMessageOptions.DontRequireReceiver);
+
+            if (damage.consumed)
+            {
+                Cleanup();
+            }
         }
-        Cleanup();
+        else
+        {
+            Cleanup();
+        }
+
+        if (collision.gameObject.CompareTag("Plant"))
+        {
+            collision.GetComponent<WorldPlant>()?.Harvest();
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        
     }
 }

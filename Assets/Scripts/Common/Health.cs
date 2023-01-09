@@ -63,6 +63,7 @@ public class Health : MonoBehaviour {
         if (Time.time < ignoreDamageTime) return;
 
         currentHealth -= damage.value;
+        damage.consumed = true;
 
         if (!isSilent)
         {
