@@ -14,6 +14,22 @@ public class WorldPlanter : MonoBehaviour
 
     public int NumberOfProcessedPlants;
 
+    public float GrowSpeed = 5f;
+    public float GrowAcceleration = 20f;
+
+    WorldPlant[] allPlants = null;
+
+    private void Start()
+    {
+        allPlants = FindObjectsOfType<WorldPlant>();
+        BellBehaviour bell = FindObjectOfType<BellBehaviour>();
+        Vector2 bellPos = bell.transform.position;
+        System.Array.Sort(allPlants, (a, b) =>
+        {
+            return ((Vector2)a.transform.position - bellPos).sqrMagnitude < ((Vector2)b.transform.position - bellPos).sqrMagnitude ? -1 : 1;
+        });
+    }
+
     [EasyButtons.Button]
     public void Regenerate()
     {
@@ -44,6 +60,68 @@ public class WorldPlanter : MonoBehaviour
                     GameObject gobj = GameObject.Instantiate(worldPlantPrefab.gameObject, new Vector3(xPos, yTempPos, 0), Quaternion.identity, transform);
                     gobj.GetComponent<WorldPlant>()?.ApplyConfig(GetRandomPlantConfig());
                 }
+            }
+        }
+    }
+    
+    public IEnumerator GrowOutFrom(Vector2 pos)
+    {
+        float speed = GrowSpeed;
+        int i = 0;
+        float thisFrame = 0;
+        while(true)
+        {
+            thisFrame += speed * Time.deltaTime;
+            speed += GrowAcceleration * Time.deltaTime;
+
+            while (thisFrame > 1 && i < allPlants.Length)
+            {
+                thisFrame--;
+                allPlants[i++].Regrow();
+            }
+
+            if (i >= allPlants.Length) break;
+
+            yield return null;
+        }
+    }
+
+    public IEnumerator RipenAllPlants()
+    {
+        WorldPlant[] shuffedPlants = (WorldPlant[])allPlants.Clone();
+        yield return shuffedPlants.Shuffle(100);
+
+        float totalTime = 1.0f;
+        float perSecond = shuffedPlants.Length / totalTime;
+        float thisFrame = Time.deltaTime * perSecond;
+        for (int i = 0; i < shuffedPlants.Length; i++)
+        {
+            shuffedPlants[i].Ripen();
+            thisFrame--;
+            if (thisFrame <= 0)
+            {
+                thisFrame = Time.deltaTime * perSecond;
+                yield return null;
+            }
+        }
+    }
+
+    public IEnumerator KillAllPlants()
+    {
+        WorldPlant[] shuffedPlants = (WorldPlant[])allPlants.Clone();
+        yield return shuffedPlants.Shuffle(100);
+
+        float totalTime = 1.0f;
+        float perSecond = shuffedPlants.Length / totalTime;
+        float thisFrame = Time.deltaTime * perSecond;
+        for (int i = 0; i < shuffedPlants.Length; i++)
+        {
+            shuffedPlants[i].Die();
+            thisFrame--;
+            if (thisFrame <= 0)
+            {
+                thisFrame = Time.deltaTime * perSecond;
+                yield return null;
             }
         }
     }

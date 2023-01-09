@@ -17,10 +17,10 @@ public struct PlantConfig
     public PlantConfig(float weight = 1)
     {
         this.weight = weight;
-        this.cutSprite = null;
-        this.shrubSprite = null;
-        this.ripeSprite = null;
-        this.deadSprite = null;
+        this.cutSprites = new Sprite[0];
+        this.shrubSprites = new Sprite[0];
+        this.ripeSprites = new Sprite[0];
+        this.deadSprites = new Sprite[0];
         this.color = Color.white;
         this.value = 1;
         this.ParticleOnRegrow = null;
@@ -28,10 +28,10 @@ public struct PlantConfig
     }
 
     public float weight;
-    public Sprite cutSprite;
-    public Sprite shrubSprite;
-    public Sprite ripeSprite;
-    public Sprite deadSprite;
+    public Sprite[] cutSprites;
+    public Sprite[] shrubSprites;
+    public Sprite[] ripeSprites;
+    public Sprite[] deadSprites;
     public Color color;
     public int value;
     public ParticleSystem ParticleOnRegrow;
@@ -39,16 +39,21 @@ public struct PlantConfig
 
     public Sprite GetSprite(PlantState state)
     {
+        Sprite[] sprites = null;
         switch (state)
         {
             case PlantState.Cut:
-                return cutSprite;
+                sprites = cutSprites; break;
             case PlantState.Shrub:
-                return shrubSprite;
+                sprites = shrubSprites; break;
             case PlantState.Ripe:
-                return ripeSprite;
+                sprites = ripeSprites; break;
             case PlantState.Dead:
-                return deadSprite;
+                sprites = deadSprites; break;
+        }
+        if(sprites != null && sprites.Length > 0)
+        {
+            return sprites[Random.Range(0, sprites.Length)];
         }
         return null;
     }
@@ -91,6 +96,8 @@ public class WorldPlant : MonoBehaviour
         state = PlantState.Shrub;
         spriteRenderer.sprite = currentConfig.GetSprite(state);
         if (collider2d) collider2d.enabled = true;
+
+        if(Random.value < 0.1f) SpawnParticle(currentConfig.ParticleOnRegrow);
     }
 
     public void Harvest()
@@ -100,7 +107,7 @@ public class WorldPlant : MonoBehaviour
             state = PlantState.Cut;
             spriteRenderer.sprite = currentConfig.GetSprite(state);
 
-            SpawnParticle(currentConfig.ParticleOnHarvest);
+            SpawnParticle(currentConfig.ParticleOnHarvest, true);
 
             if (collider2d) collider2d.enabled = false;
         }
@@ -115,12 +122,15 @@ public class WorldPlant : MonoBehaviour
 
     public void Die()
     {
-        state = PlantState.Dead;
-        spriteRenderer.sprite = currentConfig.GetSprite(state);
-        if (collider2d) collider2d.enabled = true;
+        if (state != PlantState.Cut)
+        { 
+            state = PlantState.Dead;
+            spriteRenderer.sprite = currentConfig.GetSprite(state);
+            if (collider2d) collider2d.enabled = true;
+        }
     }
 
-    void SpawnParticle(ParticleSystem prefab)
+    void SpawnParticle(ParticleSystem prefab, bool overrideColor = false)
     {
         var pooledObject = GameObjectPool.Instance.Spawn(prefab.gameObject, transform.position);
         pooledObject.AutoDestruct();
@@ -129,7 +139,7 @@ public class WorldPlant : MonoBehaviour
         if (system)
         {
             var main = system.main;
-            main.startColor = currentConfig.color;
+            if(overrideColor) main.startColor = currentConfig.color;
         }
     }
 

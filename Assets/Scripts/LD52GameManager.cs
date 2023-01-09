@@ -46,6 +46,8 @@ public class PlayerStat
             }
         }
     }
+
+    public bool IsFull { get { return Current == Max; } }
 }
 
 [System.Serializable]
@@ -75,8 +77,10 @@ public class LD52GameManager : GameManager<LD52GameManager>
     public WorldPrompt worldPrompt;
 
     [Header("Player Stats")]
+    public PlayerStat AttackLevel = new PlayerStat(3);
     public PlayerStat Lives = new PlayerStat(3);
     public PlayerStat Stamina = new PlayerStat(3);
+    public PlayerStat StaminaLevel = new PlayerStat(3);
     public int[] staminaLevels = { 3, 4, 5 };
     public float staminaRegenPerSecond = 0.5f;
 
@@ -86,7 +90,6 @@ public class LD52GameManager : GameManager<LD52GameManager>
     List<EnemyBehaviour> activeEnemies = new List<EnemyBehaviour>();
     List<Transform> enemySpawnLocations = new List<Transform>();
 
-    int currentStaminaLevel = 0;
     float staminaRegenTick = 0;
 
     public void StopStaminaRegen(float duration = 0)
@@ -94,10 +97,11 @@ public class LD52GameManager : GameManager<LD52GameManager>
         staminaRegenTick = -Mathf.Max(0, duration);
     }
 
-    public int MaxStamina { get { return currentStaminaLevel < staminaLevels.Length ? staminaLevels[currentStaminaLevel] : 1; } }
+    public int MaxStamina { get { return StaminaLevel.Current < staminaLevels.Length ? staminaLevels[StaminaLevel.Current] : 1; } }
 
     Coroutine gameLogicCoroutine;
     Coroutine spawnPlayerCoroutine;
+    Coroutine planterCoroutine;
     GameState _state = GameState.Intro;
 
     public GameState State 
@@ -158,25 +162,27 @@ public class LD52GameManager : GameManager<LD52GameManager>
 
         objectiveText.text = "ObjectiveText";
 
-        Stamina.Max = currentStaminaLevel < staminaLevels.Length ? staminaLevels[currentStaminaLevel] : 1;
+        AttackLevel.Current = 1;
+        StaminaLevel.Current = 0;
+        Stamina.Max = MaxStamina;
+
+        StaminaLevel.OnChanged.AddListener((cur, max) => { Stamina.Max = MaxStamina; });
 
         if (!staminaUI) staminaUI = GetComponentInChildren<StaminaUI>();
+        if (!planter) planter = FindObjectOfType<WorldPlanter>();
 
-        foreach(var spawn in FindObjectsOfType<EnemySpawn>())
+        foreach (var spawn in FindObjectsOfType<EnemySpawn>())
         {
             enemySpawnLocations.Add(spawn.transform);
         }        
     }
 
-    void RebuildStaminaPips()
-    {
-        int numPips = MaxStamina;
-    }
-
-    public void OnBellRung()
+    public void OnBellRung(Vector2 pos)
     {
         if(State <= GameState.Passive)
         {
+            if (planterCoroutine != null) StopCoroutine(planterCoroutine);
+            planterCoroutine = StartCoroutine(planter.GrowOutFrom(pos));
             State = GameState.Defend;
         }
     }
@@ -273,7 +279,9 @@ public class LD52GameManager : GameManager<LD52GameManager>
                     //Wait for player to ring the bell
                     break;
                 case GameState.Defend:
-                    yield return StartCoroutine(RunSpawnEnemiesForRound(roundConfig));
+
+                    StartCoroutine(RunSpawnEnemiesForRound(roundConfig));
+
                     while(activeEnemies.Count > 0)
                     {
                         yield return null;
@@ -281,6 +289,18 @@ public class LD52GameManager : GameManager<LD52GameManager>
                     State = GameState.Harvest;
                     break;
                 case GameState.Harvest:
+                    //Ripen all the plants
+                    if (planterCoroutine != null) StopCoroutine(planterCoroutine);
+                    planterCoroutine = StartCoroutine(planter.RipenAllPlants());
+
+                    //Give the player time to harvest
+                    yield return new WaitForSeconds(10.0f);
+
+                    //kill all the plants
+                    if (planterCoroutine != null) StopCoroutine(planterCoroutine);
+                    planterCoroutine = StartCoroutine(planter.KillAllPlants());
+
+                    State = GameState.Passive;
                     break;
                 case GameState.GameOver:
                     yield return new WaitForSeconds(1.0f);

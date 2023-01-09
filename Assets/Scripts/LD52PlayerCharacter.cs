@@ -323,12 +323,14 @@ public class LD52PlayerCharacter : PlayerCharacter
                 LD52GameManager.Instance.StopStaminaRegen();
 
                 canAim = true;
-                if (attackIndex == 0 && Time.time - attackInputTime > 0.4f)
+                int attackLevel = GameManager.Instance.AttackLevel.Current;
+
+                if (attackIndex == 0 && Time.time - attackInputTime > 0.4f && attackLevel > 1)
                 {
                     attackAnimator.SetTrigger("powerUpAttack");
                     attackIndex++;
                 }
-                else if (attackIndex == 1 && Time.time - attackInputTime > 1.0f)
+                else if (attackIndex == 1 && Time.time - attackInputTime > 1.0f && attackLevel > 2)
                 {
                     attackAnimator.SetTrigger("powerUpAttack");
                     attackIndex++;

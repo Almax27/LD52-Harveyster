@@ -8,7 +8,7 @@ public class BellBehaviour : InteractableBehaviour
     {
         base.OnInteract();
 
-        GameManager.Instance.OnBellRung();
+        GameManager.Instance.OnBellRung(transform.position);
     }
 
     protected override bool GetInteractInfo(ref string message)
