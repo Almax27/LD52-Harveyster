@@ -30,6 +30,7 @@ public class ShrineBehaviour : InteractableBehaviour
         if (!spriteRenderer) spriteRenderer = GetComponent<SpriteRenderer>();
 
         GetPlayerStat().OnChanged.AddListener(LevelChanged);
+        LevelChanged(GetPlayerStat().Current, GetPlayerStat().Max);
     }
 
     void LevelChanged(int current, int max)

@@ -6,26 +6,24 @@ using UnityEngine.UI;
 [ExecuteAlways]
 public class StaminaUI : MonoBehaviour
 {
+    public Sprite fullSprite;
+    public Sprite emptySprite;
+
     public Image pipPrefab;
 
-    [SerializeField]
-    public List<Image> pips = new List<Image>();
+    List<Image> pips = new List<Image>();
 
     // Start is called before the first frame update
     void Start()
     {
         LD52GameManager.Instance.Stamina.OnChanged.AddListener(StaminaChanged);
-        Refresh();
-    }
 
-    [EasyButtons.Button]
-    void Rebuild()
-    {
-        if (!Application.isPlaying)
+        for (int i = this.transform.childCount; i > 0; --i)
         {
-            foreach (var pip in pips) if (pip) DestroyImmediate(pip.gameObject);
-            pips.Clear();
+            //Note: Destroying an objects invalidates Unity's internal child array
+            DestroyImmediate(this.transform.GetChild(0).gameObject);
         }
+
         Refresh();
     }
 
@@ -49,7 +47,8 @@ public class StaminaUI : MonoBehaviour
             if(pips[i])
             {
                 pips[i].name = "Pip_" + i.ToString("00");
-                pips[i].enabled = current > i;
+                pips[i].sprite = current > i ? fullSprite : emptySprite;
+                pips[i].enabled = i < max;
             }
         }
     }

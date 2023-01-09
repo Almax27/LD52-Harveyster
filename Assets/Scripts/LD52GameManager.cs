@@ -97,7 +97,7 @@ public class LD52GameManager : GameManager<LD52GameManager>
         staminaRegenTick = -Mathf.Max(0, duration);
     }
 
-    public int MaxStamina { get { return StaminaLevel.Current < staminaLevels.Length ? staminaLevels[StaminaLevel.Current] : 1; } }
+    public int MaxStamina { get { return StaminaLevel.Current-1 < staminaLevels.Length ? staminaLevels[StaminaLevel.Current-1] : 1; } }
 
     Coroutine gameLogicCoroutine;
     Coroutine spawnPlayerCoroutine;
@@ -163,7 +163,7 @@ public class LD52GameManager : GameManager<LD52GameManager>
         objectiveText.text = "ObjectiveText";
 
         AttackLevel.Current = 1;
-        StaminaLevel.Current = 0;
+        StaminaLevel.Current = 1;
         Stamina.Max = MaxStamina;
 
         StaminaLevel.OnChanged.AddListener((cur, max) => { Stamina.Max = MaxStamina; });
