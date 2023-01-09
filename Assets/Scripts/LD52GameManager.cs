@@ -273,13 +273,25 @@ public class LD52GameManager : GameManager<LD52GameManager>
             switch (State)
             {
                 case GameState.Intro:
+                    objectiveText.text = "";
                     yield return FadeBlackout(new Color(0, 0, 0, 0), 3.0f);
+                    State = GameState.Passive;
                     break;
                 case GameState.Passive:
+
                     //Wait for player to ring the bell
+                    if(roundIndex == 0)
+                    {
+                        objectiveText.text = "A mysterious bell calls in the harvest...";
+                    }
+                    else
+                    {
+                        objectiveText.text = "Purchase upgrades, then ring the bell...";
+                    }
+                    
                     break;
                 case GameState.Defend:
-
+                    objectiveText.text = "Defend the Harvest!";
                     StartCoroutine(RunSpawnEnemiesForRound(roundConfig));
 
                     while(activeEnemies.Count > 0)
@@ -289,20 +301,31 @@ public class LD52GameManager : GameManager<LD52GameManager>
                     State = GameState.Harvest;
                     break;
                 case GameState.Harvest:
+
                     //Ripen all the plants
                     if (planterCoroutine != null) StopCoroutine(planterCoroutine);
                     planterCoroutine = StartCoroutine(planter.RipenAllPlants());
 
                     //Give the player time to harvest
-                    yield return new WaitForSeconds(10.0f);
+                    float harvestTick = 0;
+
+                    while(harvestTick < 10.0f)
+                    {
+                        harvestTick += Time.deltaTime;
+                        objectiveText.text = "Harvest time! (" + (int)harvestTick + "s remaining)";
+                    }
 
                     //kill all the plants
                     if (planterCoroutine != null) StopCoroutine(planterCoroutine);
                     planterCoroutine = StartCoroutine(planter.KillAllPlants());
 
                     State = GameState.Passive;
+
+                    roundIndex = Mathf.Clamp(roundIndex + 1, 0, Rounds.Count - 1);
+
                     break;
                 case GameState.GameOver:
+                    objectiveText.text = "Game over :(";
                     yield return new WaitForSeconds(1.0f);
                     yield return FadeBlackout(new Color(0, 0, 0, 1), 2.0f);
                     SceneManager.LoadScene(SceneManager.GetActiveScene().name);
