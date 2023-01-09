@@ -210,7 +210,7 @@ public class LD52GameManager : GameManager<LD52GameManager>
         blackoutImage.color = Color.black;
         blackoutImage.enabled = true;
 
-        gameOverText.alpha = 0;
+        gameOverText.CrossFadeAlpha(0, 0 , true);
 
         objectiveText.text = "ObjectiveText";
 
@@ -387,7 +387,7 @@ public class LD52GameManager : GameManager<LD52GameManager>
                     break;
                 case GameState.GameOver:
                     objectiveText.text = "You ran out of lives :(";
-                    gameOverText.CrossFadeAlpha(0, 1.0f, true);
+                    gameOverText.CrossFadeAlpha(1.0f, 1.0f, true);
                     yield return new WaitForSeconds(1.0f);
                     while (true)
                     {
