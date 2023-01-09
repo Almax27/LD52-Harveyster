@@ -15,7 +15,7 @@ public class BellBehaviour : InteractableBehaviour
     {
         if(base.GetInteractInfo(ref message) && GameManager.Instance.State <= LD52GameManager.GameState.Passive)
         {
-            message = "Ring Bell";
+            message = "Ring Bell (E)";
             return true;
         }
         return false;
