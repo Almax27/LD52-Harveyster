@@ -180,6 +180,7 @@ MonoBehaviour:
   projectilePrefab: {fileID: 7150974672112424093, guid: 296adc8eea8078843be9a6a4f4f1db9f, type: 3}
   projectileSpawn: {fileID: 122435978342514762}
   shootingLight: {fileID: 422540358686569182}
+  shootSFX: {fileID: 11400000, guid: a376c63563340b6489da949e0561b4a3, type: 2}
 --- !u!50 &4355600541233663312
 Rigidbody2D:
   serializedVersion: 4
@@ -217,6 +218,7 @@ MonoBehaviour:
   startingHealth: 3
   spawnOnDamage: []
   damageSFX: {fileID: 11400000, guid: 0bb01ce7c48bc2b48ba290b89698f5fa, type: 2}
+  deathSFX: {fileID: 11400000, guid: f1f0d7ff793dcb84b8bf14a338dfeb1f, type: 2}
   spawnOnDeath:
   - {fileID: 2482163521430039614, guid: 7e6c726dd46bc2c49a092024886eaeac, type: 3}
   spawnOnDestroy: []

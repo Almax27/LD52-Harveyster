@@ -81,6 +81,7 @@ public class LD52GameManager : GameManager<LD52GameManager>
     public Image blackoutImage;
     public TextMeshProUGUI objectiveText;
     public TextMeshProUGUI gameOverText;
+    public TextMeshProUGUI toastText;
     public StaminaUI staminaUI;
     public WorldPlanter planter;
     public WorldPrompt worldPrompt;
@@ -108,6 +109,7 @@ public class LD52GameManager : GameManager<LD52GameManager>
     public MusicSetup HarvestMusic;
     public FAFAudioSFXSetup playerDeathSFX;
     public FAFAudioSFXSetup gameOverSFX;
+    public FAFAudioSFXSetup CollectSFX;
 
 
     [Header("Lighting")]
@@ -180,9 +182,18 @@ public class LD52GameManager : GameManager<LD52GameManager>
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.KeypadMinus))
+        if (Application.isEditor)
         {
-            CurrentPlayer?.SendMessage("OnDamage", new Damage(100, gameObject));
+            if (Input.GetKeyDown(KeyCode.KeypadMinus))
+            {
+                CurrentPlayer?.SendMessage("OnDamage", new Damage(100, gameObject));
+            }
+            if (Input.GetKeyDown(KeyCode.Backspace))
+            {
+                if (State == GameState.Passive) State = GameState.Defend;
+                else if (State == GameState.Defend) State = GameState.Harvest;
+                else if (State == GameState.Harvest) State = GameState.Passive;
+            }
         }
 
         staminaRegenTick += Time.deltaTime;
@@ -213,6 +224,7 @@ public class LD52GameManager : GameManager<LD52GameManager>
         blackoutImage.enabled = true;
 
         gameOverText.CrossFadeAlpha(0, 0 , true);
+        toastText.CrossFadeAlpha(0, 0, true);
 
         objectiveText.text = "ObjectiveText";
 
@@ -236,27 +248,23 @@ public class LD52GameManager : GameManager<LD52GameManager>
     {
         if(State <= GameState.Passive)
         {
-            if (planterCoroutine != null) StopCoroutine(planterCoroutine);
-            planterCoroutine = StartCoroutine(planter.GrowOutFrom(pos));
             State = GameState.Defend;
         }
     }
 
     IEnumerator RunSpawnEnemiesForRound(RoundConfig round)
     {
-        if (round.EnemyTypes.Count > 0)
+        if (round.EnemyTypes.Count > 0 && enemySpawnLocations.Count > 0)
         {
             int spawned = 0;
-            Vector3 location = Vector3.zero;
+
+            enemySpawnLocations.Shuffle();
 
             while (spawned < round.NumEnemies)
             {
                 var enemyPrefab = round.EnemyTypes[Random.Range(0, round.EnemyTypes.Count)];
-                if(FindEnemySpawnLocation(ref location))
-                {
-                    SpawnEnemy(enemyPrefab, location);
-                    spawned++;
-                }
+                SpawnEnemy(enemyPrefab, enemySpawnLocations[spawned % enemySpawnLocations.Count].position);
+                spawned++;
                 yield return new WaitForSeconds(Random.Range(1.0f, 2.0f));
             }
         }
@@ -266,11 +274,9 @@ public class LD52GameManager : GameManager<LD52GameManager>
     {
         if (enemySpawnLocations.Count > 0)
         {
-            enemySpawnLocations.Shuffle();
-
             ContactFilter2D filter2D = new ContactFilter2D();
             filter2D.useTriggers = false;
-            filter2D.SetLayerMask(LayerMask.GetMask("Default"));
+            filter2D.SetLayerMask(LayerMask.GetMask(new string[]{"Default","Character"}));
             List<Collider2D> results = new List<Collider2D>();
 
             for (int i = 0;  i < enemySpawnLocations.Count; i++)
@@ -322,7 +328,6 @@ public class LD52GameManager : GameManager<LD52GameManager>
                     {
                         objectiveText.text = "A mysterious bell calls in the harvest...";
                         yield return FadeBlackout(new Color(0, 0, 0, 0), 3.0f);
-                        State = GameState.Passive;
                     }
                     else
                     {
@@ -332,9 +337,14 @@ public class LD52GameManager : GameManager<LD52GameManager>
                     break;
                 case GameState.Defend:
 
+                    if (planterCoroutine != null) StopCoroutine(planterCoroutine);
+                    planterCoroutine = StartCoroutine(planter.GrowOut());
+
                     FAFAudio.Instance.TryPlayMusic(DefendMusic, false);
 
                     StartCoroutine(RunSpawnEnemiesForRound(roundConfig));
+
+                    if(RoundIndex == 0) ShowToast("Attack with 'J' or left-click\nEvade with 'K' or right-click\nInteract with 'E'");
 
                     while(activeEnemies.Count > 0)
                     {
@@ -344,6 +354,8 @@ public class LD52GameManager : GameManager<LD52GameManager>
                     State = GameState.Harvest;
                     break;
                 case GameState.Harvest:
+
+                    if (RoundIndex == 0) ShowToast("Reap the harvest and earn money to spend on upgrades!");
 
                     FAFAudio.Instance.TryPlayMusic(HarvestMusic, false);
 
@@ -447,6 +459,45 @@ public class LD52GameManager : GameManager<LD52GameManager>
             blackoutImage.enabled = target.a > 0;
         }
         yield break;
+    }
+
+    Coroutine showToastRoutine;
+    public void ShowToast(string message, float delay = 0)
+    {
+        if (showToastRoutine != null) StopCoroutine(showToastRoutine);
+        showToastRoutine = StartCoroutine(RunShowToast(message, delay));
+    }
+
+    IEnumerator RunShowToast(string message, float delay)
+    {
+        if (toastText)
+        {
+            toastText.text = message;
+            yield return new WaitForSeconds(delay);
+            toastText.CrossFadeAlpha(1, 0.5f, true);
+            yield return new WaitForSeconds(10);
+            toastText.CrossFadeAlpha(0, 0.5f, true);
+        }
+    }
+
+    float lastMoneyCollectedTime = 0;
+    float moneyPitch = 1;
+    public void MoneyCollected(Money money)
+    {
+        float timeSinceLastCollected = Time.time - lastMoneyCollectedTime;
+        if (timeSinceLastCollected < 1.0f)
+        {
+            moneyPitch = Mathf.Min(2.0f, moneyPitch + 0.01f);
+        }
+        else
+        {
+            moneyPitch = 1;
+        }
+        if (timeSinceLastCollected > 0.05f)
+        {
+            lastMoneyCollectedTime = Time.time;
+            CollectSFX?.Play(money.transform.position, 1.0f, moneyPitch);
+        }
     }
 }
 

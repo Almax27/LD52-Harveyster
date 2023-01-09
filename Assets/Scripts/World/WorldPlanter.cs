@@ -64,7 +64,7 @@ public class WorldPlanter : MonoBehaviour
         }
     }
     
-    public IEnumerator GrowOutFrom(Vector2 pos)
+    public IEnumerator GrowOut()
     {
         float speed = GrowSpeed;
         int i = 0;

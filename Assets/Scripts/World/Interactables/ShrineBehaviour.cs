@@ -80,6 +80,10 @@ public class ShrineBehaviour : InteractableBehaviour
                 GameManager.Instance.Money.Current -= cost;
                 GetPlayerStat().Current++;
                 purchaseSFX?.Play(transform.position);
+                if(type == ShrineType.Attack)
+                {
+                    GameManager.Instance.ShowToast("Press and hold to perform a more powerful attack!");
+                }
             }
             else
             {

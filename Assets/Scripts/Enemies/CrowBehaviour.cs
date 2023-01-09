@@ -10,6 +10,7 @@ public class CrowBehaviour : EnemyBehaviour
     public Projectile projectilePrefab;
     public Transform projectileSpawn;
     public Light2D shootingLight;
+    public FAFAudioSFXSetup shootSFX;
 
     bool hasMoveTarget = false;
     Vector2 moveTargetLocation;
@@ -212,6 +213,7 @@ public class CrowBehaviour : EnemyBehaviour
                 Vector2 targetPos = player.transform.position;
 
                 Projectile.Spawn(projectilePrefab, this.gameObject, spawnPos, (targetPos - spawnPos).normalized);
+                shootSFX?.Play(spawnPos);
             }
 
             isShooting = false;

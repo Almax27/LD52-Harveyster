@@ -10,6 +10,7 @@ public class Health : MonoBehaviour {
 
     public GameObject[] spawnOnDamage = new GameObject[0];
     public FAFAudioSFXSetup damageSFX;
+    public FAFAudioSFXSetup deathSFX;
     public GameObject[] spawnOnDeath = new GameObject[0];
     public GameObject[] spawnOnDestroy = new GameObject[0];
 
@@ -79,6 +80,7 @@ public class Health : MonoBehaviour {
         {
             currentHealth = 0;
             isDead = true;
+            deathSFX?.Play(transform.position);
             SendMessage("OnDeath");
         }
 
