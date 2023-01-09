@@ -57,7 +57,7 @@ public class ShrineBehaviour : InteractableBehaviour
             if (!GetPlayerStat().IsFull)
             {
                 int cost = GetUpgradeCost();
-                message = "Purchase " + type + " \n$" + cost + " (E)";
+                message = "Purchase " + type + " \n<color=#E0D454>$" + cost + "</color>\n(E)";
             }
             else
             {

@@ -5,6 +5,7 @@ using UnityEngine;
 public class WorldText : MonoBehaviour
 {
     public LD52GameManager.GameState VisibleInState;
+    public int RoundIndex = 0;
 
     private void Start()
     {
@@ -14,7 +15,7 @@ public class WorldText : MonoBehaviour
 
     void GameStateChanged(LD52GameManager.GameState state)
     {
-        gameObject.SetActive(state == VisibleInState);
+        gameObject.SetActive(state == VisibleInState && GameManager.Instance.RoundIndex == RoundIndex);
     }
 
 

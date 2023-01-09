@@ -22,6 +22,11 @@ public class CrowBehaviour : EnemyBehaviour
         base.Start();
 
         logicCoroutine = StartCoroutine(RunCrowLogic());
+
+        if (shootingLight)
+        {
+            shootingLight.enabled = false;
+        }
     }
 
     protected override void Update()

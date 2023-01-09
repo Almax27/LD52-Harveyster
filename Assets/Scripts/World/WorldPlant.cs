@@ -130,9 +130,12 @@ public class WorldPlant : MonoBehaviour
 
     public void Ripen()
     {
-        State = PlantState.Ripe;
-        spriteRenderer.sprite = currentConfig.GetSprite(State);
-        if (collider2d) collider2d.enabled = true;
+        if (State != PlantState.Cut)
+        {
+            State = PlantState.Ripe;
+            spriteRenderer.sprite = currentConfig.GetSprite(State);
+            if (collider2d) collider2d.enabled = true;
+        }
     }
 
     public void Die()

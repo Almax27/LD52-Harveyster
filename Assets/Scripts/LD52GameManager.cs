@@ -71,7 +71,6 @@ public class LD52GameManager : GameManager<LD52GameManager>
 {
     public enum GameState
     { 
-        Intro,
         Passive,
         Defend,
         Harvest,
@@ -99,7 +98,7 @@ public class LD52GameManager : GameManager<LD52GameManager>
 
     [Header("Enemies")]
     public List<RoundConfig> Rounds = new List<RoundConfig>();
-    int roundIndex = 0;
+    public int RoundIndex { get; private set; }
     List<EnemyBehaviour> activeEnemies = new List<EnemyBehaviour>();
     List<Transform> enemySpawnLocations = new List<Transform>();
 
@@ -107,6 +106,9 @@ public class LD52GameManager : GameManager<LD52GameManager>
     public MusicSetup PassiveMusic;
     public MusicSetup DefendMusic;
     public MusicSetup HarvestMusic;
+    public FAFAudioSFXSetup playerDeathSFX;
+    public FAFAudioSFXSetup gameOverSFX;
+
 
     [Header("Lighting")]
     public LightingConfig passiveLighting;
@@ -125,7 +127,7 @@ public class LD52GameManager : GameManager<LD52GameManager>
     Coroutine gameLogicCoroutine;
     Coroutine spawnPlayerCoroutine;
     Coroutine planterCoroutine;
-    GameState _state = GameState.Intro;
+    GameState _state = GameState.Passive;
 
     public GameState State 
     { 
@@ -307,23 +309,20 @@ public class LD52GameManager : GameManager<LD52GameManager>
     {
         while(true)
         {
-            RoundConfig roundConfig = roundIndex < Rounds.Count ? Rounds[roundIndex] : null;
+            RoundConfig roundConfig = RoundIndex < Rounds.Count ? Rounds[RoundIndex] : null;
 
             switch (State)
             {
-                case GameState.Intro:
-                    objectiveText.text = "";
-                    yield return FadeBlackout(new Color(0, 0, 0, 0), 3.0f);
-                    State = GameState.Passive;
-                    break;
                 case GameState.Passive:
 
                     FAFAudio.Instance.TryPlayMusic(PassiveMusic, false);
 
                     //Wait for player to ring the bell
-                    if (roundIndex == 0)
+                    if (RoundIndex == 0)
                     {
                         objectiveText.text = "A mysterious bell calls in the harvest...";
+                        yield return FadeBlackout(new Color(0, 0, 0, 0), 3.0f);
+                        State = GameState.Passive;
                     }
                     else
                     {
@@ -366,9 +365,9 @@ public class LD52GameManager : GameManager<LD52GameManager>
                     if (planterCoroutine != null) StopCoroutine(planterCoroutine);
                     planterCoroutine = StartCoroutine(planter.KillAllPlants());
 
-                    State = GameState.Passive;
+                    RoundIndex = Mathf.Clamp(RoundIndex + 1, 0, Rounds.Count - 1);
 
-                    roundIndex = Mathf.Clamp(roundIndex + 1, 0, Rounds.Count - 1);
+                    State = GameState.Passive;
 
                     /*
                     //Reward player for uncut plants
@@ -394,6 +393,7 @@ public class LD52GameManager : GameManager<LD52GameManager>
                         if (Input.anyKeyDown)
                         {
                             yield return FadeBlackout(new Color(0, 0, 0, 1), 2.0f);
+                            if(CurrentPlayer.gameObject) Destroy(CurrentPlayer.gameObject);
                             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
                         }
                         yield return null;
@@ -418,10 +418,12 @@ public class LD52GameManager : GameManager<LD52GameManager>
                 {
                     Lives.Current--;
                     Stamina.Current = Stamina.Max;
+                    playerDeathSFX?.Play(CurrentPlayer.transform.position);
                     yield return RunSpawnPlayer();
                 }
                 else
                 {
+                    gameOverSFX?.Play(CurrentPlayer.transform.position);
                     State = GameState.GameOver;
                 }
             }

@@ -54,6 +54,7 @@ public class LD52PlayerCharacter : PlayerCharacter
     public float footstepDistance = 0.5f;
     public FAFAudioSFXSetup lightAttackSFX;
     public FAFAudioSFXSetup heavyAttackSFX;
+    public FAFAudioSFXSetup evadeSFX;
     public FAFAudioSFXSetup noStaminaSFX;
     public AudioSource spinAudio;
 
@@ -79,6 +80,8 @@ public class LD52PlayerCharacter : PlayerCharacter
         if (light) light.intensity = 0;
 
         if (attack) attack.enabled = false;
+
+        Health.IgnoreDamageFor(1.0f);
     }
 
     private void Update()
@@ -320,6 +323,8 @@ public class LD52PlayerCharacter : PlayerCharacter
 
                 LD52GameManager.Instance.Stamina.Current--;
                 LD52GameManager.Instance.StopStaminaRegen(AttackStamiaRegenDelay);
+
+                evadeSFX?.Play(transform.position);
             }
 
             evadeVector = Vector3.RotateTowards(evadeVector, facingVector, EvadeMaxTurnSpeed * Mathf.Deg2Rad * Time.deltaTime, 0.5f);

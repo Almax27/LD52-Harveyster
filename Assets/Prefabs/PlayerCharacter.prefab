@@ -688,9 +688,10 @@ MonoBehaviour:
   AttackSpinStaminaPerSecond: 0.5
   AttackStamiaRegenDelay: 0.6
   footstepSFX: {fileID: 11400000, guid: 2ee8d4333ec397748b8a63aa2d6659cb, type: 2}
-  footstepDistance: 0.5
+  footstepDistance: 1.2
   lightAttackSFX: {fileID: 11400000, guid: ddcdf0a018c550d4abc00544f4e8397c, type: 2}
   heavyAttackSFX: {fileID: 11400000, guid: a53802057bf906944b4a7853d2e19c23, type: 2}
+  evadeSFX: {fileID: 11400000, guid: 2951f5d063a06ae4c8ac14296f4f2887, type: 2}
   noStaminaSFX: {fileID: 11400000, guid: f5c230374be6390449b76124cb176522, type: 2}
   spinAudio: {fileID: 7585815337934018669}
 --- !u!50 &-4079729962656457315
