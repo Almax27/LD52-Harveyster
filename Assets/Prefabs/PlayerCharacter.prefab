@@ -772,7 +772,8 @@ MonoBehaviour:
   spawnOnDamage: []
   damageSFX: {fileID: 0}
   spawnOnDeath: []
-  spawnOnDestroy: []
+  spawnOnDestroy:
+  - {fileID: 2482163521430039614, guid: 7e6c726dd46bc2c49a092024886eaeac, type: 3}
   damageTintColor: {r: 1, g: 0, b: 0, a: 1}
   damageTintDuration: 0.2
   destroyOnDeath: -1

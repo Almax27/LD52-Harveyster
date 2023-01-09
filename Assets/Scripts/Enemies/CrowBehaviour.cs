@@ -1,14 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
+
 
 public class CrowBehaviour : EnemyBehaviour
 {
     public float flySpeed = 2;
+    public Projectile projectilePrefab;
+    public Transform projectileSpawn;
+    public Light2D shootingLight;
 
     bool hasMoveTarget = false;
     Vector2 moveTargetLocation;
     Coroutine logicCoroutine;
+
+    bool isShooting = false;
 
     protected override void Start()
     {
@@ -32,6 +39,19 @@ public class CrowBehaviour : EnemyBehaviour
         if(animator)
         {
             animator.SetBool("isFlying", isFlying);
+            animator.SetBool("isShooting", isShooting);
+        }
+
+        if (projectileSpawn)
+        {
+            var p = projectileSpawn.transform.localPosition;
+            p.x = Mathf.Abs(p.x) * (isLookingRight ? 1 : -1);
+            projectileSpawn.transform.localPosition = p;
+        }
+
+        if (shootingLight)
+        {
+            shootingLight.enabled = isShooting;
         }
     }
 
@@ -58,7 +78,7 @@ public class CrowBehaviour : EnemyBehaviour
                 yield return RunMove(moveTargetLocation);
             }
 
-            yield return new WaitForSeconds(Random.Range(3.0f, 5.0f));
+            yield return RunAttack();
         }
     }
 
@@ -164,5 +184,32 @@ public class CrowBehaviour : EnemyBehaviour
         hasMoveTarget = false;
 
         yield return new WaitForSeconds(0.5f);
+    }
+
+    IEnumerator RunAttack()
+    {
+        var player = GameManager.Instance.CurrentPlayer;
+        if(player && projectilePrefab)
+        {
+            isShooting = true;
+
+            float tick = Random.Range(1.0f, 2.0f);
+            while(player && tick > 0)
+            {
+                tick -= Time.deltaTime;
+                lookDirection = (player.transform.position - transform.position).normalized;
+                yield return null;
+            }
+
+            if (player)
+            {
+                Vector2 spawnPos = projectileSpawn.position;
+                Vector2 targetPos = player.transform.position;
+
+                Projectile.Spawn(projectilePrefab, this.gameObject, spawnPos, (targetPos - spawnPos).normalized);
+            }
+
+            isShooting = false;
+        }
     }
 }

@@ -13,7 +13,7 @@ public class EnemyBehaviour : MonoBehaviour
 
     protected Vector2 desiredVelocity;
     protected Vector2 lookDirection;
-    bool isLookingRight;
+    protected bool isLookingRight;
     float stunnedUntilTime;
 
     protected virtual void Awake()

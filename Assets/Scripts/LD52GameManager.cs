@@ -136,6 +136,20 @@ public class LD52GameManager : GameManager<LD52GameManager>
                 _state = value;
                 Debug.Log("GameState = " + _state);
                 StateChangedEvent.Invoke(_state);
+
+                //Clear up any enemies
+                foreach (var enemy in activeEnemies)
+                {
+                    Destroy(enemy.gameObject);
+                }
+                activeEnemies.Clear();
+
+                //restart the game logic coroutine
+                if (gameLogicCoroutine != null)
+                {
+                    StopCoroutine(gameLogicCoroutine);
+                    gameLogicCoroutine = StartCoroutine(RunGameLogic());
+                }
             }
         }
     }
@@ -156,6 +170,7 @@ public class LD52GameManager : GameManager<LD52GameManager>
         if (Application.isPlaying)
         {
             gameLogicCoroutine = StartCoroutine(RunGameLogic());
+            StartCoroutine(RunCombatLogic());
         }
 
     }
@@ -289,21 +304,6 @@ public class LD52GameManager : GameManager<LD52GameManager>
     {
         while(true)
         {
-            //Spawn player at shine?
-            if (CurrentPlayer && !CurrentPlayer.Health.IsAlive && State != GameState.GameOver)
-            {
-                if (Lives.Current > 0)
-                {
-                    Lives.Current--;
-                    Stamina.Current = Stamina.Max;
-                    yield return RunSpawnPlayer();
-                }
-                else
-                {
-                    State = GameState.GameOver;
-                }
-            }
-
             RoundConfig roundConfig = roundIndex < Rounds.Count ? Rounds[roundIndex] : null;
 
             switch (State)
@@ -391,6 +391,29 @@ public class LD52GameManager : GameManager<LD52GameManager>
             }
             
 
+            yield return null;
+        }
+    }
+
+    IEnumerator RunCombatLogic()
+    {
+        while (true)
+        {
+            //Spawn player at shine?
+            if (CurrentPlayer && !CurrentPlayer.Health.IsAlive && State != GameState.GameOver)
+            {
+                yield return new WaitForSeconds(1.0f);
+                if (Lives.Current > 0)
+                {
+                    Lives.Current--;
+                    Stamina.Current = Stamina.Max;
+                    yield return RunSpawnPlayer();
+                }
+                else
+                {
+                    State = GameState.GameOver;
+                }
+            }
             yield return null;
         }
     }

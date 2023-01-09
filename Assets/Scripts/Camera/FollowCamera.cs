@@ -8,6 +8,7 @@ public class FollowCamera : MonoBehaviour {
     public float followDamp = 0.5f;
     public Vector3 offset = new Vector3(0,2,-10);
     public Vector2 screenContaintSize = new Vector2(10, 10);
+    public bool constrainToTarget = true;
 
     Vector2 followVelocity = Vector2.zero;
     Vector2 desiredPosition = Vector2.zero;
@@ -49,8 +50,11 @@ public class FollowCamera : MonoBehaviour {
             desiredPosition = target.position + offset;
 
             //Constrain distance from player
-            Rect screenContraintArea = new Rect((Vector2)desiredPosition - screenContaintSize * 0.5f, screenContaintSize);
-            transform.position = screenContraintArea.Clamp(transform.position);
+            if (constrainToTarget)
+            {
+                Rect screenContraintArea = new Rect((Vector2)desiredPosition - screenContaintSize * 0.5f, screenContaintSize);
+                transform.position = screenContraintArea.Clamp(transform.position);
+            }
         }
         else
         {

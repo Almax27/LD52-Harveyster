@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class LD52PlayerCharacter : PlayerCharacter
 {
@@ -15,6 +16,8 @@ public class LD52PlayerCharacter : PlayerCharacter
     public AttackDamageArea meleeAttackArea;
     public AttackDamageArea spinAttackArea;
     public WorldPlantPusher plantPusher;
+    Light2D light;
+    float baseLightIntensity;
 
     //Input
     Vector2 inputVector;
@@ -71,6 +74,11 @@ public class LD52PlayerCharacter : PlayerCharacter
         //if (!attackAnimator) attackAnimator = GetComponentInChildren<Animator>();
         if (!meleeAttackArea) meleeAttackArea = GetComponentInChildren<AttackDamageArea>();
         if (!plantPusher) plantPusher = GetComponentInChildren<WorldPlantPusher>();
+
+        light = GetComponentInChildren<Light2D>();
+        if (light) light.intensity = 0;
+
+        if (attack) attack.enabled = false;
     }
 
     private void Update()
@@ -80,37 +88,53 @@ public class LD52PlayerCharacter : PlayerCharacter
 
         desiredVelocity = rigidbody2D.velocity;
 
-        UpdateInput();
+        if(Health.IsAlive) UpdateInput();
+
         UpdateMovement();
-        UpdateEvading();
-        UpdateAttacking();
 
-        UpdateFacing();
-
-        //Update anims before physics to capture physic stops (move to func)
-        if (bodyAnimator)
+        if (Health.IsAlive)
         {
-            bodyAnimator.SetBool("isMoving", CanMove() && rigidbody2D.velocity.magnitude > 0.1);
-            bodyAnimator.SetFloat("moveSpeed", Mathf.Max(0.3f, rigidbody2D.velocity.magnitude / MaxSpeed));
+            if (light)
+            {
+                light.intensity = Mathf.Min(light.intensity + Time.deltaTime, 0.5f);
+            }
 
-            bodyAnimator.SetBool("isEvading", isEvading);
+            UpdateEvading();
+            UpdateAttacking();
+
+            UpdateFacing();
+
+            //Update anims before physics to capture physic stops (move to func)
+            if (bodyAnimator)
+            {
+                bodyAnimator.SetBool("isMoving", CanMove() && rigidbody2D.velocity.magnitude > 0.1);
+                bodyAnimator.SetFloat("moveSpeed", Mathf.Max(0.3f, rigidbody2D.velocity.magnitude / MaxSpeed));
+
+                bodyAnimator.SetBool("isEvading", isEvading);
+            }
         }
-
+        else
+        {
+            if(light)
+            {
+                light.intensity = Mathf.Max(light.intensity - Time.deltaTime * 2, 0);
+            }
+        }
 
         var mapBounds = GameManager.Instance.GetMapBounds(0.5f, 0.5f, 0.5f, 0.0f);
         if ((desiredVelocity.x < 0 && transform.position.x < mapBounds.xMin) || (desiredVelocity.x > 0 && transform.position.x > mapBounds.xMax))
         {
             if (isAttacking && attackIndex == 2) desiredVelocity.x = -desiredVelocity.x;
-            else desiredVelocity.x = 0;
         }
         if ((desiredVelocity.y < 0 && transform.position.y < mapBounds.yMin) || (desiredVelocity.y > 0 && transform.position.y > mapBounds.yMax))
         {
             if (isAttacking && attackIndex == 2) desiredVelocity.y = -desiredVelocity.y;
-            else desiredVelocity.y = 0;
         }
+        transform.position = mapBounds.Clamp(transform.position);
+
         rigidbody2D.velocity = desiredVelocity;
 
-        if(plantPusher)
+        if (plantPusher)
         {
             if(isAttacking && attackIndex == 2)
             {
@@ -129,12 +153,18 @@ public class LD52PlayerCharacter : PlayerCharacter
         
     }
 
+    protected virtual void OnDamage(Damage damage)
+    {
+        if (rigidbody2D)
+        {
+            desiredVelocity = rigidbody2D.velocity = damage.knockbackVelocity;
+        }
+    }
+
     void OnDeath()
     {
-        enabled = false;
         bodyAnimator.SetTrigger("onDeath");
         attack.enabled = false;
-        rigidbody2D.velocity = Vector2.zero;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -228,7 +258,7 @@ public class LD52PlayerCharacter : PlayerCharacter
 
     bool CanMove()
     {
-        return !isEvading && (!isAttacking || attackIndex == 2);
+        return Health.IsAlive && !isEvading && (!isAttacking || attackIndex == 2);
     }
 
     void UpdateMovement()
@@ -259,7 +289,7 @@ public class LD52PlayerCharacter : PlayerCharacter
                 desiredVelocity = Vector2.SmoothDamp(desiredVelocity, moveVector * desiredSpeed, ref acceleration, 0.05f, float.MaxValue, Time.deltaTime);
             }
         }
-        else //Decelerate to reset (soft)
+        else //Decelerate to rest (soft)
         {
             inputVector = Vector2.zero;
             desiredVelocity = Vector2.SmoothDamp(desiredVelocity, Vector2.zero, ref acceleration, 0.2f, float.MaxValue, Time.deltaTime);

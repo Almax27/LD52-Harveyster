@@ -56,10 +56,11 @@ public class GameObjectPool : SingletonBehaviour<GameObjectPool>
         public GameObject Prefab { get; private set; }
         public GameObject Instance { get; private set; }
 
-        public void AutoDestruct()
+        public void AutoDestruct(float delay = 0)
         {
             AutoDestruct autoDestruct = Instance.GetComponent<AutoDestruct>();
             if(!autoDestruct) autoDestruct = Instance.AddComponent<AutoDestruct>();
+            autoDestruct.delay = delay;
             autoDestruct.PoolWhenFinished(Prefab);
         }
     }
@@ -86,7 +87,7 @@ public class GameObjectPool : SingletonBehaviour<GameObjectPool>
         return new PooledGameObject(prefab, instance);
     }
 
-    public void Pool(PooledGameObject pooledGameObject)
+    public bool Pool(PooledGameObject pooledGameObject)
     {
         if (pooledGameObject.Prefab && pooledGameObject.Instance)
         {
@@ -103,6 +104,8 @@ public class GameObjectPool : SingletonBehaviour<GameObjectPool>
                 pool.Add(pooledGameObject.Instance);
                 PrefabPools.Add(pooledGameObject.Prefab, pool);
             }
+            return true;
         }
+        return false;
     }
 }

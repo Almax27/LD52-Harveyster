@@ -21,7 +21,7 @@ abstract public class GameManager<T> : SingletonBehaviour<T> where T : MonoBehav
         //Cursor.lockState = CursorLockMode.Locked;
         //Cursor.visible = false;
 
-        StartCoroutine(RunSpawnPlayer());
+        StartCoroutine(RunSpawnPlayer(0.0f));
 
         var followCamera = GetComponentInChildren<FollowCamera>();
         if (CurrentPlayer && followCamera)
@@ -35,20 +35,30 @@ abstract public class GameManager<T> : SingletonBehaviour<T> where T : MonoBehav
         }
     }
 
-    protected virtual IEnumerator RunSpawnPlayer()
+    protected virtual IEnumerator RunSpawnPlayer(float delay = 1.0f)
     {
-        if(CurrentPlayer)
+        var followCamera = GetComponentInChildren<FollowCamera>();
+
+        if (CurrentPlayer)
         {
             Destroy(CurrentPlayer.gameObject);
         }
 
+        if (followCamera)
+        {
+            followCamera.target = playerSpawnPoint;
+            followCamera.constrainToTarget = false;
+        }
+
+        yield return new WaitForSeconds(delay);
+
         var playerGO = GameObject.Instantiate(playerPrefabToSpawn, GetPlayerSpawnLocation(), Quaternion.identity);
         CurrentPlayer = playerGO.GetComponent<PlayerCharacter>();
 
-        var followCamera = GetComponentInChildren<FollowCamera>();
         if (followCamera)
         {
             followCamera.target = CurrentPlayer.transform;
+            followCamera.constrainToTarget = true;
         }
 
         yield break;

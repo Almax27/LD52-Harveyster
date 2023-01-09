@@ -56,10 +56,10 @@ Camera:
   m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0
-    y: 0.372591
-    width: 0.27233306
-    height: 0.28365898
+    x: 0.019947963
+    y: 0
+    width: 0.95981497
+    height: 0.9997323
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
@@ -161,6 +161,117 @@ MonoBehaviour:
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
   m_Version: 2
+--- !u!1 &712358789
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 712358791}
+  - component: {fileID: 712358790}
+  m_Layer: 0
+  m_Name: GlobalLight
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &712358791
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 712358789}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7414625814760212629}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &712358790
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 712358789}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 073797afb82c5a1438f328866b10b3f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ComponentVersion: 1
+  m_LightType: 4
+  m_BlendStyleIndex: 0
+  m_FalloffIntensity: 0.5
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Intensity: 0
+  m_LightVolumeIntensity: 1
+  m_LightVolumeIntensityEnabled: 0
+  m_ApplyToSortingLayers: b9cf953f000000009b475947
+  m_LightCookieSprite: {fileID: 0}
+  m_DeprecatedPointLightCookieSprite: {fileID: 0}
+  m_LightOrder: 0
+  m_AlphaBlendOnOverlap: 0
+  m_OverlapOperation: 0
+  m_NormalMapDistance: 3
+  m_NormalMapQuality: 2
+  m_UseNormalMap: 0
+  m_ShadowIntensityEnabled: 0
+  m_ShadowIntensity: 0.75
+  m_ShadowVolumeIntensityEnabled: 0
+  m_ShadowVolumeIntensity: 0.75
+  m_Vertices:
+  - position: {x: 0.9985302, y: 0.9985302, z: 0}
+    color: {r: 0.70710677, g: 0.70710677, b: 0, a: 0}
+    uv: {x: 0, y: 0}
+  - position: {x: 0.9985302, y: 0.9985302, z: 0}
+    color: {r: 0, g: 0, b: 0, a: 1}
+    uv: {x: 0, y: 0}
+  - position: {x: -0.9985302, y: 0.9985302, z: 0}
+    color: {r: -0.70710677, g: 0.70710677, b: 0, a: 0}
+    uv: {x: 0, y: 0}
+  - position: {x: -0.9985302, y: 0.9985302, z: 0}
+    color: {r: 0, g: 0, b: 0, a: 1}
+    uv: {x: 0, y: 0}
+  - position: {x: -0.99853003, y: -0.9985304, z: 0}
+    color: {r: -0.70710665, g: -0.7071069, b: 0, a: 0}
+    uv: {x: 0, y: 0}
+  - position: {x: -0.99853003, y: -0.9985304, z: 0}
+    color: {r: 0, g: 0, b: 0, a: 1}
+    uv: {x: 0, y: 0}
+  - position: {x: 0.99853003, y: -0.9985304, z: 0}
+    color: {r: 0.70710665, g: -0.7071069, b: 0, a: 0}
+    uv: {x: 0, y: 0}
+  - position: {x: 0.99853003, y: -0.9985304, z: 0}
+    color: {r: 0, g: 0, b: 0, a: 1}
+    uv: {x: 0, y: 0}
+  - position: {x: 0, y: 0, z: 0}
+    color: {r: 0, g: 0, b: 0, a: 1}
+    uv: {x: 0, y: 0}
+  m_Triangles: 030001000800020000000100030002000100050003000800040002000300050004000300070005000800060004000500070006000500010007000800000006000700010000000700
+  m_LocalBounds:
+    m_Center: {x: 0, y: -0.00000011920929, z: 0}
+    m_Extent: {x: 0.9985302, y: 0.99853027, z: 0}
+  m_PointLightInnerAngle: 360
+  m_PointLightOuterAngle: 360
+  m_PointLightInnerRadius: 0
+  m_PointLightOuterRadius: 1
+  m_ShapeLightParametricSides: 5
+  m_ShapeLightParametricAngleOffset: 0
+  m_ShapeLightParametricRadius: 1
+  m_ShapeLightFalloffSize: 0.5
+  m_ShapeLightFalloffOffset: {x: 0, y: 0}
+  m_ShapePath:
+  - {x: -0.5, y: -0.5, z: 0}
+  - {x: 0.5, y: -0.5, z: 0}
+  - {x: 0.5, y: 0.5, z: 0}
+  - {x: -0.5, y: 0.5, z: 0}
 --- !u!1 &1194481069
 GameObject:
   m_ObjectHideFlags: 0
@@ -193,7 +304,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4124458030088533372}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
@@ -345,7 +456,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4124458030088533372}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
@@ -403,8 +514,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4283749600
+  m_fontColor: {r: 0.8773585, g: 0.8297033, b: 0.3283196, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -810,6 +921,7 @@ Transform:
   m_Children:
   - {fileID: 519420032}
   - {fileID: 3713490993139743157}
+  - {fileID: 712358791}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -841,6 +953,7 @@ MonoBehaviour:
   staminaUI: {fileID: 6568720509712394821}
   planter: {fileID: 0}
   worldPrompt: {fileID: 3767049708045577623}
+  globalLight: {fileID: 712358790}
   Score:
     _max: 0
     OnChanged:
@@ -871,36 +984,57 @@ MonoBehaviour:
     OnChanged:
       m_PersistentCalls:
         m_Calls: []
-  staminaLevels: 05000000070000000a000000
+  staminaLevels: 05000000060000000700000008000000
   staminaRegenPerSecond: 0.2
   Rounds:
-  - NumEnemies: 1
+  - NumEnemies: 3
     EnemyTypes:
     - {fileID: 5719335151422974318, guid: e5dd4f4f2a96b2d4997028b974ed6ea9, type: 3}
-  - NumEnemies: 1
+  - NumEnemies: 6
+    EnemyTypes:
+    - {fileID: 5719335151422974318, guid: e5dd4f4f2a96b2d4997028b974ed6ea9, type: 3}
+  - NumEnemies: 10
+    EnemyTypes:
+    - {fileID: 5719335151422974318, guid: e5dd4f4f2a96b2d4997028b974ed6ea9, type: 3}
+  - NumEnemies: 12
+    EnemyTypes:
+    - {fileID: 5719335151422974318, guid: e5dd4f4f2a96b2d4997028b974ed6ea9, type: 3}
+  - NumEnemies: 15
+    EnemyTypes:
+    - {fileID: 5719335151422974318, guid: e5dd4f4f2a96b2d4997028b974ed6ea9, type: 3}
+  - NumEnemies: 20
     EnemyTypes:
     - {fileID: 5719335151422974318, guid: e5dd4f4f2a96b2d4997028b974ed6ea9, type: 3}
   PassiveMusic:
     clip: {fileID: 8300000, guid: 582e3a650482e0b45a48d92f64548369, type: 3}
-    volume: 1
+    volume: 0.5
     loop: 1
     fadeIn: 1
     fadeOut: 1
     transitionMode: 1
   DefendMusic:
     clip: {fileID: 8300000, guid: fde33dad62388b24b858a6726e7fb0fd, type: 3}
-    volume: 1
+    volume: 0.5
     loop: 1
     fadeIn: 1
     fadeOut: 1
     transitionMode: 1
   HarvestMusic:
     clip: {fileID: 8300000, guid: 54c445a5680332d4e8f0db55f57f74c9, type: 3}
-    volume: 1
+    volume: 0.5
     loop: 1
     fadeIn: 1
     fadeOut: 1
     transitionMode: 1
+  passiveLighting:
+    intensity: 0.1
+    color: {r: 1, g: 1, b: 1, a: 1}
+  defendLighting:
+    intensity: 0.1
+    color: {r: 1, g: 0.7421383, b: 0.7421383, a: 1}
+  harvestLighting:
+    intensity: 0.5
+    color: {r: 0.98957294, g: 1, b: 0.6289308, a: 1}
   StateChangedEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -1167,7 +1301,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 0, y: 0, z: 250.32654, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -1206,9 +1340,9 @@ RectTransform:
   m_Children:
   - {fileID: 6276967854910936386}
   - {fileID: 5745744516453231111}
-  - {fileID: 1240884929024836594}
   - {fileID: 2102611656}
   - {fileID: 1194481070}
+  - {fileID: 1240884929024836594}
   m_Father: {fileID: 519420032}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1309,7 +1443,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4124458030088533372}
-  m_RootOrder: 2
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
