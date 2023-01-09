@@ -43,9 +43,16 @@ public class ShrineBehaviour : InteractableBehaviour
 
     protected override bool GetInteractInfo(ref string message)
     {
-        if(base.GetInteractInfo(ref message) && !GetPlayerStat().IsFull)
+        if(base.GetInteractInfo(ref message))
         {
-            message = "Purchase " + type + " (E)";
+            if (GetPlayerStat().IsFull)
+            {
+                message = "Purchase " + type + " (E)";
+            }
+            else
+            {
+                message = "Max " + type;
+            }
             return true;
         }
         return false;
@@ -55,7 +62,10 @@ public class ShrineBehaviour : InteractableBehaviour
     {
         base.OnInteract();
 
-        GetPlayerStat().Current++;
+        if (!GetPlayerStat().IsFull)
+        {
+            GetPlayerStat().Current++;
+        }
     }
 
     PlayerStat GetPlayerStat()
