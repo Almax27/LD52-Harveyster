@@ -54,9 +54,9 @@ MonoBehaviour:
     sprite: {fileID: 986078144, guid: ed05dedf2d2838143bd45e7ea0d68b58, type: 3}
   - cost: 100
     sprite: {fileID: -20840915, guid: ed05dedf2d2838143bd45e7ea0d68b58, type: 3}
-  - cost: 500
+  - cost: 300
     sprite: {fileID: -1226668920, guid: ed05dedf2d2838143bd45e7ea0d68b58, type: 3}
-  - cost: 1000
+  - cost: 500
     sprite: {fileID: -600741159, guid: ed05dedf2d2838143bd45e7ea0d68b58, type: 3}
   spriteRenderer: {fileID: 2599335557985184187}
   purchaseSFX: {fileID: 11400000, guid: 74ca9ff89f8133c428ec95aec0fc9c78, type: 2}

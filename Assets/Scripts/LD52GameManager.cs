@@ -5,6 +5,8 @@ using UnityEngine.UI;
 using UnityEngine.Events;
 using TMPro;
 using UnityEngine.SceneManagement;
+using UnityEngine.Rendering.Universal;
+
 
 [System.Serializable]
 public class PlayerStat
@@ -57,6 +59,13 @@ public class RoundConfig
     public List<EnemyBehaviour> EnemyTypes = new List<EnemyBehaviour>();
 }
 
+[System.Serializable]
+public class LightingConfig
+{
+    public float intensity = 0.2f;
+    public Color color = Color.white;
+}
+
 
 public class LD52GameManager : GameManager<LD52GameManager>
 {
@@ -75,6 +84,7 @@ public class LD52GameManager : GameManager<LD52GameManager>
     public StaminaUI staminaUI;
     public WorldPlanter planter;
     public WorldPrompt worldPrompt;
+    public Light2D globalLight;
 
     [Header("Player Stats")]
     public PlayerStat Score = new PlayerStat(0);
@@ -97,6 +107,11 @@ public class LD52GameManager : GameManager<LD52GameManager>
     public MusicSetup DefendMusic;
     public MusicSetup HarvestMusic;
 
+    [Header("Lighting")]
+    public LightingConfig passiveLighting;
+    public LightingConfig defendLighting;
+    public LightingConfig harvestLighting;
+
     float staminaRegenTick = 0;
 
     public void StopStaminaRegen(float duration = 0)
@@ -104,7 +119,7 @@ public class LD52GameManager : GameManager<LD52GameManager>
         staminaRegenTick = -Mathf.Max(0, duration);
     }
 
-    public int MaxStamina { get { return StaminaLevel.Current-1 < staminaLevels.Length ? staminaLevels[StaminaLevel.Current-1] : 1; } }
+    public int MaxStamina { get { return StaminaLevel.Current < staminaLevels.Length ? staminaLevels[StaminaLevel.Current] : 1; } }
 
     Coroutine gameLogicCoroutine;
     Coroutine spawnPlayerCoroutine;
@@ -159,6 +174,18 @@ public class LD52GameManager : GameManager<LD52GameManager>
             Stamina.Current++;
         }
 
+        if(globalLight)
+        {
+            LightingConfig config = null;
+            if (State <= GameState.Passive) config = passiveLighting;
+            if (State == GameState.Defend) config = defendLighting;
+            if (State == GameState.Harvest) config = harvestLighting;
+            if (config != null)
+            {
+                globalLight.intensity = Mathf.Lerp(globalLight.intensity, config.intensity, Time.deltaTime);
+                globalLight.color = Color.Lerp(globalLight.color, config.color, Time.deltaTime);
+            }
+        }
     }
 
     [EasyButtons.Button]
@@ -171,7 +198,7 @@ public class LD52GameManager : GameManager<LD52GameManager>
 
         Money.Current = 0;
         AttackLevel.Current = 1;
-        StaminaLevel.Current = 1;
+        StaminaLevel.Current = 0;
         Stamina.Max = MaxStamina;
 
         StaminaLevel.OnChanged.AddListener((cur, max) => { Stamina.Max = MaxStamina; });
@@ -305,11 +332,11 @@ public class LD52GameManager : GameManager<LD52GameManager>
 
                     FAFAudio.Instance.TryPlayMusic(DefendMusic, false);
 
-                    objectiveText.text = "Defend the Harvest!";
                     StartCoroutine(RunSpawnEnemiesForRound(roundConfig));
 
                     while(activeEnemies.Count > 0)
                     {
+                        objectiveText.text = "Defend the Harvest! (" + activeEnemies.Count + "/" + roundConfig.NumEnemies;
                         yield return null;
                     }
                     State = GameState.Harvest;
@@ -328,7 +355,7 @@ public class LD52GameManager : GameManager<LD52GameManager>
                     while(harvestTick < harvestingTime)
                     {
                         harvestTick += Time.deltaTime;
-                        objectiveText.text = "Harvest time! (" + (int)Mathf.Max(0,harvestingTime - harvestTick) + "s remaining)";
+                        objectiveText.text = "Harvest time! " + (int)Mathf.Max(0,harvestingTime - harvestTick);
                         yield return null;
                     }
 

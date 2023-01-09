@@ -41,6 +41,8 @@ public class EnemyBehaviour : MonoBehaviour
         var mapBounds = GameManager.Instance.GetMapBounds(0.5f, 0.5f, 0.5f, 0.0f);
         transform.position = mapBounds.Clamp(transform.position);
 
+        if (IsStunned()) desiredVelocity = Vector2.zero;
+
         rigidbody2d.velocity = MathExtension.VInterpTo(rigidbody2d.velocity, desiredVelocity, Time.deltaTime, GetVelocityInterpSpeed());
 
         UpdateFacing();

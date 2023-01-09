@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: SFX_Purchase
   m_EditorClassIdentifier: 
   Clips:
-  - {fileID: 8300000, guid: 42528debf600f29429813045ebe0a398, type: 3}
+  - {fileID: 8300000, guid: 3bf380a5d972196448b347f938d5c455, type: 3}
   varianceMode: 0
   MixerGroup: {fileID: 0}
-  Volume: 0.1
+  Volume: 0.5
   VolumeVariance: 0
   Pitch: 1
   PitchVariance: 0

@@ -855,6 +855,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 448836880}
     - target: {fileID: 7656856577175805283, guid: 86ba28bb06462044ab88eca6b5ad085d, type: 3}
+      propertyPath: Rounds.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7656856577175805283, guid: 86ba28bb06462044ab88eca6b5ad085d, type: 3}
       propertyPath: DefendMusic.volume
       value: 0.5
       objectReference: {fileID: 0}
@@ -866,6 +870,86 @@ PrefabInstance:
       propertyPath: PassiveMusic.volume
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 7656856577175805283, guid: 86ba28bb06462044ab88eca6b5ad085d, type: 3}
+      propertyPath: staminaLevels.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7656856577175805283, guid: 86ba28bb06462044ab88eca6b5ad085d, type: 3}
+      propertyPath: staminaLevels.Array.data[1]
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7656856577175805283, guid: 86ba28bb06462044ab88eca6b5ad085d, type: 3}
+      propertyPath: staminaLevels.Array.data[2]
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 7656856577175805283, guid: 86ba28bb06462044ab88eca6b5ad085d, type: 3}
+      propertyPath: staminaLevels.Array.data[3]
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7656856577175805283, guid: 86ba28bb06462044ab88eca6b5ad085d, type: 3}
+      propertyPath: Rounds.Array.data[0].NumEnemies
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7656856577175805283, guid: 86ba28bb06462044ab88eca6b5ad085d, type: 3}
+      propertyPath: Rounds.Array.data[1].NumEnemies
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7656856577175805283, guid: 86ba28bb06462044ab88eca6b5ad085d, type: 3}
+      propertyPath: Rounds.Array.data[2].NumEnemies
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7656856577175805283, guid: 86ba28bb06462044ab88eca6b5ad085d, type: 3}
+      propertyPath: Rounds.Array.data[3].NumEnemies
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 7656856577175805283, guid: 86ba28bb06462044ab88eca6b5ad085d, type: 3}
+      propertyPath: Rounds.Array.data[4].NumEnemies
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 7656856577175805283, guid: 86ba28bb06462044ab88eca6b5ad085d, type: 3}
+      propertyPath: Rounds.Array.data[5].NumEnemies
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 7656856577175805283, guid: 86ba28bb06462044ab88eca6b5ad085d, type: 3}
+      propertyPath: Rounds.Array.data[1].EnemyTypes.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7656856577175805283, guid: 86ba28bb06462044ab88eca6b5ad085d, type: 3}
+      propertyPath: Rounds.Array.data[2].EnemyTypes.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7656856577175805283, guid: 86ba28bb06462044ab88eca6b5ad085d, type: 3}
+      propertyPath: Rounds.Array.data[3].EnemyTypes.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7656856577175805283, guid: 86ba28bb06462044ab88eca6b5ad085d, type: 3}
+      propertyPath: Rounds.Array.data[4].EnemyTypes.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7656856577175805283, guid: 86ba28bb06462044ab88eca6b5ad085d, type: 3}
+      propertyPath: Rounds.Array.data[5].EnemyTypes.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7656856577175805283, guid: 86ba28bb06462044ab88eca6b5ad085d, type: 3}
+      propertyPath: Rounds.Array.data[1].EnemyTypes.Array.data[1]
+      value: 
+      objectReference: {fileID: 5719335151422974318, guid: e5dd4f4f2a96b2d4997028b974ed6ea9, type: 3}
+    - target: {fileID: 7656856577175805283, guid: 86ba28bb06462044ab88eca6b5ad085d, type: 3}
+      propertyPath: Rounds.Array.data[2].EnemyTypes.Array.data[0]
+      value: 
+      objectReference: {fileID: 5719335151422974318, guid: e5dd4f4f2a96b2d4997028b974ed6ea9, type: 3}
+    - target: {fileID: 7656856577175805283, guid: 86ba28bb06462044ab88eca6b5ad085d, type: 3}
+      propertyPath: Rounds.Array.data[3].EnemyTypes.Array.data[0]
+      value: 
+      objectReference: {fileID: 5719335151422974318, guid: e5dd4f4f2a96b2d4997028b974ed6ea9, type: 3}
+    - target: {fileID: 7656856577175805283, guid: 86ba28bb06462044ab88eca6b5ad085d, type: 3}
+      propertyPath: Rounds.Array.data[4].EnemyTypes.Array.data[0]
+      value: 
+      objectReference: {fileID: 5719335151422974318, guid: e5dd4f4f2a96b2d4997028b974ed6ea9, type: 3}
+    - target: {fileID: 7656856577175805283, guid: 86ba28bb06462044ab88eca6b5ad085d, type: 3}
+      propertyPath: Rounds.Array.data[5].EnemyTypes.Array.data[0]
+      value: 
+      objectReference: {fileID: 5719335151422974318, guid: e5dd4f4f2a96b2d4997028b974ed6ea9, type: 3}
     - target: {fileID: 8428270450395619470, guid: 86ba28bb06462044ab88eca6b5ad085d, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
