@@ -96,6 +96,7 @@ public class WorldPlant : MonoBehaviour
         state = PlantState.Shrub;
         spriteRenderer.sprite = currentConfig.GetSprite(state);
         if (collider2d) collider2d.enabled = true;
+        transform.rotation = Quaternion.identity;
 
         if(Random.value < 0.1f) SpawnParticle(currentConfig.ParticleOnRegrow);
     }
@@ -110,6 +111,7 @@ public class WorldPlant : MonoBehaviour
             SpawnParticle(currentConfig.ParticleOnHarvest, true);
 
             if (collider2d) collider2d.enabled = false;
+            transform.rotation = Quaternion.Euler(0,0,Random.Range(-30,30));
         }
     }
 

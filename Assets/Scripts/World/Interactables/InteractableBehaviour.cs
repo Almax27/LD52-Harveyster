@@ -47,7 +47,7 @@ abstract public class InteractableBehaviour : MonoBehaviour
             HidePrompt();
         }
 
-        if (isShowingPrompt && Input.GetButton("Interact"))
+        if (isShowingPrompt && Input.GetButtonDown("Interact"))
         {
             OnInteract();
         }
