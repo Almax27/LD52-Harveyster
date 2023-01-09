@@ -57,6 +57,7 @@ MonoBehaviour:
     value: 0
     ParticleOnRegrow: {fileID: 0}
     ParticleOnHarvest: {fileID: 0}
+  moneyPrefab: {fileID: 1934518973986047478, guid: 40412bc70bcc64b4ab9f4f26893febea, type: 3}
 --- !u!212 &3586257084645455094
 SpriteRenderer:
   m_ObjectHideFlags: 0

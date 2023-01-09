@@ -24,7 +24,7 @@ public class PlayerStat
         get { return _current; }
         set
         {
-            int newValue = Mathf.Clamp(value, 0, Max);
+            int newValue = Max > 0 ? Mathf.Clamp(value, 0, Max) : value;
             if (_current != newValue)
             {
                 _current = newValue;
@@ -77,6 +77,8 @@ public class LD52GameManager : GameManager<LD52GameManager>
     public WorldPrompt worldPrompt;
 
     [Header("Player Stats")]
+    public PlayerStat Score = new PlayerStat(0);
+    public PlayerStat Money = new PlayerStat(0);
     public PlayerStat AttackLevel = new PlayerStat(3);
     public PlayerStat Lives = new PlayerStat(3);
     public PlayerStat Stamina = new PlayerStat(3);
@@ -89,6 +91,11 @@ public class LD52GameManager : GameManager<LD52GameManager>
     int roundIndex = 0;
     List<EnemyBehaviour> activeEnemies = new List<EnemyBehaviour>();
     List<Transform> enemySpawnLocations = new List<Transform>();
+
+    [Header("Music")]
+    public MusicSetup PassiveMusic;
+    public MusicSetup DefendMusic;
+    public MusicSetup HarvestMusic;
 
     float staminaRegenTick = 0;
 
@@ -162,6 +169,7 @@ public class LD52GameManager : GameManager<LD52GameManager>
 
         objectiveText.text = "ObjectiveText";
 
+        Money.Current = 0;
         AttackLevel.Current = 1;
         StaminaLevel.Current = 1;
         Stamina.Max = MaxStamina;
@@ -247,6 +255,7 @@ public class LD52GameManager : GameManager<LD52GameManager>
     void OnEnemyDeath(EnemyBehaviour enemy)
     {
         activeEnemies.Remove(enemy);
+        Score.Current += 100;
     }
 
     IEnumerator RunGameLogic()
@@ -279,8 +288,10 @@ public class LD52GameManager : GameManager<LD52GameManager>
                     break;
                 case GameState.Passive:
 
+                    FAFAudio.Instance.TryPlayMusic(PassiveMusic, false);
+
                     //Wait for player to ring the bell
-                    if(roundIndex == 0)
+                    if (roundIndex == 0)
                     {
                         objectiveText.text = "A mysterious bell calls in the harvest...";
                     }
@@ -291,6 +302,9 @@ public class LD52GameManager : GameManager<LD52GameManager>
                     
                     break;
                 case GameState.Defend:
+
+                    FAFAudio.Instance.TryPlayMusic(DefendMusic, false);
+
                     objectiveText.text = "Defend the Harvest!";
                     StartCoroutine(RunSpawnEnemiesForRound(roundConfig));
 
@@ -302,17 +316,20 @@ public class LD52GameManager : GameManager<LD52GameManager>
                     break;
                 case GameState.Harvest:
 
+                    FAFAudio.Instance.TryPlayMusic(HarvestMusic, false);
+
                     //Ripen all the plants
                     if (planterCoroutine != null) StopCoroutine(planterCoroutine);
                     planterCoroutine = StartCoroutine(planter.RipenAllPlants());
 
                     //Give the player time to harvest
                     float harvestTick = 0;
-
-                    while(harvestTick < 10.0f)
+                    float harvestingTime = 10;
+                    while(harvestTick < harvestingTime)
                     {
                         harvestTick += Time.deltaTime;
-                        objectiveText.text = "Harvest time! (" + (int)harvestTick + "s remaining)";
+                        objectiveText.text = "Harvest time! (" + (int)Mathf.Max(0,harvestingTime - harvestTick) + "s remaining)";
+                        yield return null;
                     }
 
                     //kill all the plants
@@ -322,6 +339,17 @@ public class LD52GameManager : GameManager<LD52GameManager>
                     State = GameState.Passive;
 
                     roundIndex = Mathf.Clamp(roundIndex + 1, 0, Rounds.Count - 1);
+
+                    int scoreAward = 0;
+                    var allPlants = planter.AllPlants;
+                    for (int i = 0; i < allPlants.Length; i++)
+                    {
+                        if(allPlants[i].State != PlantState.Cut)
+                        {
+                            scoreAward++;
+                        }
+                    }
+                    Score.Current += scoreAward;
 
                     break;
                 case GameState.GameOver:

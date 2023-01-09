@@ -46,6 +46,14 @@ public class LD52PlayerCharacter : PlayerCharacter
     public float AttackStamiaRegenDelay = 1.0f;
     float attackSpinTick = 0;
 
+    [Header("Audio")]
+    public FAFAudioSFXSetup footstepSFX;
+    public float footstepDistance = 0.5f;
+    public FAFAudioSFXSetup lightAttackSFX;
+    public FAFAudioSFXSetup heavyAttackSFX;
+    public FAFAudioSFXSetup noStaminaSFX;
+    public AudioSource spinAudio;
+
     [Header("State")]
     bool isMovingRight;
     bool isLookingRight;
@@ -53,6 +61,7 @@ public class LD52PlayerCharacter : PlayerCharacter
     bool isAttacking;
     int attackIndex;
     int attackCount;
+    float distanceWalked;
 
     private void Start()
     {
@@ -82,7 +91,7 @@ public class LD52PlayerCharacter : PlayerCharacter
         if (bodyAnimator)
         {
             bodyAnimator.SetBool("isMoving", CanMove() && rigidbody2D.velocity.magnitude > 0.1);
-            bodyAnimator.SetFloat("moveSpeed", rigidbody2D.velocity.magnitude / MaxSpeed);
+            bodyAnimator.SetFloat("moveSpeed", Mathf.Max(0.3f, rigidbody2D.velocity.magnitude / MaxSpeed));
 
             bodyAnimator.SetBool("isEvading", isEvading);
         }
@@ -168,9 +177,12 @@ public class LD52PlayerCharacter : PlayerCharacter
             facingVector = (worldPosition - (Vector2)transform.position).normalized;
         }
 
+        bool wantsStaminaUse = false;
+
         if(Input.GetButtonDown("Evade"))
         {
             evadeInputTime = Time.time;
+            wantsStaminaUse = true;
         }
 
         if (Input.GetButton("Attack") || Input.GetAxis("Attack") > 0.0f)
@@ -179,6 +191,7 @@ public class LD52PlayerCharacter : PlayerCharacter
             {
                 attackInputTime = Time.time;
                 waitingOnAttackRelease = true;
+                wantsStaminaUse = true;
 
                 Vector2 aimVector = new Vector2(Input.GetAxisRaw("AimX"), Input.GetAxisRaw("AimY"));
                 if (aimVector.sqrMagnitude > 0.2f)
@@ -193,11 +206,17 @@ public class LD52PlayerCharacter : PlayerCharacter
             {
                 attackInputTime = Time.time;
                 waitingOnAttackRelease = true;
+                wantsStaminaUse = true;
             }
         }
         else
         {
             waitingOnAttackRelease = false;
+        }
+
+        if(wantsStaminaUse && GameManager.Instance.Stamina.Current == 0)
+        {
+            noStaminaSFX?.Play(transform.position);
         }
     }
 
@@ -227,6 +246,12 @@ public class LD52PlayerCharacter : PlayerCharacter
             }
             else if (inputVector != Vector2.zero) //Accelerate with input
             {
+                distanceWalked += rigidbody2D.velocity.magnitude * Time.deltaTime;
+                if(distanceWalked > footstepDistance)
+                {
+                    distanceWalked = 0;
+                    footstepSFX?.Play(transform.position);
+                }
                 desiredVelocity = Vector2.SmoothDamp(desiredVelocity, moveVector * desiredSpeed, ref acceleration, MoveAccelerationTime, float.MaxValue, Time.deltaTime);
             }
             else //Decelerate to rest
@@ -264,7 +289,7 @@ public class LD52PlayerCharacter : PlayerCharacter
                 Health?.IgnoreDamageFor(EvadeDuration);
 
                 LD52GameManager.Instance.Stamina.Current--;
-                LD52GameManager.Instance.StopStaminaRegen(1.0f);
+                LD52GameManager.Instance.StopStaminaRegen(AttackStamiaRegenDelay);
             }
 
             evadeVector = Vector3.RotateTowards(evadeVector, facingVector, EvadeMaxTurnSpeed * Mathf.Deg2Rad * Time.deltaTime, 0.5f);
@@ -339,6 +364,10 @@ public class LD52PlayerCharacter : PlayerCharacter
                 }
                 else if (attackIndex == 2) //spin attack
                 {
+                    if (spinAudio && !spinAudio.isPlaying)
+                    {
+                        spinAudio.Play();
+                    }
                     canMove = true;
                     canAim = false;
 
@@ -368,6 +397,7 @@ public class LD52PlayerCharacter : PlayerCharacter
 
                     if (attackIndex == 0) //do light attack
                     {
+                        lightAttackSFX?.Play(transform.position);
                         attackAnimator.SetTrigger("execAttack");
                         desiredVelocity = attackVector * 5.0f;
                         meleeAttackArea.Attack(this.gameObject, 1, 0.2f);
@@ -375,6 +405,7 @@ public class LD52PlayerCharacter : PlayerCharacter
                     }
                     else if (attackIndex == 1) //do heavy attack
                     {
+                        heavyAttackSFX?.Play(transform.position);
                         attackAnimator.SetTrigger("execAttack");
                         desiredVelocity = attackVector * 30.0f;
                         meleeAttackArea.Attack(this.gameObject, 3, 0.2f);
@@ -382,6 +413,10 @@ public class LD52PlayerCharacter : PlayerCharacter
                     }
                     else if (attackIndex == 2)//end spin attack
                     {
+                        if (spinAudio && spinAudio.isPlaying)
+                        {
+                            spinAudio.Stop();
+                        }
                         attackAnimator.SetTrigger("finishAttack");
                     }
 
@@ -414,6 +449,10 @@ public class LD52PlayerCharacter : PlayerCharacter
         }
         else if (isAttacking)
         {
+            if (spinAudio && spinAudio.isPlaying)
+            {
+                spinAudio.Stop();
+            }
             attackAnimator.SetTrigger("finishAttack");
             isAttacking = false;
         }

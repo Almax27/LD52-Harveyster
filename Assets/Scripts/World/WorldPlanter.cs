@@ -17,14 +17,14 @@ public class WorldPlanter : MonoBehaviour
     public float GrowSpeed = 5f;
     public float GrowAcceleration = 20f;
 
-    WorldPlant[] allPlants = null;
+    public WorldPlant[] AllPlants { get; private set; }
 
     private void Start()
     {
-        allPlants = FindObjectsOfType<WorldPlant>();
+        AllPlants = FindObjectsOfType<WorldPlant>();
         BellBehaviour bell = FindObjectOfType<BellBehaviour>();
         Vector2 bellPos = bell.transform.position;
-        System.Array.Sort(allPlants, (a, b) =>
+        System.Array.Sort(AllPlants, (a, b) =>
         {
             return ((Vector2)a.transform.position - bellPos).sqrMagnitude < ((Vector2)b.transform.position - bellPos).sqrMagnitude ? -1 : 1;
         });
@@ -74,13 +74,13 @@ public class WorldPlanter : MonoBehaviour
             thisFrame += speed * Time.deltaTime;
             speed += GrowAcceleration * Time.deltaTime;
 
-            while (thisFrame > 1 && i < allPlants.Length)
+            while (thisFrame > 1 && i < AllPlants.Length)
             {
                 thisFrame--;
-                allPlants[i++].Regrow();
+                AllPlants[i++].Regrow();
             }
 
-            if (i >= allPlants.Length) break;
+            if (i >= AllPlants.Length) break;
 
             yield return null;
         }
@@ -88,7 +88,7 @@ public class WorldPlanter : MonoBehaviour
 
     public IEnumerator RipenAllPlants()
     {
-        WorldPlant[] shuffedPlants = (WorldPlant[])allPlants.Clone();
+        WorldPlant[] shuffedPlants = (WorldPlant[])AllPlants.Clone();
         yield return shuffedPlants.Shuffle(100);
 
         float totalTime = 1.0f;
@@ -108,7 +108,7 @@ public class WorldPlanter : MonoBehaviour
 
     public IEnumerator KillAllPlants()
     {
-        WorldPlant[] shuffedPlants = (WorldPlant[])allPlants.Clone();
+        WorldPlant[] shuffedPlants = (WorldPlant[])AllPlants.Clone();
         yield return shuffedPlants.Shuffle(100);
 
         float totalTime = 1.0f;

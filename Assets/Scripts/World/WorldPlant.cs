@@ -64,15 +64,18 @@ public class WorldPlant : MonoBehaviour
     [SerializeField]
     public PlantConfig currentConfig;
 
+    public Money moneyPrefab;
+
     SpriteRenderer spriteRenderer;
     Collider2D collider2d;
 
     bool wasHarvested = false;
 
-    PlantState state = PlantState.Cut;
+    public PlantState State { get; private set; }
 
     private void Awake()
     {
+        State = PlantState.Cut;
         collider2d = GetComponent<Collider2D>();
         ApplyConfig(currentConfig);
     }
@@ -84,17 +87,17 @@ public class WorldPlant : MonoBehaviour
         if (!spriteRenderer) spriteRenderer = GetComponent<SpriteRenderer>();
         if (spriteRenderer)
         {
-            spriteRenderer.sprite = config.GetSprite(state);
+            spriteRenderer.sprite = config.GetSprite(State);
             spriteRenderer.color = config.color;
         }
 
-        if (collider2d) collider2d.enabled = state != PlantState.Cut;
+        if (collider2d) collider2d.enabled = State != PlantState.Cut;
     }
 
     public void Regrow()
     {
-        state = PlantState.Shrub;
-        spriteRenderer.sprite = currentConfig.GetSprite(state);
+        State = PlantState.Shrub;
+        spriteRenderer.sprite = currentConfig.GetSprite(State);
         if (collider2d) collider2d.enabled = true;
         transform.rotation = Quaternion.identity;
 
@@ -103,10 +106,20 @@ public class WorldPlant : MonoBehaviour
 
     public void Harvest()
     {
-        if (state != PlantState.Cut)
+        if (State != PlantState.Cut)
         {
-            state = PlantState.Cut;
-            spriteRenderer.sprite = currentConfig.GetSprite(state);
+            if(State == PlantState.Ripe)
+            {
+                for (int i = 0; i < currentConfig.value; i++)
+                {
+                    var pooledObj = GameObjectPool.Instance.Spawn(moneyPrefab.gameObject, transform.position);
+                    pooledObj.Instance.GetComponent<Money>()?.AutoPool(moneyPrefab.gameObject);
+                }
+                GameManager.Instance.Score.Current += currentConfig.value * 5;
+            }
+
+            State = PlantState.Cut;
+            spriteRenderer.sprite = currentConfig.GetSprite(State);
 
             SpawnParticle(currentConfig.ParticleOnHarvest, true);
 
@@ -117,17 +130,17 @@ public class WorldPlant : MonoBehaviour
 
     public void Ripen()
     {
-        state = PlantState.Ripe;
-        spriteRenderer.sprite = currentConfig.GetSprite(state);
+        State = PlantState.Ripe;
+        spriteRenderer.sprite = currentConfig.GetSprite(State);
         if (collider2d) collider2d.enabled = true;
     }
 
     public void Die()
     {
-        if (state != PlantState.Cut)
+        if (State != PlantState.Cut)
         { 
-            state = PlantState.Dead;
-            spriteRenderer.sprite = currentConfig.GetSprite(state);
+            State = PlantState.Dead;
+            spriteRenderer.sprite = currentConfig.GetSprite(State);
             if (collider2d) collider2d.enabled = true;
         }
     }

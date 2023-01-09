@@ -52,11 +52,11 @@ MonoBehaviour:
   levels:
   - cost: 0
     sprite: {fileID: 625365232, guid: ed05dedf2d2838143bd45e7ea0d68b58, type: 3}
-  - cost: 0
+  - cost: 300
     sprite: {fileID: -575852366, guid: ed05dedf2d2838143bd45e7ea0d68b58, type: 3}
-  - cost: 0
+  - cost: 300
     sprite: {fileID: 1116944575, guid: ed05dedf2d2838143bd45e7ea0d68b58, type: 3}
-  - cost: 0
+  - cost: 300
     sprite: {fileID: -829493487, guid: ed05dedf2d2838143bd45e7ea0d68b58, type: 3}
   spriteRenderer: {fileID: 2599335557985184187}
 --- !u!212 &2599335557985184187

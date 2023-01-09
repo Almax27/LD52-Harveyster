@@ -41,13 +41,20 @@ public class ShrineBehaviour : InteractableBehaviour
         }
     }
 
+    int GetUpgradeCost()
+    {
+        int next = GetPlayerStat().Current + 1;
+        return next < levels.Count ? levels[next].cost : 0;
+    }
+
     protected override bool GetInteractInfo(ref string message)
     {
         if(base.GetInteractInfo(ref message))
         {
-            if (GetPlayerStat().IsFull)
+            if (!GetPlayerStat().IsFull)
             {
-                message = "Purchase " + type + " (E)";
+                int cost = GetUpgradeCost();
+                message = "Purchase " + type + " \n$" + cost + " (E)";
             }
             else
             {
@@ -64,7 +71,12 @@ public class ShrineBehaviour : InteractableBehaviour
 
         if (!GetPlayerStat().IsFull)
         {
-            GetPlayerStat().Current++;
+            int cost = GetUpgradeCost();
+            if (GameManager.Instance.Money.Current >= cost || (Application.isEditor && Input.GetKey(KeyCode.LeftShift)))
+            {
+                GameManager.Instance.Money.Current -= cost;
+                GetPlayerStat().Current++;
+            }
         }
     }
 
