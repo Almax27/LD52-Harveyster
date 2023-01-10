@@ -468,7 +468,6 @@ public class LD52PlayerCharacter : PlayerCharacter
                 if (attackAnimator.GetCurrentAnimatorStateInfo(0).IsName("NONE"))
                 {
                     isAttacking = false;
-                    attackInputTime = 0;
                 }
             }
 

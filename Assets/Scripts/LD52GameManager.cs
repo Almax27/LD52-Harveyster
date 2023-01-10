@@ -286,7 +286,7 @@ public class LD52GameManager : GameManager<LD52GameManager>
                 var enemyPrefab = round.EnemyTypes[Random.Range(0, round.EnemyTypes.Count)];
                 SpawnEnemy(enemyPrefab, enemySpawnLocations[spawned % enemySpawnLocations.Count].position);
                 spawned++;
-                yield return new WaitForSeconds(Random.Range(1.0f, 2.0f));
+                yield return new WaitForSeconds(Random.Range(0.5f, 1.0f));
             }
         }
     }
