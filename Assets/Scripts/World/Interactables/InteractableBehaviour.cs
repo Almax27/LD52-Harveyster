@@ -4,15 +4,15 @@ using UnityEngine;
 
 abstract public class InteractableBehaviour : MonoBehaviour
 {
-    bool isPlayerNear = false;
+    PlayerCharacter playerNear = null;
     bool isShowingPrompt = false;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         var player = GameManager.Instance.CurrentPlayer;
-        if (!collision.isTrigger && collision.gameObject == player.gameObject)
+        if (!collision.isTrigger && player && collision.gameObject == player.gameObject)
         {
-            isPlayerNear = true;
+            playerNear = player;
             Debug.Log("Player Approached: " + gameObject.name);
         }
     }
@@ -20,9 +20,9 @@ abstract public class InteractableBehaviour : MonoBehaviour
     private void OnTriggerExit2D(Collider2D collision)
     {
         var player = GameManager.Instance.CurrentPlayer;
-        if (!collision.isTrigger && collision.gameObject == player.gameObject)
+        if (!collision.isTrigger && player && collision.gameObject == player.gameObject)
         {
-            isPlayerNear = false;
+            playerNear = null;
             Debug.Log("Player Left: " + gameObject.name);
         }
     }
@@ -38,7 +38,7 @@ abstract public class InteractableBehaviour : MonoBehaviour
     protected virtual void Update()
     {
         string message = "";
-        if(isPlayerNear && GetInteractInfo(ref message))
+        if(playerNear && GetInteractInfo(ref message))
         {
             ShowPrompt(message);
         }

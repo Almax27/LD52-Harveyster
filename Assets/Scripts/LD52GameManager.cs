@@ -74,14 +74,17 @@ public class LD52GameManager : GameManager<LD52GameManager>
         Passive,
         Defend,
         Harvest,
-        GameOver
+        GameOver,
+        Win
     }
 
     public Vector2 MapSize = Vector2.one;
     public Image blackoutImage;
+    public TextMeshProUGUI titleText;
     public TextMeshProUGUI objectiveText;
     public TextMeshProUGUI gameOverText;
     public TextMeshProUGUI toastText;
+    public TextMeshProUGUI winText;
     public StaminaUI staminaUI;
     public WorldPlanter planter;
     public WorldPrompt worldPrompt;
@@ -89,6 +92,7 @@ public class LD52GameManager : GameManager<LD52GameManager>
 
     [Header("Player Stats")]
     public PlayerStat Score = new PlayerStat(0);
+    public PlayerStat HighScore = new PlayerStat(0);
     public PlayerStat Money = new PlayerStat(0);
     public PlayerStat AttackLevel = new PlayerStat(3);
     public PlayerStat Lives = new PlayerStat(3);
@@ -127,7 +131,7 @@ public class LD52GameManager : GameManager<LD52GameManager>
     public int MaxStamina { get { return StaminaLevel.Current < staminaLevels.Length ? staminaLevels[StaminaLevel.Current] : 1; } }
 
     Coroutine gameLogicCoroutine;
-    Coroutine spawnPlayerCoroutine;
+    Coroutine spawnEnemiesCoroutine;
     Coroutine planterCoroutine;
     GameState _state = GameState.Passive;
 
@@ -142,12 +146,15 @@ public class LD52GameManager : GameManager<LD52GameManager>
                 Debug.Log("GameState = " + _state);
                 StateChangedEvent.Invoke(_state);
 
+                UpdateHighScore();
+
                 //Clear up any enemies
                 foreach (var enemy in activeEnemies)
                 {
                     Destroy(enemy.gameObject);
                 }
                 activeEnemies.Clear();
+                if (spawnEnemiesCoroutine != null) StopCoroutine(spawnEnemiesCoroutine);
 
                 //restart the game logic coroutine
                 if (gameLogicCoroutine != null)
@@ -192,7 +199,18 @@ public class LD52GameManager : GameManager<LD52GameManager>
             {
                 if (State == GameState.Passive) State = GameState.Defend;
                 else if (State == GameState.Defend) State = GameState.Harvest;
-                else if (State == GameState.Harvest) State = GameState.Passive;
+                else if (State == GameState.Harvest)
+                {
+                    if (RoundIndex < Rounds.Count - 1)
+                    {
+                        RoundIndex++;
+                        State = GameState.Passive;
+                    }
+                    else
+                    {
+                        State = GameState.Win;
+                    }
+                }
             }
         }
 
@@ -225,9 +243,11 @@ public class LD52GameManager : GameManager<LD52GameManager>
 
         gameOverText.CrossFadeAlpha(0, 0 , true);
         toastText.CrossFadeAlpha(0, 0, true);
+        winText.CrossFadeAlpha(0, 0, true);
 
         objectiveText.text = "ObjectiveText";
 
+        HighScore.Current = PlayerPrefs.GetInt("HighScore");
         Money.Current = 0;
         AttackLevel.Current = 1;
         StaminaLevel.Current = 0;
@@ -242,6 +262,7 @@ public class LD52GameManager : GameManager<LD52GameManager>
         {
             enemySpawnLocations.Add(spawn.transform);
         }        
+
     }
 
     public void OnBellRung(Vector2 pos)
@@ -313,7 +334,9 @@ public class LD52GameManager : GameManager<LD52GameManager>
 
     IEnumerator RunGameLogic()
     {
-        while(true)
+        yield return null; //wait one frame
+
+        while (true)
         {
             RoundConfig roundConfig = RoundIndex < Rounds.Count ? Rounds[RoundIndex] : null;
 
@@ -323,16 +346,23 @@ public class LD52GameManager : GameManager<LD52GameManager>
 
                     FAFAudio.Instance.TryPlayMusic(PassiveMusic, false);
 
+                    //kill all the plants
+                    if (planterCoroutine != null) StopCoroutine(planterCoroutine);
+                    planterCoroutine = StartCoroutine(planter.KillAllPlants());
+
                     //Wait for player to ring the bell
                     if (RoundIndex == 0)
                     {
                         objectiveText.text = "A mysterious bell calls in the harvest...";
-                        yield return FadeBlackout(new Color(0, 0, 0, 0), 3.0f);
+                        yield return FadeBlackout(new Color(0, 0, 0, 0), 5.0f);
+                        titleText.CrossFadeAlpha(0, 2, true);
                     }
                     else
                     {
                         objectiveText.text = "Purchase upgrades, then ring the bell...";
                     }
+
+                    while(true) { yield return null; }
                     
                     break;
                 case GameState.Defend:
@@ -342,7 +372,7 @@ public class LD52GameManager : GameManager<LD52GameManager>
 
                     FAFAudio.Instance.TryPlayMusic(DefendMusic, false);
 
-                    StartCoroutine(RunSpawnEnemiesForRound(roundConfig));
+                    spawnEnemiesCoroutine = StartCoroutine(RunSpawnEnemiesForRound(roundConfig));
 
                     if(RoundIndex == 0) ShowToast("Attack with 'J' or left-click\nEvade with 'K' or right-click\nInteract with 'E'");
 
@@ -373,13 +403,15 @@ public class LD52GameManager : GameManager<LD52GameManager>
                         yield return null;
                     }
 
-                    //kill all the plants
-                    if (planterCoroutine != null) StopCoroutine(planterCoroutine);
-                    planterCoroutine = StartCoroutine(planter.KillAllPlants());
-
-                    RoundIndex = Mathf.Clamp(RoundIndex + 1, 0, Rounds.Count - 1);
-
-                    State = GameState.Passive;
+                    if(RoundIndex < Rounds.Count - 1)
+                    {
+                        RoundIndex++;
+                        State = GameState.Passive;
+                    }
+                    else
+                    {
+                        State = GameState.Win;
+                    }
 
                     /*
                     //Reward player for uncut plants
@@ -406,6 +438,22 @@ public class LD52GameManager : GameManager<LD52GameManager>
                         {
                             yield return FadeBlackout(new Color(0, 0, 0, 1), 2.0f);
                             if(CurrentPlayer.gameObject) Destroy(CurrentPlayer.gameObject);
+                            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+                        }
+                        yield return null;
+                    }
+                    break;
+                case GameState.Win:
+                    CurrentPlayer.enabled = false;
+                    objectiveText.text = "Harvey is a happy scarecrow :)";
+                    winText.CrossFadeAlpha(1, 2, true);
+                    yield return new WaitForSeconds(1.0f);
+                    while (true)
+                    {
+                        if (Input.anyKeyDown)
+                        {
+                            yield return FadeBlackout(new Color(0, 0, 0, 1), 2.0f);
+                            if (CurrentPlayer.gameObject) Destroy(CurrentPlayer.gameObject);
                             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
                         }
                         yield return null;
@@ -497,6 +545,15 @@ public class LD52GameManager : GameManager<LD52GameManager>
         {
             lastMoneyCollectedTime = Time.time;
             CollectSFX?.Play(money.transform.position, 1.0f, moneyPitch);
+        }
+    }
+
+    void UpdateHighScore()
+    {
+        if (Score.Current > HighScore.Current)
+        {
+            PlayerPrefs.SetInt("HighScore", Score.Current);
+            PlayerPrefs.Save();
         }
     }
 }

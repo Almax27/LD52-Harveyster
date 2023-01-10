@@ -31,7 +31,7 @@ public class Money : MonoBehaviour
             velocity.y -= 1 * Time.deltaTime;
             transform.position += velocity * Time.deltaTime;
         }
-        else
+        else if(GameManager.Instance.CurrentPlayer)
         {
             Vector3 targetPos = GameManager.Instance.CurrentPlayer.transform.position + new Vector3(0, 0.5f);
             Vector3 targetDir = targetPos - transform.position;

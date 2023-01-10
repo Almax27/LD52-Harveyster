@@ -25,6 +25,7 @@ public struct PlantConfig
         this.value = 1;
         this.ParticleOnRegrow = null;
         this.ParticleOnHarvest = null;
+        this.cutSFX = null;
     }
 
     public float weight;
@@ -36,6 +37,7 @@ public struct PlantConfig
     public int value;
     public ParticleSystem ParticleOnRegrow;
     public ParticleSystem ParticleOnHarvest;
+    public FAFAudioSFXSetup cutSFX;
 
     public Sprite GetSprite(PlantState state)
     {
@@ -116,6 +118,7 @@ public class WorldPlant : MonoBehaviour
                     pooledObj.Instance.GetComponent<Money>()?.AutoPool(moneyPrefab.gameObject);
                 }
                 GameManager.Instance.Score.Current += currentConfig.value * 5;
+                currentConfig.cutSFX?.Play(transform.position);
             }
 
             State = PlantState.Cut;

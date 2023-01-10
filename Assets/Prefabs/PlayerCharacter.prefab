@@ -685,6 +685,8 @@ MonoBehaviour:
   EvadeMaxTurnSpeed: 360
   EvadeCooldown: 0.3
   ProjectilePrefab: {fileID: 7150974672112424093, guid: 7d09768623f76d146bf6f3ec4e9828f5, type: 3}
+  HeavyAttackInputTime: 0.3
+  SpinAttackInputTime: 0.6
   AttackSpinStaminaPerSecond: 0.5
   AttackStamiaRegenDelay: 0.6
   footstepSFX: {fileID: 11400000, guid: 2ee8d4333ec397748b8a63aa2d6659cb, type: 2}
@@ -772,6 +774,7 @@ MonoBehaviour:
   startingHealth: 1
   spawnOnDamage: []
   damageSFX: {fileID: 11400000, guid: 37338249df053874aa4e43c66ca58c3c, type: 2}
+  deathSFX: {fileID: 0}
   spawnOnDeath: []
   spawnOnDestroy:
   - {fileID: 2482163521430039614, guid: 7e6c726dd46bc2c49a092024886eaeac, type: 3}

@@ -57,8 +57,8 @@ public class WorldPlanter : MonoBehaviour
 
                 if (!Physics2D.OverlapCircle(new Vector2(xPos, yTempPos), overlapCheckRadius, overlapCheckLayerMask))
                 {
-                    GameObject gobj = GameObject.Instantiate(worldPlantPrefab.gameObject, new Vector3(xPos, yTempPos, 0), Quaternion.identity, transform);
-                    gobj.GetComponent<WorldPlant>()?.ApplyConfig(GetRandomPlantConfig());
+                    var gobj = GameObject.Instantiate(worldPlantPrefab.gameObject, new Vector3(xPos, yTempPos, 0), Quaternion.identity, transform);
+                    gobj.GetComponent<WorldPlant>()?.ApplyConfig(plantConfigs[0]);
                 }
             }
         }
@@ -96,6 +96,7 @@ public class WorldPlanter : MonoBehaviour
         float thisFrame = Time.deltaTime * perSecond;
         for (int i = 0; i < shuffedPlants.Length; i++)
         {
+            shuffedPlants[i].ApplyConfig(GetRandomPlantConfig());
             shuffedPlants[i].Ripen();
             thisFrame--;
             if (thisFrame <= 0)

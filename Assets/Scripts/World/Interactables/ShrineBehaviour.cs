@@ -52,7 +52,7 @@ public class ShrineBehaviour : InteractableBehaviour
 
     protected override bool GetInteractInfo(ref string message)
     {
-        if(base.GetInteractInfo(ref message))
+        if(base.GetInteractInfo(ref message) && GameManager.Instance.State == LD52GameManager.GameState.Passive)
         {
             if (!GetPlayerStat().IsFull)
             {

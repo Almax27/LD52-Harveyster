@@ -45,6 +45,8 @@ public class LD52PlayerCharacter : PlayerCharacter
 
     [Header("Attack")]
     public Projectile ProjectilePrefab;
+    public float HeavyAttackInputTime = 0.4f;
+    public float SpinAttackInputTime = 1.0f;
     public float AttackSpinStaminaPerSecond = 1.0f;
     public float AttackStamiaRegenDelay = 1.0f;
     float attackSpinTick = 0;
@@ -82,6 +84,11 @@ public class LD52PlayerCharacter : PlayerCharacter
         if (attack) attack.enabled = false;
 
         Health.IgnoreDamageFor(1.0f);
+    }
+
+    private void OnDisable()
+    {
+        rigidbody2D.velocity = Vector2.zero;
     }
 
     private void Update()
@@ -385,12 +392,12 @@ public class LD52PlayerCharacter : PlayerCharacter
                 canAim = true;
                 int attackLevel = GameManager.Instance.AttackLevel.Current;
 
-                if (attackIndex == 0 && Time.time - attackInputTime > 0.4f && attackLevel > 1)
+                if (attackIndex == 0 && Time.time - attackInputTime > HeavyAttackInputTime && attackLevel > 1)
                 {
                     attackAnimator.SetTrigger("powerUpAttack");
                     attackIndex++;
                 }
-                else if (attackIndex == 1 && Time.time - attackInputTime > 1.0f && attackLevel > 2)
+                else if (attackIndex == 1 && Time.time - attackInputTime > SpinAttackInputTime && attackLevel > 2)
                 {
                     attackAnimator.SetTrigger("powerUpAttack");
                     attackIndex++;
@@ -442,7 +449,7 @@ public class LD52PlayerCharacter : PlayerCharacter
                     {
                         heavyAttackSFX?.Play(transform.position);
                         attackAnimator.SetTrigger("execAttack");
-                        desiredVelocity = attackVector * 30.0f;
+                        desiredVelocity = attackVector * 35.0f;
                         meleeAttackArea.Attack(this.gameObject, 3, 0.2f);
                         LD52GameManager.Instance.Stamina.Current -= 2;
                     }
