@@ -7,15 +7,21 @@ public class StaminaUI : MonoBehaviour
 {
     public Sprite fullSprite;
     public Sprite emptySprite;
+    public Sprite emptyFlashSprite;
 
     public Image pipPrefab;
 
     List<Image> pips = new List<Image>();
+    Coroutine flashCoroutine;
 
     // Start is called before the first frame update
     void Start()
     {
-        LD52GameManager.Instance.Stamina.OnChanged.AddListener(StaminaChanged);
+        LD52GameManager.Instance.Stamina.OnChanged.AddListener((cur,max)=>
+        {
+            if (flashCoroutine != null) { StopCoroutine(flashCoroutine); flashCoroutine = null; }
+            StaminaChanged(cur, max);
+        });
 
         for (int i = this.transform.childCount; i > 0; --i)
         {
@@ -32,6 +38,30 @@ public class StaminaUI : MonoBehaviour
         int current = Application.isPlaying ? LD52GameManager.Instance.Stamina.Current : max;
         StaminaChanged(current, max);
     }
+
+    public void Flash()
+    {
+        if (flashCoroutine == null)
+        {
+            flashCoroutine = StartCoroutine(RunFlash());
+        }
+    }
+
+    IEnumerator RunFlash()
+    {
+        for (int i = 0; i < 2; i++)
+        {
+            foreach(var pip in pips)
+            {
+                pip.sprite = emptyFlashSprite;
+            }
+            yield return new WaitForSeconds(0.2f);
+            Refresh();
+            yield return new WaitForSeconds(0.2f);
+        }
+        flashCoroutine = null;
+    }
+    
 
     void StaminaChanged(int current, int max)
     {

@@ -84,6 +84,8 @@ public class LD52PlayerCharacter : PlayerCharacter
         if (attack) attack.enabled = false;
 
         Health.IgnoreDamageFor(1.0f);
+
+        facingVector = Vector2.left;
     }
 
     private void OnDisable()
@@ -93,7 +95,7 @@ public class LD52PlayerCharacter : PlayerCharacter
 
     private void Update()
     {
-        if (GameManager.Instance.isPaused)
+        if (GameManager.Instance.IsPaused)
             return;
 
         desiredVelocity = rigidbody2D.velocity;
@@ -214,7 +216,7 @@ public class LD52PlayerCharacter : PlayerCharacter
         if(Input.GetMouseButton(0) || Input.GetMouseButton(1))
         {
             Vector2 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            facingVector = (worldPosition - (Vector2)transform.position).normalized;
+            //facingVector = (worldPosition - (Vector2)transform.position).normalized;
         }
 
         bool wantsStaminaUse = false;
@@ -257,6 +259,8 @@ public class LD52PlayerCharacter : PlayerCharacter
         if(wantsStaminaUse && GameManager.Instance.Stamina.Current == 0)
         {
             noStaminaSFX?.Play(transform.position);
+            GameManager.Instance.staminaUI.Flash();
+            LD52GameManager.Instance.StopStaminaRegen(0.5f);
         }
     }
 

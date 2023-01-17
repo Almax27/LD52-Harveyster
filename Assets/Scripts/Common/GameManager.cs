@@ -4,7 +4,12 @@ using UnityEngine;
 
 abstract public class GameManager<T> : SingletonBehaviour<T> where T : MonoBehaviour
 {
-    public bool isPaused = false;
+    private bool _isPaused = false;
+    public bool IsPaused 
+    { 
+        get { return _isPaused; } 
+        set { if (_isPaused != value) _isPaused = value; OnPaused(_isPaused); } 
+    }
 
     public Transform playerSpawnPoint;
 
@@ -33,6 +38,11 @@ abstract public class GameManager<T> : SingletonBehaviour<T> where T : MonoBehav
         {
             FAFAudio.Instance.TryPlayMusic(gameMusic);
         }
+    }
+
+    protected virtual void OnPaused(bool paused)
+    {
+        
     }
 
     protected virtual IEnumerator RunSpawnPlayer(float delay = 1.0f)

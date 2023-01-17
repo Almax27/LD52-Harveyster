@@ -81,6 +81,7 @@ public class LD52GameManager : GameManager<LD52GameManager>
     public Vector2 MapSize = Vector2.one;
     public Image blackoutImage;
     public TextMeshProUGUI titleText;
+    public TextMeshProUGUI pauseText;
     public TextMeshProUGUI objectiveText;
     public TextMeshProUGUI gameOverText;
     public TextMeshProUGUI toastText;
@@ -125,7 +126,7 @@ public class LD52GameManager : GameManager<LD52GameManager>
 
     public void StopStaminaRegen(float duration = 0)
     {
-        staminaRegenTick = -Mathf.Max(0, duration);
+        staminaRegenTick = Mathf.Min(staminaRegenTick, -Mathf.Max(0, duration));
     }
 
     public int MaxStamina { get { return StaminaLevel.Current < staminaLevels.Length ? staminaLevels[StaminaLevel.Current] : 1; } }
@@ -185,10 +186,20 @@ public class LD52GameManager : GameManager<LD52GameManager>
             StartCoroutine(RunCombatLogic());
         }
 
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     private void Update()
     {
+        if(Input.GetButtonDown("Pause"))
+        {
+            IsPaused = !IsPaused;
+        }
+
+        if (IsPaused)
+            return;
+
         if (Application.isEditor)
         {
             if (Input.GetKeyDown(KeyCode.KeypadMinus))
@@ -215,13 +226,13 @@ public class LD52GameManager : GameManager<LD52GameManager>
         }
 
         staminaRegenTick += Time.deltaTime;
-        while(staminaRegenTick > staminaRegenPerSecond)
+        while (staminaRegenTick > staminaRegenPerSecond)
         {
             staminaRegenTick -= staminaRegenPerSecond;
             Stamina.Current++;
         }
 
-        if(globalLight)
+        if (globalLight)
         {
             LightingConfig config = null;
             if (State <= GameState.Passive) config = passiveLighting;
@@ -232,6 +243,29 @@ public class LD52GameManager : GameManager<LD52GameManager>
                 globalLight.intensity = Mathf.Lerp(globalLight.intensity, config.intensity, Time.deltaTime);
                 globalLight.color = Color.Lerp(globalLight.color, config.color, Time.deltaTime);
             }
+        }
+
+    }
+
+    protected override void OnPaused(bool paused)
+    {
+        base.OnPaused(paused);
+
+        titleText.CrossFadeAlpha(0, 0.2f, true);
+
+        if (paused)
+        {
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+            Time.timeScale = 0;
+            pauseText.CrossFadeAlpha(1, 0.2f, true);
+        }
+        else
+        {
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+            Time.timeScale = 1;
+            pauseText.CrossFadeAlpha(0, 0.2f, true);
         }
     }
 
@@ -244,6 +278,7 @@ public class LD52GameManager : GameManager<LD52GameManager>
         gameOverText.CrossFadeAlpha(0, 0 , true);
         toastText.CrossFadeAlpha(0, 0, true);
         winText.CrossFadeAlpha(0, 0, true);
+        pauseText.CrossFadeAlpha(0, 0, true);
 
         objectiveText.text = "ObjectiveText";
 
@@ -366,6 +401,9 @@ public class LD52GameManager : GameManager<LD52GameManager>
                     
                     break;
                 case GameState.Defend:
+
+                    StartCoroutine(FadeBlackout(new Color(0, 0, 0, 0), 0.2f));
+                    titleText.CrossFadeAlpha(0, 2, true);
 
                     if (planterCoroutine != null) StopCoroutine(planterCoroutine);
                     planterCoroutine = StartCoroutine(planter.GrowOut());
@@ -510,20 +548,33 @@ public class LD52GameManager : GameManager<LD52GameManager>
     }
 
     Coroutine showToastRoutine;
-    public void ShowToast(string message, float delay = 0)
+    public void ShowToast(string message, float delay = 0, float duration = 10, bool flash = false)
     {
         if (showToastRoutine != null) StopCoroutine(showToastRoutine);
-        showToastRoutine = StartCoroutine(RunShowToast(message, delay));
+        showToastRoutine = StartCoroutine(RunShowToast(message, delay, duration, flash));
     }
 
-    IEnumerator RunShowToast(string message, float delay)
+    IEnumerator RunShowToast(string message, float delay, float duration = 10, bool flash = false)
     {
         if (toastText)
         {
             toastText.text = message;
             yield return new WaitForSeconds(delay);
             toastText.CrossFadeAlpha(1, 0.5f, true);
-            yield return new WaitForSeconds(10);
+            if (flash)
+            {
+                float tick = 0;
+                while (tick < duration)
+                {
+                    tick += Time.deltaTime;
+                    toastText.color = (tick % 0.5f) < 0.25f ? Color.red : Color.white;
+                    yield return null;
+                }
+            }
+            else
+            {
+                yield return new WaitForSeconds(duration);
+            }
             toastText.CrossFadeAlpha(0, 0.5f, true);
         }
     }
