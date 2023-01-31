@@ -123,7 +123,6 @@ GameObject:
   - component: {fileID: 7150974672112424093}
   - component: {fileID: 8090682950413547291}
   - component: {fileID: 5284026492148829965}
-  - component: {fileID: 3529325949408142694}
   - component: {fileID: 4087538693269226346}
   m_Layer: 6
   m_Name: CrowProjectile
@@ -161,8 +160,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   launchSpeed: 5
-  maxDistance: 10
+  maxDistance: 50
+  hitMask:
+    serializedVersion: 2
+    m_Bits: 137
   hitSFX: {fileID: 0}
+  noDamageHitSFX: {fileID: 11400000, guid: 8ae5575d7271e604bade61234ea30689, type: 2}
+  spawnOnHit:
+  - {fileID: 2482163521430039614, guid: c9f814bb6b50ead449e091a5773e2f53, type: 3}
 --- !u!212 &8090682950413547291
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -225,33 +230,12 @@ CircleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.2
---- !u!50 &3529325949408142694
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8199124438889927815}
-  m_BodyType: 1
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 1
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 0
-  m_Material: {fileID: 0}
-  m_Interpolate: 1
-  m_SleepingMode: 1
-  m_CollisionDetection: 1
-  m_Constraints: 4
 --- !u!114 &4087538693269226346
 MonoBehaviour:
   m_ObjectHideFlags: 0

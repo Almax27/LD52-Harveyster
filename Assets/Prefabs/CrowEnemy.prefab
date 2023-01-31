@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 767426517910014086}
   - component: {fileID: 674163915592065353}
   - component: {fileID: 715240502601821759}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -136,7 +136,8 @@ GameObject:
   - component: {fileID: 4355600541233663312}
   - component: {fileID: 7255080816173091474}
   - component: {fileID: 991033238}
-  m_Layer: 7
+  - component: {fileID: 9047773029349608424}
+  m_Layer: 8
   m_Name: CrowEnemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -240,6 +241,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e182bd36810eec144ab4b475db8b4208, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &9047773029349608424
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6290372606119553882}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa51e55d69e7dd84b81ea558264ecbf4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Radius: 1.5
 --- !u!1 &6698988171993555243
 GameObject:
   m_ObjectHideFlags: 0
@@ -250,7 +264,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2184158545102708441}
   - component: {fileID: 422540358686569182}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: Light 2D
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -360,7 +374,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 122435978342514762}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: ProjectileSpawn
   m_TagString: Untagged
   m_Icon: {fileID: 0}

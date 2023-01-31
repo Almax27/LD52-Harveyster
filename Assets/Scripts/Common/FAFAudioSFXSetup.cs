@@ -20,7 +20,7 @@ public class FAFAudioSFXSetup : ScriptableObject {
     public AudioMixerGroup MixerGroup = null;
     [Range(0, 1)] public float Volume = 1.0f;
     [Range(0, 1)] public float VolumeVariance = 0.0f;
-    [Range(0, 1)] public float Pitch = 1.0f;
+    [Range(0, 2)] public float Pitch = 1.0f;
     [Range(0, 1)] public float PitchVariance = 0.0f;
     [Range(0, 1)] public float SpatialBlend = 0.0f;
 

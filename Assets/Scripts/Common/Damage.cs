@@ -20,5 +20,7 @@ public class Damage {
     public float stunSeconds;
     public bool consumed;
 
+    public bool isSilent;
+
     public List<GameObject> hitObjects { get; private set; }
 }

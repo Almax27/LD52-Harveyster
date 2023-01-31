@@ -73,7 +73,10 @@ public class AttackDamageArea : MonoBehaviour
 
         float stunDuration = 0.5f;
 
-        collision.gameObject.SendMessageUpwards("OnDamage", new Damage(damage, attacker, null, knockback, stunDuration), SendMessageOptions.DontRequireReceiver);
-
+        Health health = collision.GetComponentInParent<Health>();
+        if(health)
+        {
+            health.TakeDamage(new Damage(damage, attacker, null, knockback, stunDuration));
+        }
     }
 }

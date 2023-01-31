@@ -18,6 +18,8 @@ public class CrowBehaviour : EnemyBehaviour
 
     bool isShooting = false;
 
+    WorldPlantPusher plantPusher;
+
     protected override void Start()
     {
         base.Start();
@@ -28,6 +30,10 @@ public class CrowBehaviour : EnemyBehaviour
         {
             shootingLight.enabled = false;
         }
+
+        
+        plantPusher = GetComponent<WorldPlantPusher>();
+        if(plantPusher) plantPusher.enabled = false;
     }
 
     protected override void Update()
@@ -58,6 +64,12 @@ public class CrowBehaviour : EnemyBehaviour
         if (shootingLight)
         {
             shootingLight.enabled = isShooting;
+        }
+
+        if (plantPusher)
+        {
+            plantPusher.enabled = currentBodyPos.y < 1;
+            plantPusher.Radius = 1 - currentBodyPos.y;
         }
     }
 
@@ -194,6 +206,8 @@ public class CrowBehaviour : EnemyBehaviour
 
     IEnumerator RunAttack()
     {
+        desiredVelocity = Vector2.zero;
+
         var player = GameManager.Instance.CurrentPlayer;
         if(player && projectilePrefab)
         {

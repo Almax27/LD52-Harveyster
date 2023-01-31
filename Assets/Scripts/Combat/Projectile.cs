@@ -6,13 +6,19 @@ public class Projectile : MonoBehaviour
 {
     public float launchSpeed = 10f;
     public float maxDistance = 10;
+    public LayerMask hitMask;
     public FAFAudioSFXSetup hitSFX;
-    public LayerMask mask;
+    public FAFAudioSFXSetup noDamageHitSFX;
+    public GameObject[] spawnOnHit = new GameObject[0];
+
 
     GameObject owningGameObject = null;
     GameObjectPool.PooledGameObject poolEntry;
 
     Coroutine autoCleanupCoroutine = null;
+
+    Vector2 velocity = Vector2.zero;
+    float radius;
 
     public static Projectile Spawn(Projectile prefab, GameObject owner, Vector2 pos, Vector2 direction)
     {
@@ -21,11 +27,7 @@ public class Projectile : MonoBehaviour
         projectile.poolEntry = pooledGO;
         projectile.owningGameObject = owner;
 
-        var rb = projectile.GetComponent<Rigidbody2D>();
-        if (rb)
-        {
-            rb.velocity = direction.normalized * projectile.launchSpeed;
-        }
+        projectile.velocity = direction.normalized * projectile.launchSpeed;
 
         return projectile;
     }
@@ -34,6 +36,8 @@ public class Projectile : MonoBehaviour
     {
         if (autoCleanupCoroutine != null) StopCoroutine(autoCleanupCoroutine);
         autoCleanupCoroutine = StartCoroutine(AutoCleanup());
+
+        radius = GetComponent<CircleCollider2D>().radius;
     }
 
     IEnumerator AutoCleanup()
@@ -50,44 +54,59 @@ public class Projectile : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void Update()
     {
-        //ignore owner
-        if (collision.attachedRigidbody && collision.attachedRigidbody.gameObject == owningGameObject
-            || collision.gameObject == owningGameObject)
-            return;
+        Vector2 pos = transform.position;
+        Vector2 deltaStep = velocity * Time.deltaTime;
+        float distance = deltaStep.magnitude;
+        Vector2 newPos = pos + deltaStep;
 
-        //if(mask. collision.gameObject.layer)
+        Damage damage = new Damage(1, owningGameObject, hitSFX, velocity, 0.2f);
 
-        if (collision.gameObject)
+        RaycastHit2D[] hits = Physics2D.CircleCastAll(pos, radius, deltaStep / distance, distance, hitMask.value);
+        foreach(var hit in hits)
         {
-            Vector2 knockbackVelocity = Vector2.zero;
-            var rb = GetComponent<Rigidbody2D>();
-            if (rb)
-            {
-                knockbackVelocity = rb.velocity.normalized * 5;
-            }
-            Damage damage = new Damage(1, owningGameObject, hitSFX, knockbackVelocity, 0.2f);
-            collision.gameObject.SendMessageUpwards("OnDamage", damage, SendMessageOptions.DontRequireReceiver);
+            if (hit.rigidbody && hit.rigidbody.gameObject == owningGameObject)
+                continue;
 
-            if (damage.consumed)
+            if (hit.collider.gameObject.CompareTag("Plant"))
             {
+                hit.collider.GetComponent<WorldPlant>()?.Harvest();
+            }
+
+            if (hit.collider.isTrigger)
+                continue;
+
+            Health health = hit.collider.GetComponentInParent<Health>();
+            if (health)
+            {
+                health.TakeDamage(damage);
+                if(damage.consumed)
+                {
+                    Cleanup();
+                    SpawnOnHitObjects();
+                    break;
+                }
+            }
+            else //consider terminating object
+            {
+                noDamageHitSFX?.Play(transform.position);
+                SpawnOnHitObjects();
                 Cleanup();
             }
         }
-        else
-        {
-            Cleanup();
-        }
 
-        if (collision.gameObject.CompareTag("Plant"))
-        {
-            collision.GetComponent<WorldPlant>()?.Harvest();
-        }
+        transform.position = newPos;
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    void SpawnOnHitObjects()
     {
-        
+        foreach(var gobj in spawnOnHit)
+        {
+            if(gobj)
+            {
+                GameObjectPool.Instance.Spawn(gobj, transform.position, transform.rotation).AutoDestruct();
+            }
+        }
     }
 }

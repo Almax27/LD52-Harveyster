@@ -52,12 +52,12 @@ public class Health : MonoBehaviour {
         isDead = false;
     }
 
-    public void OnDamage(Damage damage)
+    public void TakeDamage(Damage damage)
     {
-        OnDamage(damage, false);
+        SendMessageUpwards("OnDamage", damage);
     }
 
-    public void OnDamage(Damage damage, bool isSilent)
+    void OnDamage(Damage damage)
     {
         if (damage.consumed) return;
 
@@ -66,7 +66,7 @@ public class Health : MonoBehaviour {
         currentHealth -= damage.value;
         damage.consumed = true;
 
-        if (!isSilent)
+        if (!damage.isSilent)
         {
             foreach (GameObject gobj in spawnOnDamage)
             {

@@ -21,13 +21,16 @@ public class PlayerStat
     PlayerStat() { }
     public PlayerStat(int max = 1) { _current = _max = max; }
 
+    [System.NonSerialized]
+    public bool Enabled = true;
+
     public int Current
     {
         get { return _current; }
         set
         {
             int newValue = Max > 0 ? Mathf.Clamp(value, 0, Max) : value;
-            if (_current != newValue)
+            if (Enabled && _current != newValue)
             {
                 _current = newValue;
                 OnChanged.Invoke(_current, Max);
@@ -369,6 +372,8 @@ public class LD52GameManager : GameManager<LD52GameManager>
 
     IEnumerator RunGameLogic()
     {
+        Stamina.Enabled = true;
+
         yield return null; //wait one frame
 
         while (true)
@@ -397,7 +402,9 @@ public class LD52GameManager : GameManager<LD52GameManager>
                         objectiveText.text = "Purchase upgrades, then ring the bell...";
                     }
 
-                    while(true) { yield return null; }
+                    if (RoundIndex == 1) ShowToast("Reap the golden harvest for bonus cash!");
+
+                    while (true) { yield return null; }
                     
                     break;
                 case GameState.Defend:
@@ -422,6 +429,9 @@ public class LD52GameManager : GameManager<LD52GameManager>
                     State = GameState.Harvest;
                     break;
                 case GameState.Harvest:
+
+                    Stamina.Current = Stamina.Max;
+                    Stamina.Enabled = false;
 
                     if (RoundIndex == 0) ShowToast("Reap the harvest and earn money to spend on upgrades!");
 
@@ -560,9 +570,9 @@ public class LD52GameManager : GameManager<LD52GameManager>
         {
             toastText.text = message;
             yield return new WaitForSeconds(delay);
-            toastText.CrossFadeAlpha(1, 0.5f, true);
             if (flash)
             {
+                toastText.CrossFadeAlpha(1, 0.5f, true);
                 float tick = 0;
                 while (tick < duration)
                 {
@@ -573,7 +583,11 @@ public class LD52GameManager : GameManager<LD52GameManager>
             }
             else
             {
-                yield return new WaitForSeconds(duration);
+                toastText.CrossFadeColor(Color.yellow, 0.0f, true, false);
+                toastText.CrossFadeAlpha(1, 0.5f, true);
+                yield return new WaitForSeconds(1.0f);
+                toastText.CrossFadeColor(Color.white, 0.5f, true, true);
+                yield return new WaitForSeconds(duration - 1.0f);
             }
             toastText.CrossFadeAlpha(0, 0.5f, true);
         }

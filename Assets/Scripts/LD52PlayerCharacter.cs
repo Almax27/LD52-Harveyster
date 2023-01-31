@@ -57,7 +57,6 @@ public class LD52PlayerCharacter : PlayerCharacter
     public FAFAudioSFXSetup lightAttackSFX;
     public FAFAudioSFXSetup heavyAttackSFX;
     public FAFAudioSFXSetup evadeSFX;
-    public FAFAudioSFXSetup noStaminaSFX;
     public AudioSource spinAudio;
 
     [Header("State")]
@@ -258,7 +257,6 @@ public class LD52PlayerCharacter : PlayerCharacter
 
         if(wantsStaminaUse && GameManager.Instance.Stamina.Current == 0)
         {
-            noStaminaSFX?.Play(transform.position);
             GameManager.Instance.staminaUI.Flash();
             LD52GameManager.Instance.StopStaminaRegen(0.5f);
         }

@@ -11,16 +11,27 @@ public class StaminaUI : MonoBehaviour
 
     public Image pipPrefab;
 
+    public FAFAudioSFXSetup noStaminaSFX;
+
     List<Image> pips = new List<Image>();
     Coroutine flashCoroutine;
 
     // Start is called before the first frame update
     void Start()
     {
+        LD52GameManager.Instance.StateChangedEvent.AddListener((state) =>
+        {
+            if(state == LD52GameManager.GameState.Harvest)
+            {
+                flashCoroutine = StartCoroutine(RunFlashUntilHarvestEnds());
+            }
+        });
         LD52GameManager.Instance.Stamina.OnChanged.AddListener((cur,max)=>
         {
-            if (flashCoroutine != null) { StopCoroutine(flashCoroutine); flashCoroutine = null; }
-            StaminaChanged(cur, max);
+            //if (flashCoroutine == null)
+            {
+                StaminaChanged(cur, max);
+            }
         });
 
         for (int i = this.transform.childCount; i > 0; --i)
@@ -39,25 +50,37 @@ public class StaminaUI : MonoBehaviour
         StaminaChanged(current, max);
     }
 
-    public void Flash()
+    public bool Flash()
     {
         if (flashCoroutine == null)
         {
             flashCoroutine = StartCoroutine(RunFlash());
+            return true;
         }
+        return false;
     }
 
-    IEnumerator RunFlash()
+    IEnumerator RunFlashUntilHarvestEnds()
+    {
+        while(GameManager.Instance.State == LD52GameManager.GameState.Harvest)
+        {
+            yield return RunFlash(true);
+        }
+        flashCoroutine = null;
+    }
+
+    IEnumerator RunFlash(bool silent = false)
     {
         for (int i = 0; i < 2; i++)
         {
-            foreach(var pip in pips)
+            if(!silent) noStaminaSFX?.Play(transform.position);
+            yield return new WaitForSeconds(0.2f);
+            foreach (var pip in pips)
             {
                 pip.sprite = emptyFlashSprite;
             }
             yield return new WaitForSeconds(0.2f);
             Refresh();
-            yield return new WaitForSeconds(0.2f);
         }
         flashCoroutine = null;
     }
